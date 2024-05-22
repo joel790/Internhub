@@ -4,6 +4,9 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const userRoute = require("./routes/userRoutes");
+
+//create app with express
 const app = express();
 //environmental variables
 const url = process.env.MONGO_URI;
@@ -21,6 +24,10 @@ app.use(
       credentials: true,
     })
   );
+
+  //main routes
+  app.use("/api/users", userRoute);
+
   //connect mongodb and listen to server
 
 mongoose
