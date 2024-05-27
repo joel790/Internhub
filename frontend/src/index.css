@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .top-header {
+        @apply  h-16 flex items-center pl-10 justify-between  ; /* Added shadow for depth */
+      }
+      .nav-text {
+        @apply flex  gap-2 font-serif  hover:text-blue-700 px-3 py-2  rounded-md  ; /* Adjusted hover colors to match the header background */
+      }
+      .nav-link {
+        @apply flex items-center pr-5;
+      }
+      
+}

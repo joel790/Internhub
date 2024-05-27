@@ -19,16 +19,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 //avoid conflic for the back and frontend
 app.use(
-    cors({
-      origin: ["http://localhost:5173"],
-      credentials: true,
-    })
-  );
+  cors({
+    origin: ["http://localhost:5173"],
+    credentials: true,
+  })
+);
 
-  //main routes
-  app.use("/api/users", userRoute);
+//main route middlewares
+app.use("/api/users", userRoute);
 
-  //connect mongodb and listen to server
+//connect mongodb and listen to server
 
 mongoose
   .connect(url)

@@ -29,7 +29,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
     });
 
     if (user) {
-        res.status(201).json(user);
+        res.status(201).json({ user });
     } else {
         res.status(400);
         throw new Error("Invalid credentials");
@@ -58,9 +58,9 @@ exports.loginUser = asyncHandler(async (req, res) => {
         res.status(401);
         throw new Error("Enter correct password");
     }
- 
+
     if (user && isPasswordCorrect) {
-        res.status(200).json( user);
+        res.status(200).json({user});
     } else {
         res.status(400);
         throw new Error("Invalid credentials");
