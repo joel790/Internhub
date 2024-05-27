@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdMenu, MdClose, MdLogin, MdPerson } from 'react-icons/md';
-import Logo from "../../assets/Logo.png"
+import Logo from "../../assets/Logo1.png"
 const Header = () => {
   const topData = [
     { path: '/', text: 'Home', icon: null },
@@ -58,9 +58,9 @@ const Header = () => {
             </>
           ))}
         </nav>
-        <nav className='nav-link hidden md:flex gap-2'>
-          <Link to='/auth/login' className='nav-text'><MdLogin size={23} />Login</Link>
-          <Link to='/auth/register' className='nav-text '><MdPerson size={23} />Register</Link>
+        <nav className='nav-link hidden md:flex gap-4'>
+          <Link to='/auth/login' className='nav-text'>Login</Link>
+          <Link to='/auth/register' className='nav-text text-white hover:text-white  bg-blue-500 '>SignUp</Link>
         </nav>
       </header>
       {menuOpen && (

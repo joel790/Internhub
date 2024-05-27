@@ -2,6 +2,10 @@ import { useState } from "react";
 import home from "../../assets/homeillu.png"
 import Student from "./howtouse/Student";
 import Company from "./howtouse/Company";
+import {PiStudentFill  } from "react-icons/pi";
+import { GrUserManager } from "react-icons/gr";
+import { Link } from "react-router-dom";
+
 
 const Home = () => {
   const [selectedTab, setSelectedTab] = useState('Student'); // Default selected tab
@@ -16,14 +20,14 @@ const Home = () => {
               Welcome to Intern-Hub
             </h1>
             <p className="text-xl lg:text-xl mb-8 text-gray-500">
-            InternHub is dedicated to bridging the gap between academia and industry, ensuring that
-             students gain valuable real-world experience while companies
-             find the talent they need to thrive. Join us today and take the first step towards 
-             a successful future
+              InternHub is dedicated to bridging the gap between academia and industry, ensuring that
+              students gain valuable real-world experience while companies
+              find the talent they need to thrive. Join us today and take the first step towards
+              a successful future
             </p>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-300">
-               get started
-              </button>
+            <Link to="/auth/login" className="text-center bg-blue-500 text-white p-3 px-6 w-32 rounded-lg hover:bg-blue-600 transition duration-300">
+              get started
+            </Link>
           </div>
         </div>
         <div className="flex justify-center lg:w-1/2">
@@ -39,24 +43,24 @@ const Home = () => {
           <p className='text-slate-400'> What is your role?</p>
         </div>
         <div className="flex flex-col items-center justify-center ">
-          <div className="flex rounded-full justify-center border bg-slate-100 w-full lg:w-2/3 p-2 shadow-md">
-            <ul className="flex gap-4 ">
-              {/* the active link Background white */}
+          <div className="flex gap-6 h-32 ">
+            {/* the active link Background white */}
 
-              <li
-                className={`text-custom-green5 font-serif cursor-pointer px-4 py-2 rounded-full ${selectedTab === 'Student' ? 'bg-white' : ''} transition duration-500`}
-                onClick={() => setSelectedTab('Student')}
-              >
-                Student
-              </li>
-              <li
-                className={`text-custom-green5 font-serif cursor-pointer px-4 py-2 rounded-full ${selectedTab === 'Company' ? 'bg-white' : ''} transition duration-500`}
-                onClick={() => setSelectedTab('Company')}
-              >
-                Company
-              </li>
-           
-            </ul>
+            <div
+              className={`bg-gray-50  w-[250px] border border-gray-300 font-serif flex gap-2 items-center justify-center cursor-pointer px-4 py-2 rounded-lg ${selectedTab === 'Student' ? 'bg-blue-400 text-white' : ''} transition duration-500`}
+              onClick={() => setSelectedTab('Student')}
+            >
+              <PiStudentFill size={60} />  
+              <h1>Student</h1>
+            </div>
+
+            <div
+              className={` font-serif border w-[250px] bg-gray-50 border-gray-300 flex gap-2 cursor-pointer justify-center items-center  px-4 py-2 rounded-lg ${selectedTab === 'Company' ? 'bg-blue-400 text-white' : ''} transition duration-500`}
+              onClick={() => setSelectedTab('Company')}
+            >
+              <GrUserManager size={60} />
+              <h1>Company</h1>
+            </div>
           </div>
           <div className="mt-4 w-full px-10 rounded-md">
             {/* Conditionally render the outlet content based on the selected tab */}

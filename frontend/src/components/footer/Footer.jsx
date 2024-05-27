@@ -3,7 +3,7 @@ import Logo from '../../assets/Logo.png';
 
 const Footer = () => {
   return (
-    <footer className="bg-blue-600 text-white rounded-lg shadow-md m-2">
+    <footer className="bg-blue-800 text-white rounded-lg shadow-md m-2">
       <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <Link to="http://localhost:5173/" className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
@@ -29,7 +29,7 @@ const Footer = () => {
         </div>
         <hr className="my-6 border-gray-200 sm:mx-auto lg:my-8" />
         <span className="block text-sm text-gray-200 sm:text-center">© 2024 
-          <Link to="http://localhost:5173/" className="hover:underline"> EthioTourism</Link>. All Rights Reserved.</span>
+          <Link to="http://localhost:5173/" className="hover:underline"> Intern-Hub</Link>. All Rights Reserved.</span>
       </div>
     </footer>
   );
