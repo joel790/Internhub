@@ -11,7 +11,7 @@ const Student = () => {
       </div>
       <div className=' w-full lg:w-1/2  p-6'>
         <div className='flex gap-6  my-4 p-4'>
-         <CgProfile size={60}/>
+         <CgProfile size={55}/>
           <div className='flex-col'>
             <h1 className='text-2xl'>Create Profile</h1>
             <p className='text-gray-600'>click get started or signup button to create account or profile</p>

@@ -9,8 +9,10 @@ import InternHome from "./pages/internships/InternHome"
 import CompanyHome from "./pages/companies/CompanyHome"
 import StudyHome from "./pages/study/StudyHome"
 import { ToastContainer } from "react-toastify"
-
+import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
+import ForgotPassword from './pages/auth/ForgotPassword';
+import VerifyEmail from './components/email/VerifyEmail';
 axios.defaults.withCredentials = true;
 const App = () => {
   return (
@@ -23,8 +25,11 @@ const App = () => {
           <Route path="company" element={<CompanyHome />} />
           <Route path="study" element={<StudyHome />} />
         </Route>
+        <Route path="/auth/verify/:token" element={<VerifyEmail />} />
         <Route path="auth/login" element={<Login />} />
         <Route path="auth/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+
       </Routes>
     </BrowserRouter>
   );

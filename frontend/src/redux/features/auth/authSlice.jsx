@@ -1,48 +1,97 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-// Retrieve name from local storage with fallback to empty string
-const nameFromLocalStorage = localStorage.getItem("name");
-const initialName = nameFromLocalStorage ? JSON.parse(nameFromLocalStorage) : "";
-
-// Define initial state
-const initialState = {
-  isLoggedIn: false,
-  name: initialName,
-  user: {
-    name: "",
-    email: "",
-    password: "",
-    phone: "",
-    photo: ""
-  },
-};
-
-// Create auth slice
-const authSlice = createSlice({
-  name: "auth",
-  initialState,
-  reducers: {
-    setLogin(state, action) {
-      state.isLoggedIn = action.payload;
-    },
-    setName(state, action) {
-      state.name = action.payload;
-      localStorage.setItem("name", JSON.stringify(action.payload));
-    },
-    setUser(state, action) {
-      const profile = action.payload;
-      state.user = profile;
-    },
-  },
+// Register user
+export const registerUser = createAsyncThunk('auth/registerUser', async (userData, thunkAPI) => {
+    try {
+        const response = await axios.post('http://localhost:5000/api/users/register', userData);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data);
+    }
 });
 
-// Export actions
-export const { setLogin, setName, setUser } = authSlice.actions;
+// Verify email
+export const verifyEmail = createAsyncThunk('auth/verifyEmail', async (token, thunkAPI) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/api/users/verify/${token}`);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data);
+    }
+});
 
-// Export selectors
-export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
-export const selectName = (state) => state.auth.name;
-export const selectUser = (state) => state.auth.user;
+// Login user
+export const loginUser = createAsyncThunk('auth/loginUser', async (userData, thunkAPI) => {
+    try {
+        const response = await axios.post('http://localhost:5000/api/users/login', userData);
+        return response.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data);
+    }
+});
 
-// Export reducer
+const authSlice = createSlice({
+    name: 'auth',
+    initialState: {
+        loading: false,
+        userInfo: null,
+        error: null,
+        message: null,
+        verificationMessage: null,
+    },
+    reducers: {
+        clearMessage(state) {
+            state.message = null;
+            state.verificationMessage = null;
+        },
+        logout(state) {
+            state.userInfo = null;
+            state.error = null;
+            state.message = null;
+            state.verificationMessage = null;
+        }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(registerUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(registerUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.message = action.payload.message;
+            })
+            .addCase(registerUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(verifyEmail.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(verifyEmail.fulfilled, (state, action) => {
+                state.loading = false;
+                state.verificationMessage = action.payload.message;
+            })
+            .addCase(verifyEmail.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(loginUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(loginUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userInfo = action.payload;
+            })
+            .addCase(loginUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            });
+    }
+});
+
+export const { clearMessage, logout } = authSlice.actions;
 export default authSlice.reducer;

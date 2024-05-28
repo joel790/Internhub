@@ -2,7 +2,7 @@ import { useState } from "react";
 import home from "../../assets/homeillu.png"
 import Student from "./howtouse/Student";
 import Company from "./howtouse/Company";
-import {PiStudentFill  } from "react-icons/pi";
+import { PiStudentFill } from "react-icons/pi";
 import { GrUserManager } from "react-icons/gr";
 import { Link } from "react-router-dom";
 
@@ -46,16 +46,15 @@ const Home = () => {
           <div className="flex gap-6 h-32 ">
             {/* the active link Background white */}
 
-            <div
-              className={`bg-gray-50  w-[250px] border border-gray-300 font-serif flex gap-2 items-center justify-center cursor-pointer px-4 py-2 rounded-lg ${selectedTab === 'Student' ? 'bg-blue-400 text-white' : ''} transition duration-500`}
+            <div className={` text-blue-500 w-[250px]  border border-gray-300 font-serif flex gap-2 items-center justify-center cursor-pointer px-4 py-2 rounded-lg ${selectedTab === 'Student' ? 'bg-blue-400 text-white' : ''} `}
               onClick={() => setSelectedTab('Student')}
             >
-              <PiStudentFill size={60} />  
+              <PiStudentFill size={60} />
               <h1>Student</h1>
             </div>
 
             <div
-              className={` font-serif border w-[250px] bg-gray-50 border-gray-300 flex gap-2 cursor-pointer justify-center items-center  px-4 py-2 rounded-lg ${selectedTab === 'Company' ? 'bg-blue-400 text-white' : ''} transition duration-500`}
+              className={` font-serif border w-[250px] text-blue-500 border-gray-300 flex gap-2 cursor-pointer justify-center items-center  px-4 py-2 rounded-lg ${selectedTab === 'Company' ? 'bg-blue-400 text-white' : ''} `}
               onClick={() => setSelectedTab('Company')}
             >
               <GrUserManager size={60} />
