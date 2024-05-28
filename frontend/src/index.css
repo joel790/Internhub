@@ -12,5 +12,18 @@
       .nav-link {
         @apply flex items-center pr-5;
       }
+      /* .slick-slider{
+        @apply gap-7;
+      } */
+      
+      .slick-prev{
+        @apply text-black bg-black
+      }
+      .slick-next{
+        @apply text-black
+      }
+      .slick-list{
+        @apply m-5
+      }
       
 }
