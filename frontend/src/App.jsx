@@ -13,6 +13,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import ForgotPassword from './pages/auth/ForgotPassword';
 import VerifyEmail from './components/email/VerifyEmail';
+import ResetPassword from './pages/auth/ResetPassword';
+import PaymentForm from './components/payment/PaymentForm';
+import ApplyForCompany from './pages/studentpage/ApplyForCompany';
+import StudHome from './pages/studentpage/StudHome';
 axios.defaults.withCredentials = true;
 const App = () => {
   return (
@@ -21,14 +25,19 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Layouts />}>
           <Route index element={<Home />} />
-          <Route path="internship" element={<InternHome/>} />
+          <Route path="internship" element={<InternHome />} />
           <Route path="company" element={<CompanyHome />} />
           <Route path="study" element={<StudyHome />} />
         </Route>
-        <Route path="/auth/verify/:token" element={<VerifyEmail />} />
+        <Route path="apply" element={<ApplyForCompany />} />
+        <Route path="Student" element={<StudHome />} />
+        <Route path="payment/:planId" element={<PaymentForm />} />
+        <Route path="auth/verify/:token" element={<VerifyEmail />} />
         <Route path="auth/login" element={<Login />} />
         <Route path="auth/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="auth/forgotpassword" element={<ForgotPassword />} />
+        <Route path="auth/passwordreset/:resetToken" element={<ResetPassword />} />
+
 
       </Routes>
     </BrowserRouter>

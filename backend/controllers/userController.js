@@ -142,3 +142,74 @@ exports.loginUser = asyncHandler(async (req, res) => {
         throw new Error("Invalid credentials");
     }
 });
+
+exports.forgotPassword = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Generate reset token
+        const resetToken = crypto.randomBytes(32).toString('hex');
+
+        // Hash the token and set it to the resetPasswordToken field
+        user.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+        // Set token expiration time (e.g., 1 hour)
+        user.resetPasswordExpire = Date.now() + 60 * 60 * 1000;
+
+        await user.save();
+
+        // Create reset URL
+        const resetUrl = `${process.env.BASE_URL}/api/users/passwordreset/${resetToken}`;
+
+        // Email message
+        const message = `
+            Password Reset
+            You requested a password reset. Please click on the following link to reset your password:</p>
+            ${resetUrl}`;
+
+        await sendEmail({
+            to: user.email,
+            subject: 'Password Reset Request',
+            text: message,
+        });
+
+        res.status(200).json({ message: 'Password reset email sent' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+exports.resetPassword = async (req, res) => {
+    const { resetToken } = req.params;
+    const { password } = req.body;
+
+    try {
+        // Hash the token
+        const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+
+        // Find user by token and check if token is not expired
+        const user = await User.findOne({
+            resetPasswordToken: hashedToken,
+            resetPasswordExpire: { $gt: Date.now() },
+        });
+
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid or expired token' });
+        }
+
+        // Set new password
+        user.password = password;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpire = undefined;
+
+        await user.save();
+
+        res.status(200).json({ message: 'Password reset successful' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
