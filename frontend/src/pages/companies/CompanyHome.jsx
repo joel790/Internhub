@@ -3,6 +3,7 @@ import CompanyComponent from "../../components/company/CompanyComponent";
 import { companyData } from "../../data/companydata/CompanyData";
 import OtherPartner from "./otherPartner/OtherPartner";
 import { CiSearch } from "react-icons/ci";
+
 const CompanyHome = () => {
   const [company, setCompany] = useState(companyData);
   const [search, setSearch] = useState("");

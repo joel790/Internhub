@@ -1,3 +1,4 @@
+// import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 import Login from "./pages/auth/Login"
@@ -5,6 +6,7 @@ import Register from "./pages/auth/Register"
 import Layouts from "./pages/layout/Layout"
 import Home from "./pages/homepage/Home"
 import InternHome from "./pages/internships/InternHome"
+ import AllInternships from "./components/internship/AllInternships"
 import CompanyHome from "./pages/companies/CompanyHome"
 import StudyHome from "./pages/study/StudyHome"
 import CompanyDetail from './pages/companies/companydetail/CompanyDetail';
@@ -31,6 +33,7 @@ const App = () => {
         <Route path="auth/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
+        <Route path="/internship/all-internships" element={<AllInternships/>}/>
       </Routes>
     </BrowserRouter>
   );
