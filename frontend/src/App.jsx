@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 import Login from "./pages/auth/Login"
@@ -8,6 +7,7 @@ import Home from "./pages/homepage/Home"
 import InternHome from "./pages/internships/InternHome"
 import CompanyHome from "./pages/companies/CompanyHome"
 import StudyHome from "./pages/study/StudyHome"
+import CompanyDetail from './pages/companies/companydetail/CompanyDetail';
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
