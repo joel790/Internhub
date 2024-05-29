@@ -76,8 +76,8 @@ function SampleNextArrow(props) {
     return (
         <>
             <Header />
-            <div className="container mx-auto px-4">
-                <div className="flex flex-col md:flex-row w-full mt-6">
+            <div className="container mx-auto px-10">
+                <div className="flex flex-col md:flex-row w-full mt-6 px-10">
                     <img src={photo} alt="Company Photo" className="w-full md:w-1/2 " />
                     <div className="w-full md:w-1/2 flex flex-col  md:pl-4">
                         <div className="flex flex-row gap-0 ">
@@ -87,7 +87,7 @@ function SampleNextArrow(props) {
                         <p>{companyDetail.description}</p>
                     </div>
                 </div> 
-                <div className="mt-4">
+                <div className="mt-4 px-10">
                     <h1 className="text-2xl font-bold text-blue-600 text-center">Internship Opportunities</h1>
                     <div className="px-4 ">
                         {companyDetail.internships.length<=2?<div className="flex flex-col md:flex-row gap-5 justify-center">
@@ -103,7 +103,7 @@ function SampleNextArrow(props) {
                                 <h2 className="md:mr-4">Duration: {intern.duration}</h2>
                                 <h2>Location: {intern.locationType}</h2>
                             </div>
-                             <p className="hidden md:block">{intern.descriptionIntern}</p>
+                             <p className=" md:block">{intern.descriptionIntern}</p>
                               
                           
                             

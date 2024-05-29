@@ -54,9 +54,9 @@ const filteredIndustry=(industry)=>{
 }
 
   return (
-    <div className="flex flex-col px-4">
+    <div className="flex flex-col px-10">
     
-        <div className='flex flex-row px-4 w-full mt-4'>
+        <div className='flex flex-row px-10 w-full mt-4'>
                 <div className="relative sm:w-1/2 md:w-2/3">
                     <input
                         type="text"
@@ -79,7 +79,7 @@ const filteredIndustry=(industry)=>{
                     </select>
                 </div>
             </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-6 px-10 mt-4">
       {company.map((company) => (
         <CompanyComponent
         id={company.id}
