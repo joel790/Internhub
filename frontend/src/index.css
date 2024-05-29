@@ -7,23 +7,10 @@
         @apply  h-16 flex items-center pl-10 justify-between  ; /* Added shadow for depth */
       }
       .nav-text {
-        @apply flex  gap-2 font-serif  hover:text-blue-700 px-3 py-2  rounded-md  ; /* Adjusted hover colors to match the header background */
+        @apply flex font-serif hover:text-blue-500 px-3 py-2  rounded-md  ; /* Adjusted hover colors to match the header background */
       }
       .nav-link {
         @apply flex items-center pr-5;
-      }
-      /* .slick-slider{
-        @apply gap-7;
-      } */
-      
-      .slick-prev{
-        @apply text-black bg-black
-      }
-      .slick-next{
-        @apply text-black
-      }
-      .slick-list{
-        @apply m-5
       }
       
 }
