@@ -1,6 +1,6 @@
 // import React from 'react';
 import { useNavigate } from "react-router-dom";
-import { initialInternships } from "../../data/internshipdata/InitialInternships";
+import { internshipData } from "../../data/internshipdata/InternshipData";
 const FindInternships = () => {
   const navigate = useNavigate();
   const handleSeeAllClick = () => {
@@ -8,7 +8,7 @@ const FindInternships = () => {
   };
 
   const initialDisplayCount = 6;
-  const displayedInternships = initialInternships.slice(0, initialDisplayCount);
+  const displayedInternships = internshipData.slice(0, initialDisplayCount);
 
   return (
     <section className="my-8">
@@ -24,30 +24,30 @@ const FindInternships = () => {
         </button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-20">
-        {displayedInternships.map((initialInternship, index) => (
+        {displayedInternships.map((internship, index) => (
           <div key={index} className="p-2">
             <div className="border rounded-lg p-4 bg-white shadow-sm">
               <div className="flex">
                 <img
-                  src={initialInternship.logo}
+                  src={internship.logo}
                   className="w-8  mr-1"
                   alt="logo"
                 />
                 <h3 className="font-bold text-lg text-gray-700">
-                  {initialInternship.title}
+                  {internship.title}
                 </h3>
               </div>
 
-              <p className="text-blue-600">{initialInternship.role}</p>
+              <p className="text-blue-600">{internship.role}</p>
               <p className="text-gray-900 font-medium ">
-                Duration: {initialInternship.duration}
+                Duration: {internship.duration}
               </p>
               <p className="text-gray-600 font-medium">
-                Location: {initialInternship.location}
+                Location: {internship.location}
               </p>
-              <p className="text-gray-600">{initialInternship.description}</p>
+              <p className="text-gray-600">{internship.description}</p>
               <p className="text-gray-600 font-medium">
-                Deadline: {initialInternship.deadline}
+                Deadline: {internship.deadline}
               </p>
               <button className="bg-blue-600 w-full text-white px-4 py-2 rounded-md mt-4 hover:bg-blue-700">
                 View

@@ -1,13 +1,13 @@
 import { useState } from "react";
 import FilterInterns from "./FilterInterns";
-import { initialInternships } from "../../data/internshipdata/InitialInternships";
+import { internshipData } from "../../data/internshipdata/InternshipData";
 
 const AllInternships = () => {
-  const [internships, setInternships] = useState(initialInternships);
+  const [internships, setInternships] = useState(internshipData);
 
   const handleFilter = (filters) => {
     // Filter logic here based on filters
-    let filteredInternships = initialInternships;
+    let filteredInternships = internshipData;
 
     if (filters.title) {
       filteredInternships = filteredInternships.filter((internship) =>
@@ -67,7 +67,7 @@ const AllInternships = () => {
   };
 
   const handleClearFilter = () => {
-    setInternships(initialInternships);
+    setInternships(internshipData);
   };
 
   return (

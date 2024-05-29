@@ -4,8 +4,9 @@ import logo3 from "../../assets/my-logo3.jpg";
 import logo4 from "../../assets/my-logo4.jpg";
 import logo5 from "../../assets/my-logo5.jpg";
 
-export const initialInternships = [
+export const internshipData = [
   {
+    
     logo: logo1,
     title: "Tech Innovation",
     role: "Backend Development",
