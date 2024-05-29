@@ -69,7 +69,7 @@ const OtherPartner = () => {
     <div className="flex flex-col mt-6 gap-2">
       <div className="flex flex-col justify-center items-center w-full px-4 mt-2">
       <img
-        className="w-64 h-64 md:w-96 md:h-96 px-6 rounded-lg shadow-lg mb-4"
+        className="w-64 h-64 md:w-96 md:h-96 px-6   mb-4"
         src={other}
         alt="there is no company image"
       />
