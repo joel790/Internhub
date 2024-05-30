@@ -5,7 +5,8 @@ const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const userRoute = require("./routes/userRoutes");
-
+const companyRoute=require("./routes/companyRoutes")
+const adminRoute=require("./routes/adminRoutes")
 //create app with express
 const app = express();
 //environmental variables
@@ -27,6 +28,9 @@ app.use(
 
 //main route middlewares
 app.use("/api/users", userRoute);
+app.use("/api/company", companyRoute);
+app.use("/api/admin", adminRoute);
+
 
 //connect mongodb and listen to server
 

@@ -45,18 +45,21 @@ const Header = () => {
         </div>
 
         <nav className='hidden md:flex items-center'>
-          {topData.map((item, index) => (
-            <>
-              <Link
-                key={index}
-                to={item.path}
-                className={`nav-text ${selected === index ? '  text-blue-500  font-serif ' : ''}`}
-                onClick={() => handleMenuItemClick(index)}
-              >
-                {item.text}
-              </Link>
-            </>
-          ))}
+        <nav className='hidden md:flex items-center space-x-4'>
+      {topData.map((item, index) => (
+        <Link
+          key={index}
+          to={item.path}
+          className={`nav-text relative pb-1 ${selected === index ? 'text-blue-500 font-serif' : 'text-black'}`}
+          onClick={() => handleMenuItemClick(index)}
+        >
+          {item.text}
+          {selected === index && (
+            <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-blue-500"></span>
+          )}
+        </Link>
+      ))}
+    </nav>
         </nav>
         <nav className='nav-link hidden md:flex gap-4'>
           <Link to='/auth/login' className='nav-text'>Login</Link>

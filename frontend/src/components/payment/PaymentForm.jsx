@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 const PaymentForm = () => {
-    const { planId } = useParams();
+    const { planId, price } = useParams();
 
     return (
         <div className="min-h-screen flex items-center justify-center ">
@@ -17,8 +17,25 @@ const PaymentForm = () => {
                             value={planId}
                             readOnly
                         />
+                        <label className="block text-sm font-medium text-gray-700">Phone</label>
+                        <input
+                            type="text"
+                            className="input mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        />
+                        <label className="block text-sm font-medium text-gray-700">Name</label>
+                        <input
+                            placeholder='name'
+                            type="text"
+                            className="input mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        />
+                        <label className="block text-sm font-medium text-gray-700">Amount</label>
+                        <input
+                            placeholder='amount'
+                            type="text"
+                            className="input mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        />
                     </div>
-                   
+
                     {/* Add other payment form fields here */}
                     <button
                         type="submit"

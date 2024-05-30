@@ -3,15 +3,16 @@ const mongoose = require('mongoose');
 const PaymentSchema = new mongoose.Schema({
     company: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Company', required: true
+        ref: 'Company',
+        required: true
     },
     amount: {
         type: Number,
-         required: true
+        required: true
     },
     plan: {
-        type: String,
-        enum: ['free', 'silver', 'gold'],
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Plan',
         required: true
     },
     paymentDate: {
