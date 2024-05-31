@@ -52,10 +52,10 @@ const CompanySchema = new mongoose.Schema({
         required: true,
         unique:true
     },
-    intenships:{
+    intenships:[{
     type:mongoose.Schema.Types.ObjectId,
     ref:"Internship",
-    },
+    }],
     logo: {
         type: String,
         required: true

@@ -7,7 +7,7 @@ import logo5 from "../../assets/images.png"
 
 export const companyData=[
     {
-        id:1,
+      id:1,
       logoCompany: logo1,
       manager:"gebeyehu",
       name:"minab teck",

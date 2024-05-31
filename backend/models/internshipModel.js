@@ -31,7 +31,8 @@ const InternshipSchema = new mongoose.Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Application'
-        }],
+        }
+    ],
 });
 Internship = mongoose.model('Internship', InternshipSchema);
 

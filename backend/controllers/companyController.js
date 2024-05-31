@@ -1,4 +1,7 @@
 const Company = require('../models/companyModel');
+const Internship = require('../models/internshipModel');
+const Application = require('../models/applicationModel');
+const User = require('../models/userModel');
 
 // Store company application details
 exports.applyToCompany = async (req, res) => {
@@ -32,23 +35,137 @@ exports.applyToCompany = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-// Controller to get all companies
-exports.getAllCompanies = async (req, res) => {
+
+// Controller to create an internship
+exports.createInternship = async (req, res) => {
+    const { title, description, duration, location, skills } = req.body;
+    const companyId = req.user._id; // Assuming the logged-in user is the company
+
     try {
-        // Retrieve all companies from the database
-        const companies = await Company.find();
-        
-        // Check if there are no companies
-        if (companies.length === 0) {
-            return res.status(404).json({ message: 'No companies found' });
+        const company = await User.findById(companyId);
+
+        if (!company) {
+            return res.status(404).json({ message: 'Company not found' });
         }
 
-        // Return the retrieved companies as a response
-        res.status(200).json({ companies });
+        const internship = new Internship({
+            company: companyId,
+            title,
+            description,
+            duration,
+            location,
+            skills
+        });
+
+        const savedInternship = await internship.save();
+        res.status(201).json(savedInternship);
     } catch (error) {
-        // Handle errors
         console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
+
+// Controller to update an internship
+exports.updateInternship = async (req, res) => {
+    const { internshipId } = req.params;
+    const { title, description, duration, location, skills } = req.body;
+    const companyId = req.user.company; // Assuming req.user contains company info
+
+    try {
+        const internship = await Internship.findOneAndUpdate(
+            { _id: internshipId, company: companyId },
+            { title, description, duration, location, skills },
+            { new: true }
+        );
+
+        if (!internship) {
+            return res.status(404).json({ message: 'Internship not found' });
+        }
+
+        res.status(200).json(internship);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+// Controller to delete an internship
+exports.deleteInternship = async (req, res) => {
+    const { internshipId } = req.params;
+    const companyId = req.user.company; // Assuming req.user contains company info
+
+    try {
+        const internship = await Internship.findOneAndDelete({ _id: internshipId, company: companyId });
+
+        if (!internship) {
+            return res.status(404).json({ message: 'Internship not found' });
+        }
+
+        res.status(200).json({ message: 'Internship deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// Controller to get all internships for a company
+exports.getAllInternshipsBycompany = async (req, res) => {
+    const companyId = req.user.company; // Assuming req.user contains company info
+
+    try {
+        const internships = await Internship.find({ company: companyId });
+
+        res.status(200).json(internships);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
+
+// Approve Application
+exports.approveApplication = async (req, res) => {
+    const { applicationId } = req.params;
+
+    try {
+        const application = await Application.findByIdAndUpdate(
+            applicationId,
+            { status: 'accepted' },
+            { new: true }
+        );
+
+        if (!application) {
+            return res.status(404).json({ message: 'Application not found' });
+        }
+
+        res.status(200).json({ message: 'Application approved successfully', application });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// Reject Application
+exports.rejectApplication = async (req, res) => {
+    const { applicationId } = req.params;
+
+    try {
+        const application = await Application.findByIdAndUpdate(
+            applicationId,
+            { status: 'rejected' },
+            { new: true }
+        );
+
+        if (!application) {
+            return res.status(404).json({ message: 'Application not found' });
+        }
+
+        res.status(200).json({ message: 'Application rejected successfully', application });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};

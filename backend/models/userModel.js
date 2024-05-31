@@ -20,7 +20,6 @@ const userSchema = new mongoose.Schema({
     default: 'student', // Default role is student
     required: true,
   },
-  
   isApproved: {
     type: Boolean,
     default: false,

@@ -27,4 +27,21 @@ const protect = asyncHandler(async (req, res, next) => {
     }
 });
 
-module.exports = { protect };
+// Middleware to check for admin role
+const admin = (req, res, next) => {
+    if (req.user && req.user.role === 'admin') {
+        next();
+    } else {
+        res.status(401).json({ message: 'Not authorized as an admin' });
+    }
+};
+// Middleware to check for admin role
+const company = (req, res, next) => {
+    if (req.user && req.user.role === 'company') {
+        next();
+    } else {
+        res.status(401).json({ message: 'Not authorized as an company please apply' });
+    }
+};
+
+module.exports = { protect, admin, company };

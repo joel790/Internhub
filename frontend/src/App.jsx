@@ -1,6 +1,6 @@
 // import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-
+import CompanyForm from "./pages/companies/compantform/CompanyForm"
 import Login from "./pages/auth/Login"
 import Register from "./pages/auth/Register"
 import Layouts from "./pages/layout/Layout"
@@ -31,10 +31,12 @@ const App = () => {
           <Route path="company" element={<CompanyHome />} />
           <Route path="study" element={<StudyHome />} />
         </Route>
+        <Route path="form" element={<CompanyForm/>}/>
         <Route path="apply" element={<ApplyForCompany />} />
         <Route path="Student" element={<StudHome />} />
         <Route path="payment/:planId" element={<PaymentForm />} />
         <Route path="auth/verify/:token" element={<VerifyEmail />} />
+        <Route path="company/:id" element={<CompanyDetail/>}/>
         <Route path="auth/login" element={<Login />} />
         <Route path="auth/register" element={<Register />} />
         <Route path="auth/forgotpassword" element={<ForgotPassword />} />
