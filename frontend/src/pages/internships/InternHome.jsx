@@ -1,9 +1,9 @@
 // import React from "react";
 import intern from "../../assets/explore.png";
 import SearchField from "../../components/internship/SearchField";
- 
-import FeaturedInternships from "../../components/internship/FeaturedInternships";
-import FindInternships from "../../components/internship/FindInternships";
+
+import FeaturedInternships from "./FeaturedInternships";
+import FindInternships from "./FindInternships";
 
 const InternHome = () => {
   return (

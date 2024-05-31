@@ -1,8 +1,10 @@
 import { useState } from "react";
 import FilterInterns from "./FilterInterns";
 import { internshipData } from "../../data/internshipdata/InternshipData";
+import { useNavigate } from "react-router";
 
 const AllInternships = () => {
+  const navigate = useNavigate();
   const [internships, setInternships] = useState(internshipData);
 
   const handleFilter = (filters) => {
@@ -110,7 +112,10 @@ const AllInternships = () => {
               <div className="text-yellow-500 text-xl flex justify-between">
                 {"★".repeat(internship.rating) +
                   "☆".repeat(5 - internship.rating)}
-                <button className="bg-blue-600 text-white px-6 py-1 rounded-md mt-4 hover:bg-blue-700">
+                <button
+                  className="bg-blue-600 text-white px-6 py-1 rounded-md mt-4 hover:bg-blue-700"
+                  onClick={() => navigate(`/internship/${internship.id}`)}
+                >
                   View
                 </button>
               </div>

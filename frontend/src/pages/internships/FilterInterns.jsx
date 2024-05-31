@@ -89,7 +89,6 @@ const FilterInterns = ({ onFilter, onClear }) => {
             onChange={handleInputChange}
           >
             <option value="">Select location</option>
-            {/* Add location options here */}
             <option value="Addis Ababa">Addis Ababa</option>
             <option value="Bahir Dar">Bahir Dar</option>
             <option value="Dire Dawa">Dire Dawa</option>
