@@ -89,44 +89,45 @@ exports.getAllInternshipsByCompany = async (req, res) => {
 };
 
 
-// Approve Application
-exports.approveApplication = async (req, res) => {
-    const { applicationId } = req.params;
-
+ exports.updateApplicationStatus = async (req, res) => {
+    const { applicationId,status } = req.params;
+    const companyId = req.user._id; // Assuming req.user contains company info
     try {
-        const application = await internApplication.findByIdAndUpdate(
-            applicationId,
-            { status: 'accepted' },
-            { new: true }
-        );
-
+        // Check if the application exists and belongs to an internship of the company
+        const application = await internApplication.findById(applicationId).populate('internship');
         if (!application) {
             return res.status(404).json({ message: 'Application not found' });
         }
 
-        res.status(200).json({ message: 'Application approved successfully', application });
+        if (application.internship.company.toString() !== companyId.toString()) {
+            return res.status(403).json({ message: 'Access denied' });
+        }
+
+        // Update the application status
+        application.status = status;
+        const updatedApplication = await application.save();
+
+        res.status(200).json(updatedApplication);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
     }
 };
 
-// Reject Application
-exports.rejectApplication = async (req, res) => {
-    const { applicationId } = req.params;
+
+// Controller for companies to get applications for a specific internship
+exports.getApplicationsForInternship = async (req, res) => {
+    const { internshipId } = req.params;
+    const companyId = req.user._id; // Assuming req.user contains company info
 
     try {
-        const application = await internApplication.findByIdAndUpdate(
-            applicationId,
-            { status: 'rejected' },
-            { new: true }
-        );
-
-        if (!application) {
-            return res.status(404).json({ message: 'Application not found' });
+        // Check if the internship exists and belongs to the company
+        const internship = await Internship.findOne({ _id: internshipId, company: companyId }).populate('applications');
+        if (!internship) {
+            return res.status(404).json({ message: 'Internship not found or access denied' });
         }
 
-        res.status(200).json({ message: 'Application rejected successfully', application });
+        res.status(200).json(internship.applications);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });

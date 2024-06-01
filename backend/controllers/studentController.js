@@ -2,26 +2,18 @@ const CompanyApplication = require('../models/companyApplication');
 const Application = require('../models/internApplicationModel');
 const Internship = require('../models/internshipModel');
 
-// Apply for Internship
-exports.applyInternship = async (req, res) => {
+
+// Controller for students to apply for an internship
+exports.applyForInternship = async (req, res) => {
     const { coverLetter, resume, portourl } = req.body;
-    const { internshipId } = req.params;
-    const studentId = req.user.id; // Assuming req.user contains student info
+    const {internshipId}=req.params
+    const studentId = req.user._id; // Assuming req.user contains student info
 
     try {
-        // Check if internship exists
+        // Check if the internship exists
         const internship = await Internship.findById(internshipId);
         if (!internship) {
             return res.status(404).json({ message: 'Internship not found' });
-        }
-
-        // Check if student has already applied
-        const existingApplication = await Application.findOne({
-            internship: internshipId,
-            student: studentId
-        });
-        if (existingApplication) {
-            return res.status(400).json({ message: 'You have already applied for this internship' });
         }
 
         // Create a new application
@@ -35,7 +27,7 @@ exports.applyInternship = async (req, res) => {
 
         const savedApplication = await application.save();
 
-        // Add application to internship's applications array
+        // Add the application to the internship's applications array
         internship.applications.push(savedApplication._id);
         await internship.save();
 
@@ -45,6 +37,7 @@ exports.applyInternship = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
 
 
 exports.applyToCompany = async (req, res) => {

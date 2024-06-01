@@ -1,7 +1,6 @@
 const CompanyApplication = require('../models/companyApplication');
 const User = require('../models/userModel');
 
-// Controller to approve a company application
 exports.approveCompanyApplication = async (req, res) => {
     const { applicationId } = req.params;
 
@@ -15,8 +14,6 @@ exports.approveCompanyApplication = async (req, res) => {
         if (application.status !== 'pending') {
             return res.status(400).json({ message: 'Application has already been processed' });
         }
-
-        // Update user role and company details
         const user = application.user;
         user.role = 'company';
         user.companyDetails = {
@@ -73,9 +70,6 @@ exports.rejectCompanyApplication = async (req, res) => {
     }
 };
 
-
-
-
 // Controller to filter companies by status
 exports.filterCompaniesByStatus = async (req, res) => {
     const { status } = req.params;
@@ -87,7 +81,7 @@ exports.filterCompaniesByStatus = async (req, res) => {
         }
 
         // Find companies with the specified status
-        const companies = await Company.find({ status });
+        const companies = await User.find({ role: 'company', 'companyDetails.status': status });
 
         // Return the filtered companies
         res.status(200).json({ companies });
@@ -98,12 +92,12 @@ exports.filterCompaniesByStatus = async (req, res) => {
     }
 };
 
-// Controller to get all companies
+// get all companies
 exports.getAllCompanies = async (req, res) => {
     try {
-        // Retrieve all companies from the database
-        const companies = await Company.find();
-        
+        // Retrieve all users with role 'company' from the database
+        const companies = await User.find({ role: 'company' });
+
         // Check if there are no companies
         if (companies.length === 0) {
             return res.status(404).json({ message: 'No companies found' });
@@ -117,15 +111,13 @@ exports.getAllCompanies = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+// get company by id
 
-
-// Controller to get a company by its ID
 exports.getCompanyById = async (req, res) => {
     const { companyId } = req.params;
-
     try {
-        // Find the company by its ID
-        const company = await Company.findById(companyId).populate('userId', 'name email');
+        // Find the user by its ID and check if it has a role of 'company'
+        const company = await User.findOne({ _id: companyId, role: 'company' }).select('-password');
 
         // Check if the company exists
         if (!company) {

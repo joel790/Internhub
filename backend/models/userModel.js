@@ -51,6 +51,11 @@ const userSchema = new mongoose.Schema({
     logo: {
       type: String
     },
+    status: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'pending'
+    },
     internships:[{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Internship'
