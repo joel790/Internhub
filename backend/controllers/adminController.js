@@ -1,26 +1,78 @@
-const Company = require('../models/companyModel'); // Import the Company model
+const CompanyApplication = require('../models/companyApplication');
 const User = require('../models/userModel');
 
-exports.approveCompany = async (req, res) => {
-    const { companyId } = req.params;
+// Controller to approve a company application
+exports.approveCompanyApplication = async (req, res) => {
+    const { applicationId } = req.params;
 
     try {
-        // Find the company and update its status to 'approved'
-        const company = await Company.findByIdAndUpdate(companyId, { status: 'approved' }, { new: true });
+        const application = await CompanyApplication.findById(applicationId).populate('user');
 
-        if (!company) {
-            return res.status(404).json({ message: 'Company not found' });
+        if (!application) {
+            return res.status(404).json({ message: 'Application not found' });
         }
 
-        // Update the user's role to 'company'
-        const user = await User.findByIdAndUpdate(company.userId, { role: 'company' }, { new: true });
+        if (application.status !== 'pending') {
+            return res.status(400).json({ message: 'Application has already been processed' });
+        }
 
-        res.status(200).json({ message: 'Company approved successfully', company, user });
+        // Update user role and company details
+        const user = application.user;
+        user.role = 'company';
+        user.companyDetails = {
+            name: application.name,
+            slogan: application.slogan,
+            description: application.description,
+            industry: application.industry,
+            location: application.location,
+            managerName: application.managerName,
+            jobTitle: application.jobTitle,
+            contactNumber: application.contactNumber,
+            website: application.website,
+            license: application.license,
+            logo: application.logo,
+            subscriptionPlan: application.subscriptionPlan
+        };
+
+        await user.save();
+
+        // Update application status
+        application.status = 'approved';
+        await application.save();
+
+        res.status(200).json({ message: 'Company application approved', application });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+// Controller to reject a company application
+exports.rejectCompanyApplication = async (req, res) => {
+    const { applicationId } = req.params;
+
+    try {
+        const application = await CompanyApplication.findById(applicationId);
+
+        if (!application) {
+            return res.status(404).json({ message: 'Application not found' });
+        }
+
+        if (application.status !== 'pending') {
+            return res.status(400).json({ message: 'Application has already been processed' });
+        }
+
+        // Update application status
+        application.status = 'rejected';
+        await application.save();
+
+        res.status(200).json({ message: 'Company application rejected', application });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 
 
 

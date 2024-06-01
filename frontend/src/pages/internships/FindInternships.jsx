@@ -28,11 +28,7 @@ const FindInternships = () => {
           <div key={index} className="p-2">
             <div className="border rounded-lg p-4 bg-white shadow-sm">
               <div className="flex">
-                <img
-                  src={internship.logo}
-                  className="w-8  mr-1"
-                  alt="logo"
-                />
+                <img src={internship.logo} className="w-8  mr-1" alt="logo" />
                 <h3 className="font-bold text-lg text-gray-700">
                   {internship.title}
                 </h3>
@@ -49,7 +45,10 @@ const FindInternships = () => {
               <p className="text-gray-600 font-medium">
                 Deadline: {internship.deadline}
               </p>
-              <button className="bg-blue-600 w-full text-white px-4 py-2 rounded-md mt-4 hover:bg-blue-700">
+              <button
+                className="bg-blue-600 w-full text-white px-4 py-2 rounded-md mt-4 hover:bg-blue-700"
+                onClick={() => navigate(`/internship/${internship.id}`)}
+              >
                 View
               </button>
             </div>
