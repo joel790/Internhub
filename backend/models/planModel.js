@@ -1,19 +1,21 @@
 const mongoose = require('mongoose');
 
-const planSchema = new mongoose.Schema({
-  type: {
-    type: String,
-    enum: ['basic', 'silver', 'gold'],
-    required: true
-  },
-  price: {
-    type: Number,
-    required: true
-  },
-  features: {
-    type: [String],
-    required: true
-  }
+const PlanSchema = new mongoose.Schema({
+    type: {
+        type: String,
+        enum: ['Basic', 'Silver', 'Gold'],
+        required: true,
+        unique: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    features: {
+        type: [String],
+        required: true
+    }
 });
-Plan = mongoose.model('Plan', planSchema);
-module.exports = Plan
+
+const Plan = mongoose.model('Plan', PlanSchema);
+module.exports = Plan;

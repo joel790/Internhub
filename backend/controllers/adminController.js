@@ -1,5 +1,6 @@
 const CompanyApplication = require('../models/companyApplication');
 const User = require('../models/userModel');
+const Plan = require('../models/planModel');
 
 exports.approveCompanyApplication = async (req, res) => {
     const { applicationId } = req.params;
@@ -75,18 +76,14 @@ exports.filterCompaniesByStatus = async (req, res) => {
     const { status } = req.params;
 
     try {
-        // Validate status
-        if (!['pending', 'approved', 'rejected'].includes(status)) {
-            return res.status(400).json({ message: 'Invalid status' });
-        }
-
-        // Find companies with the specified status
         const companies = await User.find({ role: 'company', 'companyDetails.status': status });
 
-        // Return the filtered companies
+        if (companies.length === 0) {
+            return res.status(404).json({ message: 'No companies found' });
+        }
+
         res.status(200).json({ companies });
     } catch (error) {
-        // Handle errors
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
@@ -129,5 +126,54 @@ exports.getCompanyById = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// create plane
+exports.createPlan = async (req, res) => {
+    const { type, price, features } = req.body;
+
+    try {
+        const plan = new Plan({
+            type,
+            price,
+            features
+        });
+
+        const savedPlan = await plan.save();
+        res.status(201).json(savedPlan);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+//update plane
+exports.updatePlan = async (req, res) => {
+    const { planId } = req.params;
+    const { type, price, features } = req.body;
+
+    try {
+        const updatedPlan = await Plan.findByIdAndUpdate(planId, { type, price, features }, { new: true });
+
+        if (!updatedPlan) {
+            return res.status(404).json({ message: 'Plan not found' });
+        }
+
+        res.status(200).json(updatedPlan);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+//get all plans
+exports.getAllPlans = async (req, res) => {
+    try {
+        const plans = await Plan.find();
+        res.status(200).json(plans);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
     }
 };

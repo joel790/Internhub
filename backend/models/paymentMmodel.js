@@ -1,13 +1,9 @@
 const mongoose = require('mongoose');
 
 const PaymentSchema = new mongoose.Schema({
-    company: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Company',
-        required: true
-    },
-    amount: {
-        type: Number,
+        ref: 'User',
         required: true
     },
     plan: {
@@ -15,14 +11,30 @@ const PaymentSchema = new mongoose.Schema({
         ref: 'Plan',
         required: true
     },
-    paymentDate: {
-        type: Date,
-        default: Date.now
+    amount: {
+        type: Number,
+        required: true
     },
-    transactionId: {
+    currency: {
         type: String,
         required: true
     },
+    status: {
+        type: String,
+        enum: ['pending', 'completed', 'failed'],
+        default: 'pending'
+    },
+    transactionId: {
+        type: String
+    },
+    tx_ref:{
+        type: String
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 });
-Payment = mongoose.model('Payment', PaymentSchema);
-module.exports = Payment
+
+const Payment = mongoose.model('Payment', PaymentSchema);
+module.exports = Payment;

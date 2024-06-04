@@ -10,6 +10,9 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  phone:{
+    type: Number,
+  },
   password: {
     type: String, required: true
   },
@@ -61,12 +64,12 @@ const userSchema = new mongoose.Schema({
       ref: 'Internship'
     }
     ],
-    subscriptionPlan: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Plan'
-    },
   },
-
+  subscriptionPlan: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Plan',
+    default:null
+  },
   isApproved: {
     type: Boolean,
     default: false,
