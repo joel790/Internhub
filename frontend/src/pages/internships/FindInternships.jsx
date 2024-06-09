@@ -1,14 +1,30 @@
-// import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { internshipData } from "../../data/internshipdata/InternshipData";
+import axios from 'axios';
+
 const FindInternships = () => {
   const navigate = useNavigate();
+  const [internships, setInternships] = useState([]);
+
+  useEffect(() => {
+    const fetchInternships = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/company/internships");
+        setInternships(response.data);
+      } catch (error) {
+        console.error('Error fetching internships:', error);
+      }
+    };
+
+    fetchInternships();
+  }, []);
+
   const handleSeeAllClick = () => {
     navigate("/internship/all-internships");
   };
 
   const initialDisplayCount = 6;
-  const displayedInternships = internshipData.slice(0, initialDisplayCount);
+  const displayedInternships = internships.slice(0, initialDisplayCount);
 
   return (
     <section className="my-8">
@@ -33,21 +49,20 @@ const FindInternships = () => {
                   {internship.title}
                 </h3>
               </div>
-
               <p className="text-blue-600">{internship.role}</p>
-              <p className="text-gray-900 font-medium ">
+              <p className="text-gray-900 font-medium">
                 Duration: {internship.duration}
               </p>
               <p className="text-gray-600 font-medium">
                 Location: {internship.location}
               </p>
               <p className="text-gray-600">{internship.description}</p>
-              <p className="text-gray-600 font-medium">
+              {/* <p className="text-gray-600 font-medium">
                 Deadline: {internship.deadline}
-              </p>
+              </p> */}
               <button
                 className="bg-blue-600 w-full text-white px-4 py-2 rounded-md mt-4 hover:bg-blue-700"
-                onClick={() => navigate(`/internship/${internship.id}`)}
+                onClick={() => navigate(`/internship/${internship._id}`)}
               >
                 View
               </button>

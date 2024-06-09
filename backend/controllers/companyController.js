@@ -87,6 +87,22 @@ exports.getAllInternshipsByCompany = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+//get all internships
+exports.getAllInternships = async (req, res) => {
+
+    try {
+        const internships = await Internship.find();
+
+        if (!internships.length) {
+            return res.status(404).json({ message: 'No internships found' });
+        }
+
+        res.status(200).json(internships);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
 
 
  exports.updateApplicationStatus = async (req, res) => {
@@ -128,6 +144,39 @@ exports.getApplicationsForInternship = async (req, res) => {
         }
 
         res.status(200).json(internship.applications);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// Controller to get all internships by company
+exports.getInternshipsById = async (req, res) => {
+    const { id } = req.params; // Assuming req.user contains company info
+
+
+    try {
+        const internship = await Internship.findById(id);
+
+        if (!internship) {
+            return res.status(404).json({ message: 'Internship not found' });
+        }
+
+        res.status(200).json(internship);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// Controller: internshipController.js
+
+exports.getFeaturedInternships = async (req, res) => {
+    try {
+        const featuredInternships = await Internship.find({ featured: true });
+        if (!featuredInternships) {
+            return res.status(404).json({ message: 'No featured internships found' });
+        }
+        res.status(200).json(featuredInternships);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });

@@ -1,13 +1,28 @@
-// import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Slider from "react-slick";
+import axios from 'axios';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { NextArrow, PrevArrow } from "../../components/internship/CustomArrows";
-import { internshipData } from "../../data/internshipdata/InternshipData";
 import { useNavigate } from "react-router";
 
 const FeaturedInternships = () => {
   const navigate = useNavigate();
+  const [featuredInternships, setFeaturedInternships] = useState([]);
+
+  useEffect(() => {
+    const fetchFeaturedInternships = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/company/internships/featured');
+        setFeaturedInternships(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error('Error fetching featured internships:', error);
+      }
+    };
+
+    fetchFeaturedInternships();
+  }, []);
 
   const settings = {
     dots: true,
@@ -48,7 +63,7 @@ const FeaturedInternships = () => {
       </p>
       <div className="relative p-20">
         <Slider {...settings}>
-          {internshipData.map((internship, index) => (
+          {featuredInternships.map((internship, index) => (
             <div key={index} className="p-2">
               <div className="border rounded-lg p-4 bg-white shadow-sm">
                 <div className="flex">
@@ -70,7 +85,7 @@ const FeaturedInternships = () => {
                 </p>
                 <button
                   className="bg-blue-600 w-full text-white px-4 py-2 rounded-md mt-4 hover:bg-blue-700"
-                  onClick={() => navigate(`/internship/${internship.id}`)}
+                  onClick={() => navigate(`/internship/${internship._id}`)}
                 >
                   View
                 </button>
