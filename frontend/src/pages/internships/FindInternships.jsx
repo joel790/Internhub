@@ -28,8 +28,8 @@ const FindInternships = () => {
 
   return (
     <section className="my-8">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-3xl font-bold text-blue-600 ml-20">
+      <div className="flex justify-between items-center">
+        <h2 className="text-3xl font-bold text-blue-600 mt-8 ml-20">
           Find internships that favor you
         </h2>
         <button
@@ -39,7 +39,7 @@ const FindInternships = () => {
           See all
         </button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-20">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pl-20 pr-20 pt-8">
         {displayedInternships.map((internship, index) => (
           <div key={index} className="p-2">
             <div className="border rounded-lg p-4 bg-white shadow-sm">

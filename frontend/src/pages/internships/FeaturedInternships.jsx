@@ -53,15 +53,15 @@ const FeaturedInternships = () => {
   };
 
   return (
-    <section className="my-8">
+    <section className="">
       <h2 className="text-3xl font-bold text-blue-600 text-center">
         Featured Internships
       </h2>
-      <p className="text-center text-gray-600 mb-4">
-        Explore the following featured internships. These are the most applied
+      <p className="text-center text-gray-600">
+        Explore the following featured internships. These are the mostly applied
         internships.
       </p>
-      <div className="relative p-20">
+      <div className="relative pl-20 pr-20 pt-5">
         <Slider {...settings}>
           {featuredInternships.map((internship, index) => (
             <div key={index} className="p-2">

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const InternshipDetail = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   const [internship, setInternship] = useState(null);
@@ -20,8 +21,14 @@ const InternshipDetail = () => {
     fetchInternship();
   }, [id]);
 
-  const handleApplyClick = () => {
-    navigate(`/apply/${internship.title}`);
+  const openModal = () => {
+    setIsModalOpen(true);
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    document.body.style.overflow = "auto";
   };
 
   if (!internship) {
@@ -86,12 +93,34 @@ const InternshipDetail = () => {
       </p> */}
       <div className="flex justify-center mt-8">
         <button
-          className="bg-blue-600 w-full text-white px-6 py-3 rounded-md text-lg hover:bg-blue-700"
-          onClick={handleApplyClick}
+          onClick={openModal}
+          className="bg-blue-600 w-full text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200"
         >
           Apply Now
         </button>
       </div>
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
+          onClick={closeModal}
+        >
+          <div
+            className="bg-white relative rounded-lg shadow-lg p-6 w-full max-w-lg max-h-screen overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={closeModal}
+              className="absolute top-2 right-4 text-4xl font-bold text-red-600 hover:text-red-900"
+            >
+              &times;
+            </button>
+            <ApplicationForm
+              internshipTitle={internship.title}
+              closeModal={closeModal}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
