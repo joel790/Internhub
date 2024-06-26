@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
-const ApplicationForm = ({ internshipTitle, closeModal }) => {
+const ApplicationForm = ({ internship, closeModal }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -88,12 +88,12 @@ const ApplicationForm = ({ internshipTitle, closeModal }) => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-md">
+      <div className="w-full max-w-lg p-8 bg-white  ">
         <h1 className="text-2xl font-bold text-blue-600 mb-6">
-          Application form For {internshipTitle}
+          Application form For {internship.title}
         </h1>
         {isSubmitted && showSuccessMessage ? (
-          <div className="flex flex-col items-center justify-center h-full">
+          <div className="flex flex-col items-center justify-center h-full ">
             <div className="text-5xl text-blue-600 mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

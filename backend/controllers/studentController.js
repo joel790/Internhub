@@ -49,7 +49,6 @@ exports.applyForInternship = async (req, res) => {
 exports.applyToCompany = async (req, res) => {
     const { name, slogan, description, industry, location, managerName, jobTitle, contactNumber, website, license, logo, subscriptionPlan } = req.body;
     const userId = req.user.id; // Assuming req.user contains user info
-
     try {
         const application = new CompanyApplication({
             user: userId,

@@ -22,7 +22,7 @@ const Header = () => {
 
   return (
     <>
-      <header className='top-header  bg-gray-50 z-50 fixed top-0 right-0 left-0 h-16 flex items-center pl-10 justify-between'>
+      <header className='top-header  bg-white z-50 fixed top-0 right-0 left-0 h-16 flex items-center pl-10 justify-between'>
         <div className='flex gap-2 items-center '>
           <img src={Logo} alt="Logo"  className='h-[60px]'/>
           <h1 className='text-blue-500 text-lg font-bold'>Intern-Hub</h1>
@@ -55,7 +55,7 @@ const Header = () => {
         >
           {item.text}
           {selected === index && (
-            <span className="absolute left-0 right-0 bottom-0 h-0.5 bg-blue-500"></span>
+            <span className="absolute left-0 right-0 bottom-0 h-0.5 rounded-full bg-blue-500"></span>
           )}
         </Link>
       ))}

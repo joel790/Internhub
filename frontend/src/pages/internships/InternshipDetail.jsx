@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
-
+import ApplicationForm from './ApplicationForm';
 const InternshipDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = useParams();
@@ -115,7 +115,7 @@ const InternshipDetail = () => {
               &times;
             </button>
             <ApplicationForm
-              internshipTitle={internship.title}
+              internship={internship}
               closeModal={closeModal}
             />
           </div>
