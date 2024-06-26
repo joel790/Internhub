@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { Modal } from "flowbite-react";
+// import { Modal } from "flowbite-react";
 
  const CompanyForm = () => {
-    const [openModal, setOpenModal] = useState(true);
+    // const [openModal, setOpenModal] = useState(true);
 
     const [companyInfo,setCompanyInfo]=useState({
         companyName:"",
@@ -86,11 +86,11 @@ const handleSubmit=(event)=>{
 
   return (
     <>
-    <button onClick={() => setOpenModal(true)}>Toggle modal</button>
+    {/* <button onClick={() => setOpenModal(true)}>Toggle modal</button>
     <Modal show={openModal} size="md" onClose={()=>setOpenModal(false)} popup>
       <Modal.Header />
-      <Modal.Body>
-      ፊታውራሪ ገበየሁ, [31/05/2024 11:26 ከሰዓት]
+      <Modal.Body> */}
+    
 <div className="flex flex-col items-start justify-start w-full  md:items-center  md:justify-center sm:px-20  md:px-10 mt-5" >
 
         <h1 className="text-blue-600 font-bold text-2xl pl-20">Please fill the following form</h1>
@@ -155,7 +155,6 @@ const handleSubmit=(event)=>{
             <input className="px-4 py-1 border border-neutral-400 rounded-lg" type="text" placeholder="job title" name="jobTitle" value={companyInfo.jobTitle} onChange={handleChange}/>
             {errors.jobTitle && <span className="text-red-500">{errors.jobTitle}</span>}
 
-ፊታውራሪ ገበየሁ, [31/05/2024 11:26 ከሰዓት]
 </div> 
           </div>
           <h1 className=" text-black font-bold text-2xl mt-16">Contact Information</h1>
@@ -190,8 +189,8 @@ const handleSubmit=(event)=>{
             <button  className="bg-blue-700 text-white p-2 mt-5" type="submit">Submit Application</button>
         </form>
     </div>
-      </Modal.Body>
-    </Modal>
+      {/* </Modal.Body>
+    </Modal> */}
   </>
   )
 }
