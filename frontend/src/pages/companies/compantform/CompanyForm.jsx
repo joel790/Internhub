@@ -82,8 +82,6 @@ const handleSubmit=(event)=>{
         console.log(formData)
    }
     
-
-
   return (
     <>
     {/* <button onClick={() => setOpenModal(true)}>Toggle modal</button>
@@ -103,14 +101,14 @@ const handleSubmit=(event)=>{
 
             <div className="flex flex-col gap-4 w-full sm:w-full md:w-1/2">
              <label className="font-bold text-xl" htmlFor="company name ">company name</label>
-            <input className="px-4 py-1 border border-neutral-400 rounded-lg" type="text" placeholder="company name" name="companyName" value={companyInfo.companyName} onChange={handleChange}/>
+            <input className=" input px-4 py-1 border border-neutral-400 rounded-lg" type="text" placeholder="company name" name="companyName" value={companyInfo.companyName} onChange={handleChange}/>
             {errors.companyName && <span className="text-red-500">{errors.companyName}</span>}
 
             </div>
             <div  className="flex flex-col gap-4 w-full sm:w-full md:w-1/2">
 
             <label className="font-bold text-xl" htmlFor="location">location</label>
-            <input className="px-4 py-1 border border-neutral-400 rounded-lg" type="text" placeholder="location" name="location" value={companyInfo.location} onChange={handleChange}/>
+            <input className="input px-4 py-1 border border-neutral-400 " type="text" placeholder="location" name="location" value={companyInfo.location} onChange={handleChange}/>
             {errors.location && <span className="text-red-500">{errors.location}</span>}
 
             </div>

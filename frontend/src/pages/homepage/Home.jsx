@@ -42,11 +42,11 @@ const Home = () => {
           <h1 className="text-4xl mb-4 text-blue-500 font-serif">How to use the system</h1>
           <p className='text-slate-400'> What is your role?</p>
         </div>
-        <div className="flex flex-col items-center justify-center ">
-          <div className="flex gap-6 h-32 ">
+        <div className="flex flex-col items-center justify-center pb-6">
+          <div className="flex flex-col lg:flex-row gap-6 h-32 lg:mb-4 sm:pb-6 pb-6">
             {/* the active link Background white */}
 
-            <div className={` text-blue-500 w-[250px]  border border-gray-300 font-serif flex gap-2 items-center justify-center cursor-pointer px-4 py-2 rounded-lg ${selectedTab === 'Student' ? 'bg-blue-400 text-white' : ''} `}
+            <div className={` text-blue-500 w-[250px]  border border-blue-300 font-serif flex gap-2 items-center justify-center cursor-pointer px-4 py-2 rounded-lg ${selectedTab === 'Student' ? 'bg-blue-500 text-white' : ''} `}
               onClick={() => setSelectedTab('Student')}
             >
               <PiStudentFill size={60} />
@@ -54,7 +54,7 @@ const Home = () => {
             </div>
 
             <div
-              className={` font-serif border w-[250px] text-blue-500 border-gray-300 flex gap-2 cursor-pointer justify-center items-center  px-4 py-2 rounded-lg ${selectedTab === 'Company' ? 'bg-blue-400 text-white' : ''} `}
+              className={` font-serif border w-[250px] text-blue-500 border-blue-300 flex gap-2 cursor-pointer justify-center items-center  px-4 py-2 rounded-lg ${selectedTab === 'Company' ? 'bg-blue-500 text-white' : ''} `}
               onClick={() => setSelectedTab('Company')}
             >
               <GrUserManager size={60} />

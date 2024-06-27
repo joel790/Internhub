@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const CompanySchema = new mongoose.Schema({
+const CompanyApplicationSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -33,14 +33,7 @@ const CompanySchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email: {
-        type: String,
-        required: true
-    },
-    contactNumber: {
-        type: String,
-        required: true
-    },
+    contactNumber: [String],
     website: {
         type: String
     },
@@ -53,16 +46,20 @@ const CompanySchema = new mongoose.Schema({
         required: true
     },
     subscriptionPlan: {
-        type: String,
-        enum: ['free', 'silver', 'gold'],
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Plan',
         required: true
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'pending'
     },
     createdAt: {
         type: Date,
         default: Date.now
-    },
+    }
 });
 
-Company = mongoose.model('Company', CompanySchema);
-
-module.exports = Company
+const CompanyApplication = mongoose.model('CompanyApplication', CompanyApplicationSchema);
+module.exports = CompanyApplication;

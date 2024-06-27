@@ -3,24 +3,73 @@ const bcrypt = require("bcryptjs")
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: true
   },
   email: {
     type: String,
     required: true,
-    unique: true,
+    unique: true
+  },
+  phone:{
+    type: Number,
   },
   password: {
-    type: String,
-    required: true,
+    type: String, required: true
   },
   role: {
     type: String,
-    enum: ['admin', 'student', 'hiringManager'],
-    default: 'student', // Default role is student
-    required: true,
+    enum: ['student', 'company', 'admin'],
+    default: 'student'
   },
-  
+  // Additional fields for company details (populated only for company role)
+  companyDetails: {
+    name: {
+      type: String
+    },
+    slogan: {
+      type: String
+    },
+    description: {
+      type: String
+    },
+    industry: {
+      type: String
+    },
+    location: {
+      type: String
+    },
+    managerName: {
+      type: String
+    },
+    jobTitle: {
+      type: String
+    },
+    contactNumber: [String],
+    website: {
+      type: String
+    },
+    license: {
+      type: String
+    },
+    logo: {
+      type: String
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'pending'
+    },
+    internships:[{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Internship'
+    }
+    ],
+  },
+  subscriptionPlan: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Plan',
+    default:null
+  },
   isApproved: {
     type: Boolean,
     default: false,
@@ -29,6 +78,8 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  resetPasswordToken: String,
+  resetPasswordExpire: Date,
   createdAt: {
     type: Date,
     default: Date.now,
@@ -37,19 +88,19 @@ const userSchema = new mongoose.Schema({
 );
 
 userSchema.pre("save", async function (next) {
-    try {
-      if (!this.isModified("password")) {
-        return next();
-      }
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(this.password, salt);
-      this.password = hashedPassword;
+  try {
+    if (!this.isModified("password")) {
       return next();
-    } catch (error) {
-      return next(error);
     }
-  });
-  
-  const User = mongoose.model("User", userSchema);
-  
-  module.exports = User;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(this.password, salt);
+    this.password = hashedPassword;
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+});
+
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;

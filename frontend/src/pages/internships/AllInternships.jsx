@@ -1,13 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router";
 import FilterInterns from "./FilterInterns";
-import { internshipData } from "../../data/internshipdata/InternshipData";
 
 const AllInternships = () => {
-  const [internships, setInternships] = useState(internshipData);
+  const navigate = useNavigate();
+  const [internships, setInternships] = useState([]);
+  const [filteredInternships, setFilteredInternships] = useState([]);
+
+  useEffect(() => {
+    // Fetch internships from the backend
+    const fetchInternships = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/company/internships"); // Adjust the API endpoint as needed
+        setInternships(response.data);
+        setFilteredInternships(response.data);
+      } catch (error) {
+        console.error("Error fetching internships:", error);
+      }
+    };
+
+    fetchInternships();
+  }, []);
 
   const handleFilter = (filters) => {
     // Filter logic here based on filters
-    let filteredInternships = internshipData;
+    let filteredInternships = internships;
 
     if (filters.title) {
       filteredInternships = filteredInternships.filter((internship) =>
@@ -63,11 +81,11 @@ const AllInternships = () => {
       );
     }
 
-    setInternships(filteredInternships);
+    setFilteredInternships(filteredInternships);
   };
 
   const handleClearFilter = () => {
-    setInternships(internshipData);
+    setFilteredInternships(internships);
   };
 
   return (
@@ -80,13 +98,13 @@ const AllInternships = () => {
           <FilterInterns onFilter={handleFilter} onClear={handleClearFilter} />
         </div>
         <div className="w-2/3 p-4 h-screen overflow-y-auto">
-          {internships.map((internship, index) => (
+          {filteredInternships.map((internship, index) => (
             <div
               key={index}
-              className=" relative border rounded-lg p-4 mb-4 bg-white shadow-sm"
+              className="relative border rounded-lg p-4 mb-4 bg-white shadow-sm"
             >
               <div className="flex">
-                <img src={internship.logo} className="w-8  mr-1" alt="logo" />
+                <img src={internship.logo} className="w-8 mr-1" alt="logo" />
                 <h3 className="font-bold text-lg text-gray-700">
                   {internship.title}
                 </h3>
@@ -110,7 +128,10 @@ const AllInternships = () => {
               <div className="text-yellow-500 text-xl flex justify-between">
                 {"★".repeat(internship.rating) +
                   "☆".repeat(5 - internship.rating)}
-                <button className="bg-blue-600 text-white px-6 py-1 rounded-md mt-4 hover:bg-blue-700">
+                <button
+                  className="bg-blue-600 text-white px-6 py-1 rounded-md mt-4 hover:bg-blue-700"
+                  onClick={() => navigate(`/internship/${internship._id}`)}
+                >
                   View
                 </button>
               </div>

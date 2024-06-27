@@ -22,16 +22,24 @@ const InternshipSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    featured: {
+        type: Boolean,
+        default: false
+    },
     skills: {
         type: [String],
         required: true
     },
-    createdAt: { type: Date, default: Date.now },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
     applications: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Application'
-        }],
+        }
+    ],
 });
 Internship = mongoose.model('Internship', InternshipSchema);
 

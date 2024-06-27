@@ -90,7 +90,7 @@ const Login = () => {
             {isLoading ? 'Loading...' : 'Login'}
           </button>
           <div className="text-sm mt-2">
-            <Link to="/auth/forgot-password" className="text-blue-500 hover:underline">Forgot Password?</Link>
+            <Link to="/auth/forgotpassword" className="text-blue-500 hover:underline">Forgot Password?</Link>
             <span className="px-2 text-gray-900">Don't have an account?</span>
             <Link to="/auth/register" className="text-blue-500 hover:underline">Register</Link>
           </div>

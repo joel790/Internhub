@@ -16,6 +16,10 @@ const ApplicationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    portourl: {
+        type: String,
+        required: true
+    },
     status: {
         type: String,
         enum: ['pending', 'accepted', 'rejected'],
