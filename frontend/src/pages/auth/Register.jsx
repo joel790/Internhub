@@ -70,7 +70,7 @@ const Register = () => {
 
   return (
     <div className="flex flex-col md:flex-row h-screen w-full">
-      <div className="md:w-1/2 flex items-center justify-center bg-cover bg-no-repeat bg-center bg-blue-300">
+      <div className="md:w-1/2 flex items-center justify-center bg-cover bg-no-repeat bg-center bg-sky-500">
         <img  src={loginimg} alt="Login" />
       </div>
       <div className="md:w-1/2 py-10 md:py-20 md:px-36 border-2 rounded-r-2xl border-white">

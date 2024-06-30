@@ -35,7 +35,7 @@ const ApplyForCompany = () => {
                     <h1 className='text-3xl text-blue-500 py-4 font-bold font-serif'>choose your plane</h1>
                     <p className='text-slate-500'>the higher the plane you choose the more feature of the system yo get!</p>
                 </div>
-                <Link to="/" className='text-red-500 text-xl underline '>cancel</Link>
+                <Link to="/student" className='text-red-500 text-xl underline '>cancel</Link>
             </div>
             <div className=" flex flex-col lg:flex-row gap-6 items-center justify-center pb-6 ">
                 {plans.map((plan) => (

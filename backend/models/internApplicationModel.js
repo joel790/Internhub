@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const ApplicationSchema = new mongoose.Schema({
     internship: {
         type: mongoose.Schema.Types.ObjectId,

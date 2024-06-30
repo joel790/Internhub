@@ -1,21 +1,29 @@
 const Internship = require('../models/internshipModel');
 const internApplication = require('../models/internApplicationModel');
-
+const Application = require("../models/internApplicationModel")
 
 
 // Controller to create an internship
 exports.createInternship = async (req, res) => {
-    const { title, description, duration, location, skills } = req.body;
+    const { title, location, company, industry, type, payment, duration, description, requirement, skills, deadline, benefit, responsibilities } = req.body;
     const companyId = req.user._id; // Assuming req.user contains company info
 
     try {
         const internship = new Internship({
             company: companyId,
             title,
-            description,
-            duration,
             location,
-            skills
+            company,
+            industry,
+            type,
+            payment,
+            duration,
+            description,
+            requirement,
+            skills,
+            deadline,
+            benefit,
+            responsibilities
         });
 
         const savedInternship = await internship.save();
@@ -104,9 +112,8 @@ exports.getAllInternships = async (req, res) => {
     }
 };
 
-
- exports.updateApplicationStatus = async (req, res) => {
-    const { applicationId,status } = req.params;
+exports.updateApplicationStatus = async (req, res) => {
+    const { applicationId, status } = req.params;
     const companyId = req.user._id; // Assuming req.user contains company info
     try {
         // Check if the application exists and belongs to an internship of the company
@@ -131,19 +138,17 @@ exports.getAllInternships = async (req, res) => {
 };
 
 
-// Controller for companies to get applications for a specific internship
 exports.getApplicationsForInternship = async (req, res) => {
     const { internshipId } = req.params;
-    const companyId = req.user._id; // Assuming req.user contains company info
-
     try {
-        // Check if the internship exists and belongs to the company
-        const internship = await Internship.findOne({ _id: internshipId, company: companyId }).populate('applications');
+        // Check if the internship exists
+        const internship = await Internship.findById(internshipId);
         if (!internship) {
-            return res.status(404).json({ message: 'Internship not found or access denied' });
+            return res.status(404).json({ message: 'Internship not found' });
         }
-
-        res.status(200).json(internship.applications);
+        // Fetch applications associated with this internship
+        const applications = await Application.find({ internship: internshipId });
+        res.status(200).json(applications);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
@@ -153,15 +158,11 @@ exports.getApplicationsForInternship = async (req, res) => {
 // Controller to get all internships by company
 exports.getInternshipsById = async (req, res) => {
     const { id } = req.params; // Assuming req.user contains company info
-
-
     try {
         const internship = await Internship.findById(id);
-
         if (!internship) {
             return res.status(404).json({ message: 'Internship not found' });
         }
-
         res.status(200).json(internship);
     } catch (error) {
         res.status(500).json({ message: 'Server error' });

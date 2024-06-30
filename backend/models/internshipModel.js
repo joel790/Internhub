@@ -4,7 +4,6 @@ const InternshipSchema = new mongoose.Schema({
     company: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Company',
-        required: true
     },
     title: {
         type: String,
@@ -18,6 +17,22 @@ const InternshipSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    deadline: {
+        type: Date,
+        required: true
+    },
+    benefit: {
+        type: String,
+        required: true
+    },
+    responsibilities: [{
+        type: String,
+        required: true
+    }],
+    requirements: [{
+        type: String,
+        required: true
+    }],
     location: {
         type: String,
         required: true
@@ -28,6 +43,16 @@ const InternshipSchema = new mongoose.Schema({
     },
     skills: {
         type: [String],
+        required: true
+    },
+    type: {
+        type: String,
+        enum: ['remote', 'part time', 'full time'],
+        required: true
+    },
+    payment: {
+        type: String,
+        enum: ['free', 'paid'],
         required: true
     },
     createdAt: {
