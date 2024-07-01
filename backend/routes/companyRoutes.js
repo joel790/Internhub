@@ -20,8 +20,8 @@ router.get('/internship/company', protect, company, getAllInternshipsByCompany);
 router.get('/internships', getAllInternships);
 router.get('/internships/:id', getInternshipsById);
 router.get('/internships/featured', getFeaturedInternships);
-// Approve or reject an application (only for companies) 
 router.get('/internship/:internshipId/applications',protect, company, getApplicationsForInternship);
+// Approve or reject an application 
 router.put('/application/:applicationId/status', protect, company, updateApplicationStatus);
 
 

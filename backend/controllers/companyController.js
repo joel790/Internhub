@@ -1,6 +1,6 @@
 const Internship = require('../models/internshipModel');
-const internApplication = require('../models/internApplicationModel');
-const Application = require("../models/internApplicationModel")
+const Application = require("../models/internApplicationModel");
+const User = require('../models/userModel');
 
 
 // Controller to create an internship
@@ -36,21 +36,22 @@ exports.createInternship = async (req, res) => {
 
 exports.updateInternship = async (req, res) => {
     const { internshipId } = req.params;
-    const { title, description, duration, location, skills } = req.body;
-    const companyId = req.user._id; // Assuming req.user contains company info
+    const { title, description, duration,featured, location, skills,payment } = req.body;
 
-    try {
-        const internship = await Internship.findOne({ _id: internshipId, company: companyId });
+    try {   
+        const internship = await Internship.findOneAndUpdate(internshipId);
 
         if (!internship) {
             return res.status(404).json({ message: 'Internship not found' });
         }
 
         internship.title = title || internship.title;
+        internship.payment = payment || internship.payment;
         internship.description = description || internship.description;
         internship.duration = duration || internship.duration;
         internship.location = location || internship.location;
         internship.skills = skills || internship.skills;
+        internship.featured = featured || internship.featured;
 
         const updatedInternship = await internship.save();
         res.status(200).json(updatedInternship);
@@ -113,19 +114,19 @@ exports.getAllInternships = async (req, res) => {
 };
 
 exports.updateApplicationStatus = async (req, res) => {
-    const { applicationId, status } = req.params;
+    const { applicationId } = req.params;
+    const {status}= req.body;
     const companyId = req.user._id; // Assuming req.user contains company info
     try {
         // Check if the application exists and belongs to an internship of the company
-        const application = await internApplication.findById(applicationId).populate('internship');
+        const application = await Application.findById(applicationId).populate('internship');
         if (!application) {
             return res.status(404).json({ message: 'Application not found' });
         }
 
-        if (application.internship.company.toString() !== companyId.toString()) {
-            return res.status(403).json({ message: 'Access denied' });
-        }
-
+        // if (application.internship.company.toString() !== companyId.toString()) {
+        //     return res.status(403).json({ message: 'Access denied' });
+        // }
         // Update the application status
         application.status = status;
         const updatedApplication = await application.save();
