@@ -15,6 +15,7 @@ import ApplicationForm from "./pages/internships/ApplicationForm";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import ManagerHome from "./pages/companies/companyManager/ManagerHome";
 import ForgotPassword from './pages/auth/ForgotPassword';
 import VerifyEmail from './components/email/VerifyEmail';
 import ResetPassword from './pages/auth/ResetPassword';
@@ -53,6 +54,10 @@ const App = () => {
         <Route path="auth/forgotpassword" element={<ForgotPassword />} />
         <Route path="auth/passwordreset/:resetToken" element={<ResetPassword />} />
         <Route path="/apply/:internshipTitle" element={<ApplicationForm />} />
+        <Route path="/managerhome/*" element={<ManagerHome/>}>
+          
+
+        </Route>
       </Routes>
     </BrowserRouter>
   );
