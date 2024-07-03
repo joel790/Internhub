@@ -6,12 +6,10 @@ import { PiStudentFill } from "react-icons/pi";
 import { GrUserManager } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import DataTable from "../../components/tables/DataTable";
-
-
 const Home = () => {
 
   const [selectedTab, setSelectedTab] = useState('Student'); // Default selected tab
- const columns = ["Name", "Position", "Status"];
+  const columns = ["Name", "Position", "Status"];
   const data = [
     { Name: "Neil Sims", Position: "React Developer", Status: "Online" },
     { Name: "Bonnie Green", Position: "Designer", Status: "Online" },
@@ -82,7 +80,7 @@ const Home = () => {
               <Company />
             )}
           </div>
-          <DataTable columns={columns} data={data} actions={actions}/>
+          <DataTable columns={columns} data={data} actions={actions} />
         </div>
 
       </div>

@@ -9,7 +9,6 @@ router.get('/internship/featured', companyController.featuredInternships);
 router.put('/internship/:internshipId', protect, company, companyController.updateInternship);
 router.delete('/internship/:internshipId', protect, company, companyController.deleteInternship);
 router.get('/internship/my-internship', protect, company, companyController.getAllInternshipsByCompany);
-router.get('/internships', companyController.getAllInternships);
 router.get('/internships/:id', companyController.getInternshipsById);
 router.get('/internship/:internshipId/applications', protect, company, companyController.getApplicationsForInternship);
 // Approve or reject an application 

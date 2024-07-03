@@ -1,8 +1,6 @@
 const Internship = require('../models/internshipModel');
 const Application = require("../models/internApplicationModel");
 const User = require('../models/userModel');
-
-
 // Controller to create an internship
 exports.createInternship = async (req, res) => {
     const { title, location, industry, type, payment, duration, description, requirements, skills, deadline, benefit, responsibilities } = req.body;
@@ -96,21 +94,7 @@ exports.getAllInternshipsByCompany = async (req, res) => {
     }
 };
 //get all internships
-exports.getAllInternships = async (req, res) => {
 
-    try {
-        const internships = await Internship.find();
-
-        if (!internships.length) {
-            return res.status(404).json({ message: 'No internships found' });
-        }
-
-        res.status(200).json(internships);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
-    }
-};
 
 exports.updateApplicationStatus = async (req, res) => {
     const { applicationId } = req.params;
