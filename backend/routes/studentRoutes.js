@@ -9,7 +9,7 @@ router.get('/payment/callback', paymentCallback);
 router.post("/apply", protect, applyToCompany);
 // Apply for an internship
 router.post('/internships/apply/:internshipId', protect, applyForInternship);
-router.post('/internships', getAllInternships);
+router.get('/internships', getAllInternships);
 
 
 module.exports = router;
