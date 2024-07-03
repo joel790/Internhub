@@ -30,14 +30,14 @@ export const DashboardLayout = ({children,usertype}) => {
     
   return (
     <div className="flex flex-row w-full">
-        <div className="min-h-screen bg-black " style={{width:"290px"}}> 
+        <div className="min-h-screen bg-black " style={{width:"250px"}}> 
             <Sidebar data={sidebardata}/>
             </div>
             <div className="flex flex-col w-full"> 
             <div className="flex items-start w-full   bg-gray-100 p-2">
                 <DashboardHeader image={imagegeb} name="gebeyehu" dropdown={dropdowns}/>
             </div>
-            <div className="w-full bg-zinc-300 h-screen ml-8">
+            <div className="w-full bg-zinc-300 h-screen ml-16">
               {children}  
             </div>
 
