@@ -5,21 +5,20 @@ const User = require('../models/userModel');
 
 // Controller to create an internship
 exports.createInternship = async (req, res) => {
-    const { title, location, company, industry, type, payment, duration, description, requirement, skills, deadline, benefit, responsibilities } = req.body;
+    const { title, location, industry, type, payment, duration, description, requirements, skills, deadline, benefit, responsibilities } = req.body;
     const companyId = req.user._id; // Assuming req.user contains company info
 
     try {
         const internship = new Internship({
-            company: companyId,
+            company: companyId, // Associate the internship with the company using companyId
             title,
             location,
-            company,
             industry,
             type,
             payment,
             duration,
             description,
-            requirement,
+            requirements,
             skills,
             deadline,
             benefit,
@@ -33,25 +32,25 @@ exports.createInternship = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
-
 exports.updateInternship = async (req, res) => {
     const { internshipId } = req.params;
-    const { title, description, duration,featured, location, skills,payment } = req.body;
+    // const { title, description, duration, featured, location, skills, payment, type } = req.body;
 
-    try {   
-        const internship = await Internship.findOneAndUpdate(internshipId);
+    try {
+        const internship = await Internship.findByIdAndUpdate(internshipId, req.body, { new: true });
 
         if (!internship) {
             return res.status(404).json({ message: 'Internship not found' });
         }
 
-        internship.title = title || internship.title;
-        internship.payment = payment || internship.payment;
-        internship.description = description || internship.description;
-        internship.duration = duration || internship.duration;
-        internship.location = location || internship.location;
-        internship.skills = skills || internship.skills;
-        internship.featured = featured || internship.featured;
+        // internship.title = title || internship.title;
+        // internship.type = type || internship.type;
+        // internship.payment = payment || internship.payment;
+        // internship.description = description || internship.description;
+        // internship.duration = duration || internship.duration;
+        // internship.location = location || internship.location;
+        // internship.skills = skills || internship.skills;
+        // internship.featured = featured || internship.featured;
 
         const updatedInternship = await internship.save();
         res.status(200).json(updatedInternship);
@@ -63,10 +62,10 @@ exports.updateInternship = async (req, res) => {
 
 exports.deleteInternship = async (req, res) => {
     const { internshipId } = req.params;
-    const companyId = req.user._id; // Assuming req.user contains company info
+    // const companyId = req.user._id; // Assuming req.user contains company info
 
     try {
-        const internship = await Internship.findOneAndDelete({ _id: internshipId, company: companyId });
+        const internship = await Internship.findByIdAndDelete(internshipId);
 
         if (!internship) {
             return res.status(404).json({ message: 'Internship not found' });
@@ -115,7 +114,7 @@ exports.getAllInternships = async (req, res) => {
 
 exports.updateApplicationStatus = async (req, res) => {
     const { applicationId } = req.params;
-    const {status}= req.body;
+    const { status } = req.body;
     const companyId = req.user._id; // Assuming req.user contains company info
     try {
         // Check if the application exists and belongs to an internship of the company
@@ -170,17 +169,16 @@ exports.getInternshipsById = async (req, res) => {
     }
 };
 
-// Controller: internshipController.js
 
-exports.getFeaturedInternships = async (req, res) => {
+exports.featuredInternships = async (req, res) => {
     try {
-        const featuredInternships = await Internship.find({ featured: true });
-        if (!featuredInternships) {
-            return res.status(404).json({ message: 'No featured internships found' });
+        const featuredinternships= await Internship.find({featured:true});
+        if (!featuredinternships) {
+            return res.status(404).json("no featured internships")
         }
-        res.status(200).json(featuredInternships);
+        res.status(200).json(featuredinternships)
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json(error)
+
     }
 };

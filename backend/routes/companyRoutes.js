@@ -1,28 +1,19 @@
 const express = require("express");
-const {
-    createInternship,
-    deleteInternship,
-    updateInternship,
-    getAllInternshipsByCompany, 
-    getApplicationsForInternship,
-    updateApplicationStatus,
-    getAllInternships,
-    getInternshipsById,
-    getFeaturedInternships} = require("../controllers/companyController");
+const companyController = require("../controllers/companyController");
 const { protect, company } = require("../middleware/authMiddleware")
 const router = express.Router();
 
 // Routes for company to manage internships
-router.post('/internship', protect, company, createInternship);
-router.put('/internship/:internshipId', protect, company, updateInternship);
-router.delete('/internship/:internshipId', protect, company, deleteInternship);
-router.get('/internship/company', protect, company, getAllInternshipsByCompany);
-router.get('/internships', getAllInternships);
-router.get('/internships/:id', getInternshipsById);
-router.get('/internships/featured', getFeaturedInternships);
-router.get('/internship/:internshipId/applications',protect, company, getApplicationsForInternship);
+router.post('/internship', protect, company, companyController.createInternship);
+router.get('/internship/featured', companyController.featuredInternships);
+router.put('/internship/:internshipId', protect, company, companyController.updateInternship);
+router.delete('/internship/:internshipId', protect, company, companyController.deleteInternship);
+router.get('/internship/my-internship', protect, company, companyController.getAllInternshipsByCompany);
+router.get('/internships', companyController.getAllInternships);
+router.get('/internships/:id', companyController.getInternshipsById);
+router.get('/internship/:internshipId/applications', protect, company, companyController.getApplicationsForInternship);
 // Approve or reject an application 
-router.put('/application/:applicationId/status', protect, company, updateApplicationStatus);
+router.put('/application/:applicationId/status', protect, company, companyController.updateApplicationStatus);
 
 
 module.exports = router;
