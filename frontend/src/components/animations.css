@@ -1,0 +1,28 @@
+@keyframes slideInFromLeft {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes slideOutToLeft {
+    0% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  .animate-slideInFromLeft {
+    animation: slideInFromLeft 0.3s ease-in-out forwards;
+  }
+  
+  .animate-slideOutToLeft {
+    animation: slideOutToLeft 0.3s ease-in-out forwards;
+  }
+  .full-width{
+    width: 100vw;
+  }
