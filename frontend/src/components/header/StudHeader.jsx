@@ -4,10 +4,9 @@ import { MdMenu, MdClose, MdLogin, MdPerson } from 'react-icons/md';
 import Logo from "../../assets/Logo1.png"
 const StudHeader = () => {
   const topData = [
-    { path: '/', text: 'Home', icon: null },
+    { path: '/student', text: 'Home', icon: null },
     { path: '/internship', text: 'Internship', icon: null },
     { path: '/company', text: 'Company', icon: null },
-    { path: '/study', text: 'Study', icon: null },
   ];
   const [menuOpen, setMenuOpen] = useState(false);
   const [selected, setSelected] = useState(0);

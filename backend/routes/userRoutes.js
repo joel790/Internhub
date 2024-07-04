@@ -2,10 +2,9 @@ const express = require("express");
 const {
   registerUser,
   loginUser,
-  verifyEmail,
   forgotPassword,
   resetPassword,
-
+  verifyEmail
 } = require("../controllers/userController");
 
 const router = express.Router();

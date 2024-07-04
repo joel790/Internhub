@@ -34,9 +34,9 @@ const Login = () => {
     }
 
     try {
-      const result = await dispatch(loginUser({ email, password })).unwrap();
+      await dispatch(loginUser({ email, password })).unwrap();
       toast.success('Login successful');
-      navigate('/dashboard'); // Adjust this to the appropriate dashboard or home route
+      navigate('/student'); // Adjust this to the appropriate dashboard or home route
     } catch (error) {
       toast.error(error.message);
     }
@@ -85,9 +85,8 @@ const Login = () => {
           <button
             type="submit"
             className="w-full text-white bg-blue-500 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            disabled={isLoading}
           >
-            {isLoading ? 'Loading...' : 'Login'}
+            Login
           </button>
           <div className="text-sm mt-2">
             <Link to="/auth/forgotpassword" className="text-blue-500 hover:underline">Forgot Password?</Link>

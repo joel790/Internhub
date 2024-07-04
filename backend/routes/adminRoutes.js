@@ -3,7 +3,7 @@ const adminController = require("../controllers/adminController")
 
 const { protect, admin } = require("../middleware/authMiddleware")
 const router = express.Router()
-router.put("/company/application/:applicationId/approve", protect, admin,adminController.approveCompanyApplication)
+router.put("/company/application/:applicationId/approve", protect, admin, adminController.approveCompanyApplication)
 router.put("/company/application/:applicationId/reject", protect, admin, adminController.rejectCompanyApplication)
 router.get('/companies/status/:status', protect, admin, adminController.filterCompaniesByStatus);
 router.get('/applications', adminController.getAllApplications);

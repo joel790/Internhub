@@ -27,7 +27,6 @@ exports.registerUser = async (req, res) => {
             name,
             email,
             password,
-            isVerified: false
         });
 
         await user.save();
