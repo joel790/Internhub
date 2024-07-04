@@ -19,7 +19,6 @@ const AllInternships = () => {
         console.error("Error fetching internships:", error);
       }
     };
-
     fetchInternships();
   }, []);
 

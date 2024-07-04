@@ -5,11 +5,21 @@ import Company from "./howtouse/Company";
 import { PiStudentFill } from "react-icons/pi";
 import { GrUserManager } from "react-icons/gr";
 import { Link } from "react-router-dom";
-
-
+import DataTable from "../../components/tables/DataTable";
 const Home = () => {
-  const [selectedTab, setSelectedTab] = useState('Student'); // Default selected tab
 
+  const [selectedTab, setSelectedTab] = useState('Student'); // Default selected tab
+  const columns = ["Name", "Position", "Status"];
+  const data = [
+    { Name: "Neil Sims", Position: "React Developer", Status: "Online" },
+    { Name: "Bonnie Green", Position: "Designer", Status: "Online" },
+    { Name: "Jese Leos", Position: "Vue JS Developer", Status: "Online" },
+    { Name: "Thomas Lean", Position: "UI/UX Engineer", Status: "Online" },
+    { Name: "Leslie Livingston", Position: "SEO Specialist", Status: "Offline" }
+  ];
+  const actions = [
+    { label: "Edit", onClick: (row) => console.log("Edit", row) }
+  ];
   return (
     <div className=' '  >
       <div className="lg:py-10 lg:px-10 relative lg:h-[500px] flex flex-col lg:flex-row">
@@ -70,6 +80,7 @@ const Home = () => {
               <Company />
             )}
           </div>
+          <DataTable columns={columns} data={data} actions={actions} />
         </div>
 
       </div>

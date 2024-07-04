@@ -44,7 +44,7 @@ const Login = () => {
 
   return (
     <div className="flex flex-col md:flex-row h-screen w-full">
-      <div className="md:w-1/2 flex items-center justify-center bg-no-repeat bg-center bg-blue-300">
+      <div className="md:w-1/2 flex items-center justify-center bg-no-repeat bg-center bg-sky-500">
         <img src={loginImg} alt="Login"  />
       </div>
       <div className="md:w-1/2 py-10 md:py-20 md:px-36 flex flex-col items-center justify-center">

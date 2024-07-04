@@ -13,6 +13,7 @@ const InternshipDetail = () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/company/internships/${id}`);
         setInternship(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching internship:', error);
       }
@@ -42,7 +43,7 @@ const InternshipDetail = () => {
         <img src={internship.logo} alt="logo" className="w-16 h-16 mr-4" />
         <div>
           <p className="text-xl text-gray-700 font-semibold">
-            Company name: {internship.company.name}
+            {/* Company name: {internship.company.companyDetailes.name} */}
           </p>
           <p className="text-gray-600">
             <span className="font-semibold">Duration: </span>
@@ -94,7 +95,7 @@ const InternshipDetail = () => {
       <div className="flex justify-center mt-8">
         <button
           onClick={openModal}
-          className="bg-blue-600 w-full text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200"
+          className="bg-blue-600  text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200"
         >
           Apply Now
         </button>

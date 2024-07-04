@@ -57,7 +57,7 @@ const FilterInterns = ({ onFilter, onClear }) => {
   };
 
   return (
-    <div className="p-4 border rounded-lg bg-white shadow-sm">
+    <div className="p-4 border rounded-lg bg-white ">
       <h3 className="font-bold text-xl mb-4">Filter out interns</h3>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -65,7 +65,7 @@ const FilterInterns = ({ onFilter, onClear }) => {
             Title
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="title"
             name="title"
             type="text"
@@ -82,7 +82,7 @@ const FilterInterns = ({ onFilter, onClear }) => {
             Location
           </label>
           <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="location"
             name="location"
             value={filters.location}
@@ -102,7 +102,7 @@ const FilterInterns = ({ onFilter, onClear }) => {
             Company
           </label>
           <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="company"
             name="company"
             value={filters.company}
@@ -120,7 +120,7 @@ const FilterInterns = ({ onFilter, onClear }) => {
             Industry
           </label>
           <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className=" appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="industry"
             name="industry"
             value={filters.industry}

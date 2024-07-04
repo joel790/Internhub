@@ -16,9 +16,8 @@ const router = express.Router()
 router.put("/company/application/:applicationId/approve", protect, admin, approveCompanyApplication)
 router.put("/company/application/:applicationId/reject", protect, admin, rejectCompanyApplication)
 router.get('/companies/status/:status', protect, admin, filterCompaniesByStatus);
-router.get('/companies',  getAllCompanies);
-router.get('/companies/:companyId',getCompanyById);
-//planes
+router.get('/companies', getAllCompanies);
+router.get('/companies/:companyId', getCompanyById);
 // Route to create, update and get  a plan
 router.post('/plans', protect, admin, createPlan);
 router.put('/plans/:planId', protect, admin, updatePlan);

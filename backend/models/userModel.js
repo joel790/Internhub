@@ -26,7 +26,16 @@ const userSchema = new mongoose.Schema({
     name: {
       type: String
     },
+    photo: {
+      type: String
+    },
     slogan: {
+      type: String
+    },
+    mission: {
+      type: String
+    },
+    vision: {
       type: String
     },
     description: {
@@ -44,7 +53,12 @@ const userSchema = new mongoose.Schema({
     jobTitle: {
       type: String
     },
-    contactNumber: [String],
+    contactNumber: [
+      {
+       type: String,
+       required:true,
+      }
+    ],
     website: {
       type: String
     },
@@ -64,11 +78,11 @@ const userSchema = new mongoose.Schema({
       ref: 'Internship'
     }
     ],
-  },
-  subscriptionPlan: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Plan',
-    default:null
+    subscriptionPlan: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Plan',
+      default:null
+    },
   },
   isApproved: {
     type: Boolean,
@@ -87,7 +101,7 @@ const userSchema = new mongoose.Schema({
 }
 );
 
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async (next) =>{
   try {
     if (!this.isModified("password")) {
       return next();

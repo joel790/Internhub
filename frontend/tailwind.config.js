@@ -10,7 +10,6 @@ module.exports = {
     extend: {},
   },
   plugins: [
-    // eslint-disable-next-line no-undef
-    require('flowbite/plugin')
   ],
-};
+}
+
