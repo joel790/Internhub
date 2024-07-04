@@ -1,31 +1,38 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
 import { Link } from "react-router-dom";
-
-const Sidebar = ({data}) => {
-  
+import { IoReorderThreeOutline } from "react-icons/io5";
 
 
+const Sidebar = ({data,toggleShow,setToggleShow}) => {
+  const handleToggle = () => {
+    setToggleShow(false);
+  };
 
   return (
-   
-    <div className="bg-black h-full w-full fixed top-0 md:w-1/4">
-    <ul className="flex flex-col">
-      {data.map((item, index) => (
-        <li key={index} className="py-2">
-          <Link
-            to={item.link}
-            className="flex items-center text-white px-4 py-2 rounded-lg hover:bg-gray-800"
-          >
-            <span className="mr-2 text-xl">{item.icon}</span>
-            <span className="text-lg">{item.heading}</span>
-          </Link>
-        </li>
-      ))}
-    </ul>
-   
-  </div>
+    <div className="relative">
+      {toggleShow && (
+        <div className="absolute top-4 right-4">
+          <IoReorderThreeOutline onClick={handleToggle} className="text-3xl text-white cursor-pointer" />
+        </div>
+      )}
+      <div className={`bg-black h-full ${toggleShow ? 'w-64' : 'w-64'}`}>
+        <ul className="flex flex-col">
+          {data.map((item, index) => (
+            <li key={index} className="py-2">
+              <Link
+                to={item.link}
+                className="flex items-center text-white px-4 py-2 rounded-lg hover:bg-gray-800"
+              >
+                <span className="mr-2 text-xl">{item.icon}</span>
+                <span className="text-lg">{item.heading}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 };
-
 export default Sidebar;
