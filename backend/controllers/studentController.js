@@ -6,7 +6,7 @@ const Plan = require('../models/planModel');
 const Payment = require('../models/paymentMmodel');
 const axios = require('axios'); // For making HTTP requests
 
-const dotenv=require('dotenv');
+const dotenv = require('dotenv');
 dotenv.config();
 
 // Controller for students to apply for an internship
@@ -44,12 +44,31 @@ exports.applyForInternship = async (req, res) => {
     }
 };
 
-
+const mongoose = require('mongoose');
 
 exports.applyToCompany = async (req, res) => {
-    const { name, slogan, description, industry, location, managerName, jobTitle, contactNumber, website, license, logo, subscriptionPlan } = req.body;
-    const userId = req.user.id; // Assuming req.user contains user info
+    const { 
+        name, 
+        slogan, 
+        description, 
+        industry, 
+        location, 
+        managerName, 
+        jobTitle, 
+        contactNumber, 
+        website, 
+        license, 
+        logo 
+    } = req.body;
+    
+    const { planId } = req.params; // Extract planId from URL parameters
+    const userId = req.user.id; 
+
     try {
+        // Validate the ObjectId for planId
+        if (!mongoose.Types.ObjectId.isValid(planId)) {
+            return res.status(400).json({ message: 'Invalid subscription plan ID' });
+        }
         const application = new CompanyApplication({
             user: userId,
             name,
@@ -63,9 +82,8 @@ exports.applyToCompany = async (req, res) => {
             website,
             license,
             logo,
-            subscriptionPlan
+            subscriptionPlan: planId // Use planId as ObjectId reference
         });
-
         const savedApplication = await application.save();
         res.status(201).json(savedApplication);
     } catch (error) {
@@ -73,6 +91,7 @@ exports.applyToCompany = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
 
 exports.selectPlan = async (req, res) => {
     const { planId } = req.body;
@@ -103,8 +122,8 @@ exports.selectPlan = async (req, res) => {
             amount: payment.amount.toString(), // Ensure amount is a string
             currency: payment.currency,
             email: user.email,
-            first_name: user.name, 
-            phone_number: user.phone, 
+            first_name: user.name,
+            phone_number: user.phone,
             tx_ref: payment.tx_ref,
             callback_url: `http://localhost:5000/api/payment/callback?tx_ref=${payment.tx_ref}`, // Adjust callback URL
             return_url: "http://localhost:5173/student",

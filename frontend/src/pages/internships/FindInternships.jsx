@@ -9,7 +9,7 @@ const FindInternships = () => {
   useEffect(() => {
     const fetchInternships = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/company/internships");
+        const response = await axios.get("http://localhost:5000/api/student/internships");
         setInternships(response.data);
       } catch (error) {
         console.error('Error fetching internships:', error);

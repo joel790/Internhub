@@ -4,14 +4,11 @@ const Plan = require('../models/planModel');
 
 exports.approveCompanyApplication = async (req, res) => {
     const { applicationId } = req.params;
-
     try {
         const application = await CompanyApplication.findById(applicationId).populate('user');
-
         if (!application) {
             return res.status(404).json({ message: 'Application not found' });
         }
-
         if (application.status !== 'pending') {
             return res.status(400).json({ message: 'Application has already been processed' });
         }
@@ -31,13 +28,10 @@ exports.approveCompanyApplication = async (req, res) => {
             logo: application.logo,
             subscriptionPlan: application.subscriptionPlan
         };
-
         await user.save();
-
         // Update application status
         application.status = 'approved';
         await application.save();
-
         res.status(200).json({ message: 'Company application approved', application });
     } catch (error) {
         console.error(error);
@@ -45,25 +39,28 @@ exports.approveCompanyApplication = async (req, res) => {
     }
 };
 
+exports.getAllApplications = async (req, res) => {
+    try {
+        const applications = await CompanyApplication.find().populate('user subscriptionPlan');
+        res.status(200).json(applications);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+};
 // Controller to reject a company application
 exports.rejectCompanyApplication = async (req, res) => {
     const { applicationId } = req.params;
-
     try {
         const application = await CompanyApplication.findById(applicationId);
-
         if (!application) {
             return res.status(404).json({ message: 'Application not found' });
         }
-
         if (application.status !== 'pending') {
             return res.status(400).json({ message: 'Application has already been processed' });
         }
-
         // Update application status
         application.status = 'rejected';
         await application.save();
-
         res.status(200).json({ message: 'Company application rejected', application });
     } catch (error) {
         console.error(error);
@@ -132,14 +129,12 @@ exports.getCompanyById = async (req, res) => {
 // create plane
 exports.createPlan = async (req, res) => {
     const { type, price, features } = req.body;
-
     try {
         const plan = new Plan({
             type,
             price,
             features
         });
-
         const savedPlan = await plan.save();
         res.status(201).json(savedPlan);
     } catch (error) {

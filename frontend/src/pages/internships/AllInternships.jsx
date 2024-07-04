@@ -12,7 +12,7 @@ const AllInternships = () => {
     // Fetch internships from the backend
     const fetchInternships = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/company/internships"); // Adjust the API endpoint as needed
+        const response = await axios.get("http://localhost:5000/api/student/internships"); // Adjust the API endpoint as needed
         setInternships(response.data);
         setFilteredInternships(response.data);
       } catch (error) {

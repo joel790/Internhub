@@ -100,10 +100,9 @@ const userSchema = new mongoose.Schema({
   },
 }
 );
-
-userSchema.pre("save", async (next) =>{
+userSchema.pre('save', async function (next) {
   try {
-    if (!this.isModified("password")) {
+    if (!this.isModified('password')) {
       return next();
     }
     const salt = await bcrypt.genSalt(10);
@@ -114,6 +113,7 @@ userSchema.pre("save", async (next) =>{
     return next(error);
   }
 });
+
 
 const User = mongoose.model("User", userSchema);
 
