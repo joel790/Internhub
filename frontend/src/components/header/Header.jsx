@@ -8,7 +8,6 @@ const Header = () => {
     { path: '/', text: 'Home', icon: null },
     { path: '/internship', text: 'Internship', icon: null },
     { path: '/company', text: 'Company', icon: null },
-    { path: '/study', text: 'Study', icon: null },
   ];
   const [menuOpen, setMenuOpen] = useState(false);
   const [selected, setSelected] = useState(0);

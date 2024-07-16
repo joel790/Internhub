@@ -21,7 +21,7 @@ const Company = () => {
         <div className='flex gap-6  my-4 p-4'>
          <BsHandIndexThumb size={60}/>
           <div className='flex-col'>
-            <h1 className='text-2xl'>Apply for hiring</h1>
+            <h1 className='text-2xl'>Apply for company</h1>
             <p className='text-gray-600'>click on the Apply for hiring button after creating account and follow the steps specified</p>
           </div>
         </div>
