@@ -1,85 +1,44 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { MdMenu, MdClose, MdLogin, MdPerson } from 'react-icons/md';
-import Logo from "../../assets/Logo1.png"
-const StudHeader = () => {
-  const topData = [
-    { path: '/student', text: 'Home', icon: null },
-    { path: '/internship', text: 'Internship', icon: null },
-    { path: '/company', text: 'Company', icon: null },
-  ];
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [selected, setSelected] = useState(0);
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaUserCircle } from 'react-icons/fa';
+import { HiChevronDown } from 'react-icons/hi';
 
-  const handleMenuItemClick = (index) => {
-    setSelected(index);
-    if (menuOpen) {
-      setMenuOpen(false);
-    }
+const TopNav = () => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Implement logout functionality here
+    navigate('/auth/login');
   };
-
 
   return (
     <>
-      <header className='top-header  bg-gray-50 z-50 fixed top-0 right-0 left-0 h-16 flex items-center pl-10 justify-between'>
-        <div className='flex gap-2 items-center '>
-          <img src={Logo} alt="Logo"  className='h-[60px]'/>
-          <h1 className='text-blue-500 text-lg font-bold'>Intern-Hub</h1>
+      <nav className="bg-blue-500 text-white p-4 flex justify-between  items-center">
+        <div className="flex space-x-4">
+          <Link to index className="hover:underline">Dashboard</Link>
+          <Link to="/applications" className="hover:underline">Applications</Link>
+          <Link to="/internships" className="hover:underline">Internships</Link>
         </div>
-
-        <div className='flex items-center pr-5 md:hidden'>
-          {menuOpen ? (
-            <MdClose
-              className='text-red-300 cursor-pointer'
-              size={24}
-              onClick={() => setMenuOpen(false)}
-            />
-          ) : (
-            <MdMenu
-              className='text-blue-500 cursor-pointer'
-              size={24}
-              onClick={() => setMenuOpen(true)}
-            />
+        <div className="relative">
+          <button
+            className="flex items-center space-x-2"
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+          >
+            <FaUserCircle size={24} />
+            <HiChevronDown size={24} />
+          </button>
+          {dropdownOpen && (
+            <div className="absolute right-0 z-10 mt-2 w-48 bg-blue-100 text-black rounded-md shadow-lg py-2">
+              <Link to="/profile" className="block px-4 py-2 hover:bg-gray-200">Profile</Link>
+              <Link to="/student/dashboard" className="block px-4 py-2 hover:bg-gray-200">Dashboard</Link>
+              <button onClick={handleLogout} className="block w-full text-left px-4 py-2 hover:bg-gray-200">Logout</button>
+            </div>
           )}
         </div>
-
-        <nav className='hidden md:flex items-center'>
-          {topData.map((item, index) => (
-            <>
-              <Link
-                key={index}
-                to={item.path}
-                className={`nav-text ${selected === index ? '  text-blue-500  font-serif ' : ''}`}
-                onClick={() => handleMenuItemClick(index)}
-              >
-                {item.text}
-              </Link>
-            </>
-          ))}
-        </nav>
-        <nav className='nav-link hidden md:flex gap-4'>
-          <Link to='/student' className='nav-text text-white hover:text-white  bg-blue-500 '>Dashboard</Link>
-        </nav>
-      </header>
-      {menuOpen && (
-        <div className='md:hidden  py-6 px-6 mr-6 bg-gray-50 border-sky-400 border rounded-xl fixed top-16 left-0  w-full z-20  '>
-          {topData.map((item, index) => (
-            <Link
-              key={index}
-              to={item.path}
-              className='nav-text'
-              onClick={() => handleMenuItemClick(index)}
-            >
-              {item.text}
-            </Link>
-          ))}
-          <hr />
-          <Link to='/student' className='nav-text '><MdPerson size={23} />Dashboard</Link>
-        </div>
-      )}
-      <div className='pt-16'></div>
+      </nav>
     </>
   );
 };
 
-export default StudHeader;
+export default TopNav;

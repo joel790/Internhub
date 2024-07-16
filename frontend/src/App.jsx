@@ -22,6 +22,8 @@ import ResetPassword from './pages/auth/ResetPassword';
 import PaymentForm from './components/payment/PaymentForm';
 import ApplyForCompany from './pages/studentpage/ApplyForCompany';
 import StudHome from './pages/studentpage/StudHome';
+import Dashboard from "./pages/studentpage/Dashboard";
+import Internships from "./pages/studentpage/Internships";
 axios.defaults.withCredentials = true;
 const App = () => {
   return (
@@ -36,6 +38,7 @@ const App = () => {
         </Route>
         <Route path="student/apply" element={<ApplyForCompany />} />
         <Route path="/Student" element={<StudHome />} />
+        <Route path="/Student/dashboard" element={<Dashboard />} />
         <Route path="payment/:planId" element={<PaymentForm />} />
         {/* <Route path="auth/verify/:token" element={<VerifyEmail />} /> */}
         <Route path="company/:id" element={<CompanyDetail />} />
@@ -48,8 +51,9 @@ const App = () => {
         <Route path="auth/forgotpassword" element={<ForgotPassword />} />
         <Route path="auth/passwordreset/:resetToken" element={<ResetPassword />} />
         <Route path="/apply/:internshipTitle" element={<ApplicationForm />} />
-        <Route path="/managerhome/*" element={<ManagerHome/>}>
-          
+        <Route path="/managerhome/*" element={<ManagerHome />}>
+
+
 
         </Route>
       </Routes>

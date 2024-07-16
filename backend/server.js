@@ -5,9 +5,9 @@ const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const userRoute = require("./routes/userRoutes");
-const companyRoute=require("./routes/companyRoutes")
-const adminRoute=require("./routes/adminRoutes")
-const studentRoute=require("./routes/studentRoutes")
+const companyRoute = require("./routes/companyRoutes")
+const adminRoute = require("./routes/adminRoutes")
+const studentRoute = require("./routes/studentRoutes")
 //create app with express
 const app = express();
 //environmental variables

@@ -58,8 +58,8 @@ const Register = () => {
     const userData = { name, email, password };
     setIsLoading(true);
     try {
-      await dispatch(registerUser(userData)).unwrap();
-      toast.success("Please check your email to verify your account.");
+      dispatch(registerUser(userData));
+      toast.success("registered successfully.");
 
     } catch (error) {
       toast.error(error.message || "Registration failed");

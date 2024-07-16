@@ -34,12 +34,23 @@ const Login = () => {
     }
 
     try {
-      await dispatch(loginUser({ email, password })).unwrap();
+      const resultAction = await dispatch(loginUser({ email, password })).unwrap();
       toast.success('Login successful');
-      navigate('/student'); // Adjust this to the appropriate dashboard or home route
+      
+      const { role } = resultAction.user;  // Assuming the user's role is included in the response
+      if (role === 'admin') {
+        navigate('/admin');
+      } else if (role === 'student') {
+        navigate('/student');
+      } else if (role === 'company') {
+        navigate('/company');
+      } else {
+        navigate('/');  // Default route
+      }
     } catch (error) {
       toast.error(error.message);
     }
+  
   };
 
   return (

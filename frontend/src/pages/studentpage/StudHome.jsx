@@ -1,22 +1,28 @@
 import { useState } from "react";
-import home from "../../assets/homeillu.png"
+import home from "../../assets/homeillu.png";
 import Student from "../homepage/howtouse/Student";
 import Company from "../homepage/howtouse/Company";
 import { PiStudentFill } from "react-icons/pi";
 import { GrUserManager } from "react-icons/gr";
-import { Link } from "react-router-dom";
-import StudHeader from "../../components/header/StudHeader"
+import { Link, Routes, Route } from "react-router-dom";
+import StudHeader from "../../components/header/StudHeader";
+import TopNav from "../../components/header/StudHeader";
+import Applications from "./Applications";
+import Dashboard from "./Dashboard";
+import Internships from "./Internships";
+import Profile from "./Profile";
+
 
 const Home = () => {
     const [selectedTab, setSelectedTab] = useState('Student'); // Default selected tab
 
     return (
-        <div className=' '  >
-            <StudHeader/>
+        <div className=' '>
+            <TopNav />
             <div className="lg:py-10 lg:px-10 relative lg:h-[500px] flex flex-col lg:flex-row">
                 <div className="flex justify-center items-center lg:w-1/2">
                     {/* Text Content */}
-                    <div className="w-full lg:w-4/5  p-8">
+                    <div className="w-full lg:w-4/5 p-8">
                         <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-blue-500">
                             Welcome to Intern-Hub
                         </h1>
@@ -37,25 +43,22 @@ const Home = () => {
                 </div>
             </div>
 
-
             <div className=" ">
-                <div className='items-center   flex-col lg:px-32 lg:my-10'>
+                <div className='items-center flex-col lg:px-32 lg:my-10'>
                     <h1 className="text-4xl mb-4 text-blue-500 font-serif">How to use the system</h1>
                     <p className='text-slate-400'> What is your role?</p>
                 </div>
                 <div className="flex flex-col items-center justify-center ">
                     <div className="flex gap-6 h-32 ">
                         {/* the active link Background white */}
-
-                        <div className={` text-blue-500 w-[250px]  border border-gray-300 font-serif flex gap-2 items-center justify-center cursor-pointer px-4 py-2 rounded-lg ${selectedTab === 'Student' ? 'bg-blue-400 text-white' : ''} `}
+                        <div className={`text-blue-500 w-[250px] border border-gray-300 font-serif flex gap-2 items-center justify-center cursor-pointer px-4 py-2 rounded-lg ${selectedTab === 'Student' ? 'bg-blue-400 text-white' : ''}`}
                             onClick={() => setSelectedTab('Student')}
                         >
                             <PiStudentFill size={60} />
                             <h1>Student</h1>
                         </div>
 
-                        <div
-                            className={` font-serif border w-[250px] text-blue-500 border-gray-300 flex gap-2 cursor-pointer justify-center items-center  px-4 py-2 rounded-lg ${selectedTab === 'Company' ? 'bg-blue-400 text-white' : ''} `}
+                        <div className={`font-serif border w-[250px] text-blue-500 border-gray-300 flex gap-2 cursor-pointer justify-center items-center px-4 py-2 rounded-lg ${selectedTab === 'Company' ? 'bg-blue-400 text-white' : ''}`}
                             onClick={() => setSelectedTab('Company')}
                         >
                             <GrUserManager size={60} />
@@ -72,9 +75,13 @@ const Home = () => {
                         )}
                     </div>
                 </div>
-
             </div>
-
+            <Routes>
+                <Route path="/applications" element={<Applications />} />
+                <Route path="/internships" element={<Internships />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/profile" element={<Profile />} /> {/* Create a new component for Profile if not already existing */}
+            </Routes>
         </div>
     );
 };
