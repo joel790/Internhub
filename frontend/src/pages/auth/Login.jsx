@@ -32,11 +32,12 @@ const Login = () => {
     if (!email || !password) {
       return toast.error("Please fill all fields");
     }
-
+  
     try {
       const resultAction = await dispatch(loginUser({ email, password })).unwrap();
+  
       toast.success('Login successful');
-      
+  
       const { role } = resultAction.user;  // Assuming the user's role is included in the response
       if (role === 'admin') {
         navigate('/admin');
@@ -48,10 +49,15 @@ const Login = () => {
         navigate('/');  // Default route
       }
     } catch (error) {
-      toast.error(error.message);
+      if (error) {
+        toast.error('User not found, please register.');
+        navigate('/auth/register');
+      } else {
+        toast.error(error.message);
+      }
     }
-  
   };
+  
 
   return (
     <div className="flex flex-col md:flex-row h-screen w-full">
