@@ -2,15 +2,18 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaUserCircle } from 'react-icons/fa';
 import { HiChevronDown } from 'react-icons/hi';
-import logo from "../../assets/Logo1.png"
+import logo from "../../assets/Logo1.png";
+import axios from "axios"
 const TopNav = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isScrollingUp, setIsScrollingUp] = useState(false);
+  const [userName, setUserName] = useState(''); // Add state for user name
   const navigate = useNavigate();
   let lastScrollTop = 0;
+
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop =document.documentElement.scrollTop;
+      const scrollTop = document.documentElement.scrollTop;
       if (scrollTop > lastScrollTop) {
         // Downscroll
         setIsScrollingUp(false);
@@ -25,8 +28,32 @@ const TopNav = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+        // const token = Cookies.get('token');
+        // if (!token) {
+        //     console.error('No token found in cookies');
+        //     return;
+        // }
+
+        try {
+            const response = await axios.get('http://localhost:5000/api/users/profile')
+
+            const data = response.data;
+            setUserName(data.name);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
+
+    fetchUserData();
+}, []);
+
+
   const handleLogout = () => {
     // Implement logout functionality here
+    localStorage.removeItem('token'); // Clear token on logout
     navigate('/auth/login');
   };
 
@@ -34,14 +61,16 @@ const TopNav = () => {
     <nav className={`bg-white shadow-md text-black p-4 flex justify-between z-30 items-center transition-transform duration-300 ${isScrollingUp ? 'sticky top-0' : ''}`}>
       <div className="flex items-center space-x-2">
         <img src={logo} alt="logo" className="h-10 w-10" />
-        <Link to="/" className="text-lg font-bold  text-blue-600">Intern-Hub</Link>
+        <Link to="/" className="text-lg font-bold text-blue-600">Intern-Hub</Link>
       </div>
       <div className="flex justify-center flex-grow space-x-4">
-        <Link to="/applications" className="hover:text-blue-600">Applications</Link>
-        <Link to="/internship" className="hover:text-blue-600">Internships</Link>
-        <Link to="/company" className="hover:text-blue-600">Companies</Link>
+        <Link to="/student" className="hover:text-blue-600">Home</Link>
+        <Link to="/student/applications" className="hover:text-blue-600">Applications</Link>
+        <Link to="/student/internships" className="hover:text-blue-600">Internships</Link>
+        <Link to="/student/companies" className="hover:text-blue-600">Companies</Link>
       </div>
-      <div className="relative">
+      <div className="relative flex items-center space-x-2">
+        <span className="text-black font-semibold">{userName}</span> {/* Display user name */}
         <button
           className="flex items-center space-x-2"
           onClick={() => setDropdownOpen(!dropdownOpen)}

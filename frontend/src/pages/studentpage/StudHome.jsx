@@ -14,6 +14,7 @@ import Internships from "./Internships";
 import Profile from "./Profile";
 import PlanCard from '../../components/paymentPlan/PlanCard';
 import paymentimg from '../../assets/payment.png';
+import InternHome from "../internships/InternHome";
 
 const plans = [
     {
@@ -174,13 +175,6 @@ const Home = () => {
                     </div>
                 </div>
             )}
-
-            <Routes>
-                <Route path="/applications" element={<Applications />} />
-                <Route path="/internships" element={<Internships />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/profile" element={<Profile />} />
-            </Routes>
         </div>
     );
 };

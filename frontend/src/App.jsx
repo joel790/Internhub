@@ -36,9 +36,7 @@ const App = () => {
           <Route path="company" element={<CompanyHome />} />
           <Route path="study" element={<StudyHome />} />
         </Route>
-        <Route path="student/apply" element={<ApplyForCompany />} />
-        <Route path="/Student" element={<StudHome />} />
-        <Route path="/Student/dashboard" element={<Dashboard />} />
+        {/* <Route path="/Student" element={<StudHome />} /> */}
         <Route path="payment/:planId" element={<PaymentForm />} />
         {/* <Route path="auth/verify/:token" element={<VerifyEmail />} /> */}
         <Route path="company/:id" element={<CompanyDetail />} />
@@ -51,6 +49,15 @@ const App = () => {
         <Route path="auth/forgotpassword" element={<ForgotPassword />} />
         <Route path="auth/passwordreset/:resetToken" element={<ResetPassword />} />
         <Route path="/apply/:internshipTitle" element={<ApplicationForm />} />
+
+        <Route path="/student" element={<StudHome />}>
+          <Route index element={<StudHome />} />
+          <Route path="apply" element={<ApplyForCompany />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="internships" element={<InternHome />} />
+          <Route path="companies" element={<CompanyHome />} />
+        </Route>
+
         <Route path="/managerhome/*" element={<ManagerHome />}>
 
 
