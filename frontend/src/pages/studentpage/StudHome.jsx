@@ -1,20 +1,15 @@
-import { useState } from "react";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import studentimg from "../../assets/student1.jpg";
-import internshipimg from "../../assets/appy.jpg"; // Add additional images
-import networkingimg from "../../assets/career.jpg"; // Add additional images
+import internshipimg from "../../assets/appy.jpg";
+import networkingimg from "../../assets/career.jpg";
 import Student from "../homepage/howtouse/Student";
 import Company from "../homepage/howtouse/Company";
 import { PiStudentFill } from "react-icons/pi";
 import { GrUserManager } from "react-icons/gr";
-import { Link, Routes, Route } from "react-router-dom";
 import TopNav from "../../components/header/StudHeader";
-import Applications from "./Applications";
-import Dashboard from "./Dashboard";
-import Internships from "./Internships";
-import Profile from "./Profile";
 import PlanCard from '../../components/paymentPlan/PlanCard';
 import paymentimg from '../../assets/payment.png';
-import InternHome from "../internships/InternHome";
 
 const plans = [
     {
@@ -40,16 +35,15 @@ const plans = [
 const Home = () => {
     const [selectedTab, setSelectedTab] = useState('Student'); // Default selected tab
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const navigate = useNavigate();
 
     const openModal = () => setModalIsOpen(true);
     const closeModal = () => setModalIsOpen(false);
 
     return (
         <div className=''>
-            <TopNav />
             <div className="lg:py-10 lg:px-10 relative lg:h-[500px] flex flex-col lg:flex-row">
                 <div className="flex justify-center items-center lg:w-1/2">
-                    {/* Text Content */}
                     <div className="w-full lg:w-4/5 p-8">
                         <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-blue-500">
                             Welcome Back to Intern-Hub
@@ -58,23 +52,19 @@ const Home = () => {
                             At InternHub, we are committed to providing you with the best opportunities to gain real-world experience and connect with industry leaders. Now that you're logged in, explore new internships, enhance your skills, and grow your professional network. Your journey towards a successful career continues here.
                         </p>
                         <button
-                            onClick={openModal}
+                            onClick={() => navigate('/student/apply')}
                             className="text-center bg-blue-500 text-white p-3 px-6 rounded-lg hover:bg-blue-600 transition duration-300">
                             Apply for company
                         </button>
                     </div>
                 </div>
                 <div className="flex justify-center lg:w-1/2 relative">
-                    {/* Clipped image */}
                     <div
                         className="w-full lg:w-4/5 rounded-lg lg:max-h-full overflow-hidden relative"
                         style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 50% 75%, 0 100%)' }}
                     >
                         <img src={studentimg} className="w-full h-full object-cover" alt="student" />
-                        {/* Blue overlay */}
-                        <div
-                            className="absolute inset-0 bg-blue-900 opacity-50"
-                        ></div>
+                        <div className="absolute inset-0 bg-blue-900 opacity-50"></div>
                     </div>
                 </div>
             </div>
@@ -86,7 +76,6 @@ const Home = () => {
                 </div>
                 <div className="flex flex-col items-center justify-center">
                     <div className="flex gap-6 h-32 mb-6">
-                        {/* the active link Background white */}
                         <div className={`text-blue-500 w-[250px] border border-gray-300 font-serif flex gap-2 items-center justify-center cursor-pointer px-4 py-2 rounded-lg ${selectedTab === 'Student' ? 'bg-blue-400 text-white' : ''}`}
                             onClick={() => setSelectedTab('Student')}
                         >
@@ -102,7 +91,6 @@ const Home = () => {
                         </div>
                     </div>
                     <div className="mt-4 w-full rounded-md">
-                        {/* Conditionally render the outlet content based on the selected tab */}
                         {selectedTab === 'Student' && (
                             <Student />
                         )}

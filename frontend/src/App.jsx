@@ -22,8 +22,11 @@ import ResetPassword from './pages/auth/ResetPassword';
 import PaymentForm from './components/payment/PaymentForm';
 import ApplyForCompany from './pages/studentpage/ApplyForCompany';
 import StudHome from './pages/studentpage/StudHome';
+import StudentHome from './pages/studentpage/StudentHome';
 import Dashboard from "./pages/studentpage/Dashboard";
+
 import Internships from "./pages/studentpage/Internships";
+import Applications from "./pages/studentpage/Applications";
 axios.defaults.withCredentials = true;
 const App = () => {
   return (
@@ -36,7 +39,14 @@ const App = () => {
           <Route path="company" element={<CompanyHome />} />
           <Route path="study" element={<StudyHome />} />
         </Route>
-        {/* <Route path="/Student" element={<StudHome />} /> */}
+        <Route path="/student" element={<StudentHome />}>
+          <Route index element={<StudHome />} />
+          <Route path="apply" element={<ApplyForCompany />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="applications" element={<Applications />} />
+          <Route path="internships" element={<InternHome />} />
+          <Route path="companies" element={<CompanyHome />} />
+        </Route>
         <Route path="payment/:planId" element={<PaymentForm />} />
         {/* <Route path="auth/verify/:token" element={<VerifyEmail />} /> */}
         <Route path="company/:id" element={<CompanyDetail />} />
@@ -44,19 +54,13 @@ const App = () => {
         <Route path="form" element={<CompanyForm />} />
         <Route path="company/:id" element={<CompanyDetail />} />
         <Route path="/internship/:id" element={<InternshipDetail />} />
-        <Route path="/auth/login" element={<Login />} />
+        <Route path="auth/login" element={<Login />} />
         <Route path="auth/register" element={<Register />} />
         <Route path="auth/forgotpassword" element={<ForgotPassword />} />
         <Route path="auth/passwordreset/:resetToken" element={<ResetPassword />} />
         <Route path="/apply/:internshipTitle" element={<ApplicationForm />} />
 
-        <Route path="/student" element={<StudHome />}>
-          <Route index element={<StudHome />} />
-          <Route path="apply" element={<ApplyForCompany />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="internships" element={<InternHome />} />
-          <Route path="companies" element={<CompanyHome />} />
-        </Route>
+
 
         <Route path="/managerhome/*" element={<ManagerHome />}>
 
