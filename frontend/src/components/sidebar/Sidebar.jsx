@@ -13,11 +13,11 @@ const Sidebar = ({data,toggleShow,setToggleShow}) => {
   return (
     <div className="relative">
       {toggleShow && (
-        <div className="absolute top-4 right-4">
+        <div className="absolute top-4 right-4 md:hidden">
           <IoReorderThreeOutline onClick={handleToggle} className="text-3xl text-white cursor-pointer" />
         </div>
       )}
-      <div className={`bg-black h-full ${toggleShow ? 'w-64' : 'w-64'}`}>
+      <div className={`bg-black h-full ${toggleShow ? 'w-64' : 'w-72'}`}>
         <ul className="flex flex-col">
           {data.map((item, index) => (
             <li key={index} className="py-2">

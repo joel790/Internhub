@@ -1,11 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+import axios from 'axios';
 import React, { useState } from 'react';
 
-const DataTable = ({ columns, data, actions }) => {
+const DataTable = ({ columns, data ,onEdit, onDelete}) => {
     const [sortBy, setSortBy] = useState(null);
     const [sortOrder, setSortOrder] = useState('asc');
     const [searchTerm, setSearchTerm] = useState('');
+    
 
     const handleSort = (column) => {
         if (sortBy === column) {
@@ -38,6 +40,12 @@ const DataTable = ({ columns, data, actions }) => {
             String(value).toLowerCase().includes(searchTerm.toLowerCase())
         )
     );
+
+    
+
+   
+
+   
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -72,13 +80,7 @@ const DataTable = ({ columns, data, actions }) => {
                         className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
                     >
                         <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
-                            {actions.map((action, index) => (
-                                <li key={index}>
-                                    <a href={action.href} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        {action.label}
-                                    </a>
-                                </li>
-                            ))}
+                            {/* Action items */}
                         </ul>
                     </div>
                 </div>
@@ -164,19 +166,18 @@ const DataTable = ({ columns, data, actions }) => {
                                 </td>
                             ))}
                             <td className="px-6 py-4">
-                                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                    Edit 
-                                </a>
+                                <button className="block px-4 py-2 text-sky-900" onClick={()=>onEdit(row)}>Edit</button>
                             </td>
                             <td className="px-6 py-4">
-                                <a href="#" className="font-medium text-red-600 dark:text-blue-500 hover:underline">
-                                    delete 
-                                </a>
+                                <button className="block px-4 py-2 text-red-600 dark:hover:bg-red-600" onClick={() => onDelete(row.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+        
+                
+          
         </div>
     );
 };

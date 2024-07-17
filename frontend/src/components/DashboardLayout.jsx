@@ -7,15 +7,19 @@ import { CgProfile } from "react-icons/cg";
 import imagegeb from "../assets/gebbbb.jpg";
 import { useState } from "react";
 import { IoReorderThreeOutline } from "react-icons/io5";
-import imageportal from "../assets/images.png"
-import "./animations.css"
+import imageportal from "../assets/images.png";
+import "./animations.css";
+import { useSelector } from "react-redux";
 
 // eslint-disable-next-line react/prop-types
 export const DashboardLayout = ({ children, usertype }) => {
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  console.log(userInfo.user.name);
+
   const sidebardata = usertype === "company" ? companySidebarData : studentSideBardata;
-  const [toggleShow, setToggleShow] = useState(false);
+  const [toggleShow, setToggleShow] = useState(window.innerWidth >= 768);
   // eslint-disable-next-line no-unused-vars
-  const [isOpening, setIsOpening] = useState(true); 
+  const [isOpening, setIsOpening] = useState(true);
 
   const handleProfileClick = () => {
     console.log('Profile is clicked');
@@ -26,7 +30,7 @@ export const DashboardLayout = ({ children, usertype }) => {
   };
 
   const handleToggleShow = () => {
-    setIsOpening(!toggleShow); 
+    setIsOpening(!toggleShow);
     setToggleShow(!toggleShow);
   };
 
@@ -34,37 +38,37 @@ export const DashboardLayout = ({ children, usertype }) => {
     {
       label: "Profile",
       icon: <CgProfile />,
-      onClick: handleProfileClick
+      onClick: handleProfileClick,
     },
     {
       label: "Logout",
       icon: <IoIosLogOut />,
-      onClick: handleLogoutClick
-    }
+      onClick: handleLogoutClick,
+    },
   ];
 
   return (
     <div className="flex w-full">
-      <div className={`bg-black min-h-screen fixed top-0 left-0 ${toggleShow ? 'w-64 sm:w-64 animate-slideInFromLeft' : 'hidden'}`}>
+      <div
+        className={`bg-black min-h-screen fixed top-0 left-0 ${
+          toggleShow ? 'w-64 sm:w-64 animate-slideInFromLeft' : 'hidden'
+        } md:block md:w-64`}
+      >
         <Sidebar data={sidebardata} toggleShow={toggleShow} setToggleShow={setToggleShow} />
       </div>
 
-      <div className="flex-1 md:flex hidden">
-        <IoReorderThreeOutline className="text-3xl cursor-pointer m-4" onClick={handleToggleShow} />
-      </div>
-
-      <div className="flex md:hidden">
+      <div className="md:hidden sm:flex">
         <IoReorderThreeOutline className="text-3xl cursor-pointer m-4" onClick={handleToggleShow} />
       </div>
 
       <div className="flex flex-col w-full bg-gray-100">
-      <div className="flex items-center justify-between w-full bg-gray-100 p-2">
+        <div className="flex items-center justify-between w-full bg-gray-100 p-2">
           <div className="flex items-center">
-            <img src={imageportal} alt="Logo" className="w-10 h-10 object-cover mr-4"/>
+            <img src={imageportal} alt="Logo" className="w-10 h-10 object-cover mr-4" />
           </div>
-          <DashboardHeader image={imagegeb} name="Gebeyehu" dropdown={dropdowns} />
+          <DashboardHeader image={imagegeb} name={userInfo.user.name} dropdown={dropdowns} />
         </div>
-        
+
         <div className="w-full min-h-screen bg-zinc-300 p-4 flex-grow">
           {children}
         </div>
@@ -72,6 +76,5 @@ export const DashboardLayout = ({ children, usertype }) => {
     </div>
   );
 };
-
 
 export default DashboardLayout;

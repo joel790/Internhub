@@ -1,33 +1,38 @@
 import { useState } from "react"
 // import { Modal } from "flowbite-react";
+import axios from "axios";
 
  const CompanyForm = () => {
     // const [openModal, setOpenModal] = useState(true);
+    const applicationId=56666//example
 
     const [companyInfo,setCompanyInfo]=useState({
-        companyName:"",
+     
+        name:"",
         location:"",
         slogan:"",
         description:"",
         industry:"select industry",
         managerName:"",
         jobTitle:"",
-        email:"",
-        twitter:"",
-        phone:"",
+        
+        website:"",
+        contactNumber:[""],
     });
 
     const [documents,setDocuments]=useState({
-        companyDocument:"",
-        companyLogo:""
+      license:"",
+        logo:""
 
     })
+
     const [errors,setErrors]=useState({})
     const handleChange=(event)=>{
         setCompanyInfo((prev)=>(
             {...prev,[event.target.name]:event.target.value}
         ))
     }
+
     const handleFileChange = (event) => {
         const { name, files } = event.target;
         setDocuments((prev) => ({
@@ -38,22 +43,23 @@ import { useState } from "react"
       const validate=()=>{
         const newErrors={};
 
-        if(!companyInfo.companyName) newErrors.companyName="company name is required"
+        if(!companyInfo.name) newErrors.name="company name is required"
         if(!companyInfo.description) newErrors.description="description is required"
-        if(!companyInfo.email) newErrors.email="email is required"
+        // if(!companyInfo.email) newErrors.email="email is required"
         if(!companyInfo.industry) newErrors.industry ="industry is required"
         if(!companyInfo.jobTitle) newErrors.jobTitle="jobTitle is required"
         if(!companyInfo.location) newErrors.location="location is required"
         if(!companyInfo.managerName) newErrors.managerName="managerName is required"
-        if(!companyInfo.phone) newErrors.phone="phone is required"
+        if(!companyInfo.contactNumber) newErrors.contactNumber="phone is required"
         if(!companyInfo.slogan) newErrors.slogan="slogan is required"
-        if(!companyInfo.twitter) newErrors.twitter="twitter is required"
-        if(!documents.companyDocument) newErrors.companyDocument="companyDocument is required"
-        if(!documents.companyLogo) newErrors.companyLogo="companyLogo is required"
+        if(!companyInfo.website) newErrors.website="website is required"
+        if(!documents.license) newErrors.license="companyDocument is required"
+        if(!documents.logo) newErrors.logo="companyLogo is required"
   return newErrors;
       }
+      
 
-const handleSubmit=(event)=>{
+const handleSubmit=async (event)=>{
     event.preventDefault();
     const validationErrors=validate()
     if(Object.keys(validationErrors).length!==0 ){
@@ -61,25 +67,34 @@ const handleSubmit=(event)=>{
 
         
     }
-      
-       
-       
-      
-        const formData = {
-            companyName:companyInfo.companyName,
+   const contactNumber=companyInfo.contactNumber.split(',').map(contactNumber=>contactNumber.trim())
+      const formData = {
+            name:companyInfo.name,
             location:companyInfo.location,
             slogan:companyInfo.slogan,
             description:companyInfo.description,
             industry:companyInfo.industry,
             managerName:companyInfo.managerName,
             jobTitle:companyInfo.jobTitle,
-            email:companyInfo.email,
-            twitter:companyInfo.twitter,
-            phone:companyInfo.phone,
-            companyDocument:documents.companyDocument,
-            companyLogo:documents.companyLogo
+            // email:companyInfo.email,
+            website:companyInfo.website,
+            contactNumber:contactNumber,
+            // phone:companyInfo.phone,
+            license:documents.license,
+            logo:documents.logo
         };
+        //company register,add internship,approve internship,dashboard of company manager
         console.log(formData)
+
+        try{
+         
+         const response=await axios.post(`http://localhost:5000/api/${applicationId}/apply-to-company`,formData)
+         console.log(response.data)
+        }
+        
+        catch(error){
+          console.log("the data is not posted correctly",error)
+        }
    }
     
   return (
@@ -101,8 +116,8 @@ const handleSubmit=(event)=>{
 
             <div className="flex flex-col gap-4 w-full sm:w-full md:w-1/2">
              <label className="font-bold text-xl" htmlFor="company name ">company name</label>
-            <input className=" input px-4 py-1 border border-neutral-400 rounded-lg" type="text" placeholder="company name" name="companyName" value={companyInfo.companyName} onChange={handleChange}/>
-            {errors.companyName && <span className="text-red-500">{errors.companyName}</span>}
+            <input className=" input px-4 py-1 border border-neutral-400 rounded-lg" type="text" placeholder="company name" name="companyName" value={companyInfo.name} onChange={handleChange}/>
+            {errors.name && <span className="text-red-500">{errors.name}</span>}
 
             </div>
             <div  className="flex flex-col gap-4 w-full sm:w-full md:w-1/2">
@@ -153,35 +168,36 @@ const handleSubmit=(event)=>{
             <input className="px-4 py-1 border border-neutral-400 rounded-lg" type="text" placeholder="job title" name="jobTitle" value={companyInfo.jobTitle} onChange={handleChange}/>
             {errors.jobTitle && <span className="text-red-500">{errors.jobTitle}</span>}
 
-</div> 
+           </div> 
           </div>
           <h1 className=" text-black font-bold text-2xl mt-16">Contact Information</h1>
           <hr className="w-full border-blue-700 "></hr>
+          <div className="flex flex-col gap-4 w-full ">
+             <label className="font-bold text-xl" htmlFor="manager name ">Manager contact number</label>
+            <input className="px-4 py-1 border border-neutral-400 rounded-lg" type="text" placeholder="manager phone" name="contactNumber" value={companyInfo.contactNumber} onChange={handleChange}/>
+            {errors.contactNumber && <span className="text-red-500">{errors.contactNumber}</span>}
 
-          <div className="flex flex-col gap-4 w-full mt-6">
-             <label className="font-bold text-xl" htmlFor="email address ">Email Address</label>
-            <input className="px-4 py-1 border border-neutral-400 rounded-lg" type="email" placeholder="assegagebeyehu21@gmail.com" name="email" value={companyInfo.email} onChange={handleChange}/>
-            {errors.email && <span className="text-red-500">{errors.email}</span>}
+            </div> 
 
-            </div>   
+        
             <div className="flex flex-col gap-4 w-full ">
-             <label className="font-bold text-xl" htmlFor="twitter ">Twitter</label>
-            <input className="px-4 py-1 border border-neutral-400 rounded-lg" type="text" placeholder="twitter" name="twitter" value={companyInfo.twitter} onChange={handleChange}/>
-            {errors.twitter && <span className="text-red-500">{errors.twitter}</span>}
+             <label className="font-bold text-xl" htmlFor="twitter ">Website</label>
+            <input className="px-4 py-1 border border-neutral-400 rounded-lg" type="text" placeholder="website" name="website" value={companyInfo.website} onChange={handleChange}/>
+            {errors.website && <span className="text-red-500">{errors.website}</span>}
 
             </div>  
             <h1 className=" text-black font-bold text-2xl mt-16">Documents</h1>
           <hr className="w-full border-blue-700 "></hr>  
           <div className="flex flex-col gap-4 w-full mt-6">
              <label className="font-bold text-xl" htmlFor="Company Document ">Company Document</label>
-            <input className="px-4 py-1 border border-neutral-400 rounded-lg" type="file" name="companyDocument"  onChange={handleFileChange}/>
-            {errors.companyDocument && <span className="text-red-500">{errors.companyDocument}</span>}
+            <input className="px-4 py-1 border border-neutral-400 rounded-lg" type="file" name="license"  onChange={handleFileChange}/>
+            {errors.license && <span className="text-red-500">{errors.license}</span>}
 
             </div> 
             <div className="flex flex-col gap-4 w-full ">
              <label className="font-bold text-xl" htmlFor="company logo ">company Logo</label>
-            <input className="px-4 py-1 border border-neutral-400 rounded-lg" type="file" placeholder="company logo" name="companyLogo"  onChange={handleFileChange}/>
-            {errors.companyLogo && <span className="text-red-500">{errors.companyLogo}</span>}
+            <input className="px-4 py-1 border border-neutral-400 rounded-lg" type="file" placeholder="company logo" name="logo"  onChange={handleFileChange}/>
+            {errors.logo && <span className="text-red-500">{errors.logo}</span>}
 
             </div> 
             <button  className="bg-blue-700 text-white p-2 mt-5" type="submit">Submit Application</button>

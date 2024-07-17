@@ -35,8 +35,18 @@ const Login = () => {
 
     try {
       const result = await dispatch(loginUser({ email, password })).unwrap();
+          console.log(result.user.role)
+
       toast.success('Login successful');
-      navigate('/dashboard'); // Adjust this to the appropriate dashboard or home route
+      if(result.user.role==="company"){
+        navigate('/managerhome');
+
+      }
+      else if(result.user.role==="student"){
+        navigate("/Student")
+
+      }
+       // Adjust this to the appropriate dashboard or home route
     } catch (error) {
       toast.error(error.message);
     }

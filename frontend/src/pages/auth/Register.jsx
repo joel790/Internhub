@@ -59,7 +59,7 @@ const Register = () => {
     setIsLoading(true);
     try {
       await dispatch(registerUser(userData)).unwrap();
-      toast.success("Please check your email to verify your account.");
+      toast.success("you are registered succesfully.");
 
     } catch (error) {
       toast.error(error.message || "Registration failed");

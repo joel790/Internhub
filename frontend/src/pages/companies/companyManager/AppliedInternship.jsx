@@ -1,9 +1,15 @@
 
+import ProductTable from "./ProductTable";
+
  const AppliedInternship = () => {
+ 
+
   return (
-    <div>
-        <h1 className="text-white">this is applyed internships</h1>
-    </div>
+    
+  <div className="overflow-x-auto">
+  
+  <ProductTable/>
+</div>
   )
 }
 

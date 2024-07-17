@@ -18,6 +18,9 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
+// inorder to accept static files and images
+app.use("/uploads", express.static("uploads"));
+
 app.use(bodyParser.json());
 //avoid conflic for the back and frontend
 app.use(

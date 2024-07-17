@@ -45,14 +45,7 @@ const App = () => {
         <Route path="auth/forgotpassword" element={<ForgotPassword />} />
         <Route path="auth/passwordreset/:resetToken" element={<ResetPassword />} />
         <Route path="/internship/all-internships" element={<AllInternships />} />
-        <Route path="/form" element={<CompanyForm />} />
-        <Route path="/auth/verify/:token" element={<VerifyEmail />} />
-        <Route path="company/:id" element={<CompanyDetail />} />
         <Route path="/internship/:id" element={<InternshipDetail />} />
-        <Route path="auth/login" element={<Login />} />
-        <Route path="auth/register" element={<Register />} />
-        <Route path="auth/forgotpassword" element={<ForgotPassword />} />
-        <Route path="auth/passwordreset/:resetToken" element={<ResetPassword />} />
         <Route path="/apply/:internshipTitle" element={<ApplicationForm />} />
         <Route path="/managerhome/*" element={<ManagerHome/>}>
           

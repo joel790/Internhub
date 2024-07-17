@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import CompanyForm from '../../pages/companies/compantform/CompanyForm';
 
 const PaymentForm = () => {
+    const [show,setShow]=useState(false)
     const { planId, price } = useParams();
+    const handleshowCompany=()=>{
+        setShow(true)
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center ">
-            <div className="w-full max-w-md  ">
+            {!show&& <>
+                <div className="w-full max-w-md  ">
                 <h1 className="text-4xl font-bold mb-4">Payment Form</h1>
                 <form className="space-y-4">
                     <div>
@@ -40,10 +46,17 @@ const PaymentForm = () => {
                     <button
                         type="submit"
                         className="  w-full py-2 px-4 bg-blue-500 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        onClick={handleshowCompany}
                     >
                         Pay Now
                     </button>
                 </form>
+            </div>
+           
+            </>}
+            <div>
+           
+                {show&&<CompanyForm/>}
             </div>
         </div>
     );

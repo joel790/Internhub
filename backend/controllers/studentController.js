@@ -47,6 +47,10 @@ exports.applyForInternship = async (req, res) => {
 const mongoose = require('mongoose');
 
 exports.applyToCompany = async (req, res) => {
+
+    const license=req.file
+    const logo=req.file
+   
     const { 
         name, 
         slogan, 
@@ -57,8 +61,7 @@ exports.applyToCompany = async (req, res) => {
         jobTitle, 
         contactNumber, 
         website, 
-        license, 
-        logo 
+       
     } = req.body;
     
     const { planId } = req.params; // Extract planId from URL parameters
@@ -80,8 +83,8 @@ exports.applyToCompany = async (req, res) => {
             jobTitle,
             contactNumber,
             website,
-            license,
-            logo,
+            license:"uploads/" + license.filename,
+            logo:"uploads/" + logo.filename,
             subscriptionPlan: planId // Use planId as ObjectId reference
         });
         const savedApplication = await application.save();
