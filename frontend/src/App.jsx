@@ -47,6 +47,7 @@ const App = () => {
           <Route path="internships" element={<InternHome />} />
           <Route path="companies" element={<CompanyHome />} />
         </Route>
+
         <Route path="payment/:planId" element={<PaymentForm />} />
         {/* <Route path="auth/verify/:token" element={<VerifyEmail />} /> */}
         <Route path="company/:id" element={<CompanyDetail />} />

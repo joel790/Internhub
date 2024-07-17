@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import studentimg from "../../assets/student1.jpg";
 import internshipimg from "../../assets/appy.jpg";
 import networkingimg from "../../assets/career.jpg";
@@ -7,35 +7,30 @@ import Student from "../homepage/howtouse/Student";
 import Company from "../homepage/howtouse/Company";
 import { PiStudentFill } from "react-icons/pi";
 import { GrUserManager } from "react-icons/gr";
-import TopNav from "../../components/header/StudHeader";
 import PlanCard from '../../components/paymentPlan/PlanCard';
 import paymentimg from '../../assets/payment.png';
 
-const plans = [
-    {
-        planName: 'Basic',
-        price: 0,
-        features: ['Post 1 internship', 'Basic profile of company', 'Feature 3'],
-        planId: 'basic'
-    },
-    {
-        planName: 'Silver',
-        price: 200,
-        features: ['Feature 1', 'Feature 2', 'Feature 3', 'Feature 4', 'Feature 5'],
-        planId: 'silver'
-    },
-    {
-        planName: 'Gold',
-        price: 500,
-        features: ['Feature 1', 'Feature 2', 'Feature 3'],
-        planId: 'gold'
-    }
-];
-
 const Home = () => {
-    const [selectedTab, setSelectedTab] = useState('Student'); // Default selected tab
+    const [selectedTab, setSelectedTab] = useState('Student');
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const navigate = useNavigate();
+    const [plans, setPlans] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchPlans = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/admin/plans');
+                setPlans(response.data);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchPlans();
+    }, []);
 
     const openModal = () => setModalIsOpen(true);
     const closeModal = () => setModalIsOpen(false);
@@ -52,7 +47,7 @@ const Home = () => {
                             At InternHub, we are committed to providing you with the best opportunities to gain real-world experience and connect with industry leaders. Now that you're logged in, explore new internships, enhance your skills, and grow your professional network. Your journey towards a successful career continues here.
                         </p>
                         <button
-                            onClick={() => navigate('/student/apply')}
+                            onClick={openModal}
                             className="text-center bg-blue-500 text-white p-3 px-6 rounded-lg hover:bg-blue-600 transition duration-300">
                             Apply for company
                         </button>
@@ -135,30 +130,36 @@ const Home = () => {
             </div>
 
             {modalIsOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="bg-white rounded-lg p-6 w-full max-w-4xl mx-auto">
+                <div className="fixed inset-0 flex items-center justify-center bg-blue-900 bg-opacity-50 z-50 overflow-y-auto">
+                    <div className="bg-white rounded-lg  pt-6 mt-20 w-full max-w-4xl mx-auto relative">
+                        <button onClick={closeModal} className='mt-10 absolute top-8 right-8 text-red-500 text-xl'>✕</button>
                         <div className='flex flex-col lg:flex-row py-6 gap-4'>
-                            <div className="md:w-1/2 flex items-center justify-center bg-no-repeat bg-center">
+                            <div className="lg:w-1/2 flex items-center justify-center bg-no-repeat bg-center">
                                 <img src={paymentimg} alt="payment" className="w-full h-auto" />
                             </div>
-                            <div className='text-center w-1/2'>
+                            <div className='text-center lg:w-1/2'>
                                 <h1 className='text-3xl text-blue-500 py-4 font-bold font-serif'>Choose Your Plan</h1>
                                 <p className='text-slate-500'>
                                     The higher the plan you choose, the more features of the system you get!
                                 </p>
                             </div>
-                            <button onClick={closeModal} className='text-red-500 text-xl underline'>Cancel</button>
                         </div>
                         <div className="flex flex-col lg:flex-row gap-6 items-center justify-center pb-6">
-                            {plans.map((plan) => (
-                                <PlanCard
-                                    key={plan.planId}
-                                    planName={plan.planName}
-                                    price={plan.price}
-                                    features={plan.features}
-                                    planId={plan.planId}
-                                />
-                            ))}
+                            {isLoading ? (
+                                <p>Loading plans...</p>
+                            ) : error ? (
+                                <p>Error fetching plans: {error}</p>
+                            ) : (
+                                plans.map((plan) => (
+                                    <PlanCard
+                                        key={plan.planId}
+                                        planName={plan.type}
+                                        price={plan.price}
+                                        features={plan.features}
+                                        planId={plan.planId}
+                                    />
+                                ))
+                            )}
                         </div>
                     </div>
                 </div>

@@ -46,6 +46,7 @@ exports.applyForInternship = async (req, res) => {
 
 const mongoose = require('mongoose');
 
+// apply to company
 exports.applyToCompany = async (req, res) => {
     const { 
         name, 
