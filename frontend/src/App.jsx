@@ -27,6 +27,7 @@ import Dashboard from "./pages/studentpage/Dashboard";
 
 import Internships from "./pages/studentpage/Internships";
 import Applications from "./pages/studentpage/Applications";
+import PaymentSuccess from "./pages/studentpage/PaymentSuccess";
 axios.defaults.withCredentials = true;
 const App = () => {
   return (
@@ -47,12 +48,12 @@ const App = () => {
           <Route path="internships" element={<InternHome />} />
           <Route path="companies" element={<CompanyHome />} />
         </Route>
-
-        <Route path="payment/:planId" element={<PaymentForm />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
+        {/* <Route path="payment/:planId" element={<PaymentForm />} /> */}
         {/* <Route path="auth/verify/:token" element={<VerifyEmail />} /> */}
         <Route path="company/:id" element={<CompanyDetail />} />
         <Route path="/internship/all-internships" element={<AllInternships />} />
-        <Route path="form" element={<CompanyForm />} />
+        <Route path="student/apply-company-form/:planId" element={<CompanyForm />} />
         <Route path="company/:id" element={<CompanyDetail />} />
         <Route path="/internship/:id" element={<InternshipDetail />} />
         <Route path="auth/login" element={<Login />} />

@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 const PaymentForm = () => {
-    const { planId, price } = useParams();
+    const { planId, } = useParams();
 
     return (
         <div className="min-h-screen flex items-center justify-center ">
@@ -10,7 +10,7 @@ const PaymentForm = () => {
                 <h1 className="text-4xl font-bold mb-4">Payment Form</h1>
                 <form className="space-y-4">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">You choose Basic</label>
+                        <label className="block text-sm font-medium text-gray-700">Price </label>
                         <input
                             type="text"
                             className="input mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"

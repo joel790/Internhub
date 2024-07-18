@@ -5,8 +5,10 @@ const User = require('../models/userModel');
 const Plan = require('../models/planModel');
 const Payment = require('../models/paymentMmodel');
 const axios = require('axios'); // For making HTTP requests
-
+const { v4: uuidv4 } = require('uuid');
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const { createPayment } = require('../utils/createPayment');
 dotenv.config();
 
 // Controller for students to apply for an internship
@@ -44,7 +46,6 @@ exports.applyForInternship = async (req, res) => {
     }
 };
 
-const mongoose = require('mongoose');
 
 // apply to company
 exports.applyToCompany = async (req, res) => {
@@ -127,10 +128,12 @@ exports.selectPlan = async (req, res) => {
             phone_number: user.phone,
             tx_ref: payment.tx_ref,
             callback_url: `http://localhost:5000/api/payment/callback?tx_ref=${payment.tx_ref}`, // Adjust callback URL
-            return_url: "http://localhost:5173/student",
+            return_url: "http://localhost:5173/student/apply-company-form/:planId",
             customization: {
-                title: 'Plan Payment',
+                title: 'Please make a payment',
                 description: `Payment for ${plan.type} plan`,
+                backgroundColor: '#0000FF', // Blue background
+                buttonColor: '#0000FF'
             },
         };
         console.log(`Payment data to be sent to Chapa: ${JSON.stringify(paymentData)}`);
@@ -146,42 +149,43 @@ exports.selectPlan = async (req, res) => {
             return res.status(500).json({ message: 'Payment initialization failed' });
         }
 
-        res.status(200).json({ payment_url: chapaResponse.data.data.link });
+        res.status(200).json({ payment_url: chapaResponse.data.data.checkout_url });
     } catch (error) {
         console.error('Error selecting plan:', error.response ? error.response.data : error.message);
         res.status(500).json({ message: 'Server error' });
     }
 };
+// exports.paymentCallback = async (req, res) => {
+//     const { tx_ref, status } = req.query;
 
-exports.paymentCallback = async (req, res) => {
-    const { tx_ref, status, } = req.query;
+//     try {
+//         const payment = await Payment.findOne({ tx_ref }).populate('user plan');
 
-    try {
-        const payment = await Payment.findOne({ tx_ref }).populate('user plan');
+//         if (!payment) {
+//             return res.status(404).json({ message: 'Payment not found' });
+//         }
 
-        if (!payment) {
-            return res.status(404).json({ message: 'Payment not found' });
-        }
+//         if (status === 'success') {
+//             payment.status = 'completed';
+//             await payment.save();
 
-        if (status === 'success') {
-            payment.status = 'completed';
-            payment.transactionId = transaction_id;
-            await payment.save();
+//             payment.user.subscriptionPlan = payment.plan._id;
+//             await payment.user.save();
 
-            payment.user.subscriptionPlan = payment.plan._id;
-            await payment.user.save();
+//             const planId = payment.plan._id;
+//             const redirectUrl = `http://localhost:5173/payment-success?planId=${planId}&status=success`;
+//             res.redirect(redirectUrl);
+//         } else {
+//             payment.status = 'failed';
+//             await payment.save();
+//             res.status(400).json({ message: 'Payment failed' });
+//         }
+//     } catch (error) {
+//         console.error('Error handling payment callback:', error.response ? error.response.data : error.message);
+//         res.status(500).json({ message: 'Server error' });
+//     }
+// }
 
-            res.status(200).json({ message: 'Payment successful, plan updated', user: payment.user });
-        } else {
-            payment.status = 'failed';
-            await payment.save();
-            res.status(400).json({ message: 'Payment failed' });
-        }
-    } catch (error) {
-        console.error('Error handling payment callback:', error.response ? error.response.data : error.message);
-        res.status(500).json({ message: 'Server error' });
-    }
-};
 
 exports.getAllInternships = async (req, res) => {
 

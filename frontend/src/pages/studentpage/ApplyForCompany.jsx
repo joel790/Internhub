@@ -4,26 +4,20 @@ import paymentimg from '../../assets/payment.png';
 import { Link } from 'react-router-dom';
 
 const ApplyForCompany = () => {
-    const plans = [
-        {
-            planName: 'Basic',
-            price: 0,
-            features: ['post 1 internship', 'basic profile of company', 'Feature 3'],
-            planId: 'basic'
-        },
-        {
-            planName: 'Silver',
-            price: 200,
-            features: ['Feature 1', 'Feature 2', 'Feature 3', 'Feature 3', 'Feature 3'],
-            planId: 'silver'
-        },
-        {
-            planName: 'Gold',
-            price: 500,
-            features: ['Feature 1', 'Feature 2', 'Feature 3',],
-            planId: 'gold'
+    const handleSubscribe = async () => {
+        try {
+            const response = await axios.post('http://localhost:5000/api/student/selectplan', { planId });
+            const paymentUrl = response.data.payment_url;
+            console.log(paymentUrl);
+            if (paymentUrl) {
+                window.location.href = paymentUrl;
+            } else {
+                console.error('Payment URL not found');
+            }
+        } catch (error) {
+            console.error('Error subscribing to plan:', error.response ? error.response.data : error.message);
         }
-    ];
+    };
 
     return (
         <div className='min-h-screen  p-14 '>
@@ -41,6 +35,7 @@ const ApplyForCompany = () => {
                 {plans.map((plan) => (
                     <PlanCard
                         key={plan.planId}
+                        handleSubscribe={handleSubscribe}
                         planName={plan.planName}
                         price={plan.price}
                         features={plan.features}

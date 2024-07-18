@@ -1,12 +1,22 @@
 import React from 'react';
 import { PiPerson } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const PlanCard = ({ planName, price, features, planId }) => {
-    const navigate = useNavigate();
-
-    const handleSubscribe = () => {
-        navigate(`/payment/${planId}`);
+    const handleSubscribe = async () => {
+        try {
+            const response = await axios.post('http://localhost:5000/api/student/selectplan', { planId });
+            const paymentUrl = response.data.payment_url;
+            console.log(paymentUrl);
+            if (paymentUrl) {
+                window.location.href = paymentUrl;
+            } else {
+                console.error('Payment URL not found');
+            }
+        } catch (error) {
+            console.error('Error subscribing to plan:', error.response ? error.response.data : error.message);
+        }
     };
 
     return (
@@ -18,12 +28,10 @@ const PlanCard = ({ planName, price, features, planId }) => {
             <hr className='pb-6' />
             <ul className="list-disc pl-5 mb-4">
                 {features.map((feature, index) => (
-                    <>
-                        <div className='flex gap-4'>
-                            <PiPerson />
-                            <li key={index}>{feature}</li>
-                        </div>
-                    </>
+                    <div key={index} className='flex gap-4'>
+                        <PiPerson />
+                        <li>{feature}</li>
+                    </div>
                 ))}
             </ul>
             <button

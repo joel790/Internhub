@@ -9,6 +9,8 @@ import { PiStudentFill } from "react-icons/pi";
 import { GrUserManager } from "react-icons/gr";
 import PlanCard from '../../components/paymentPlan/PlanCard';
 import paymentimg from '../../assets/payment.png';
+import { FaClosedCaptioning } from 'react-icons/fa';
+import { CgClose } from 'react-icons/cg';
 
 const Home = () => {
     const [selectedTab, setSelectedTab] = useState('Student');
@@ -132,12 +134,12 @@ const Home = () => {
             {modalIsOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-blue-900 bg-opacity-50 z-50 overflow-y-auto">
                     <div className="bg-white rounded-lg  pt-6 mt-20 w-full max-w-4xl mx-auto relative">
-                        <button onClick={closeModal} className='mt-10 absolute top-8 right-8 text-red-500 text-xl'>✕</button>
-                        <div className='flex flex-col lg:flex-row py-6 gap-4'>
+                        <CgClose onClick={closeModal} className='cursor-pointer mt-8 absolute top-8 right-8 text-red-500 text-xl'/>
+                        <div className='flex flex-col  lg:flex-row px-6 py-6 '>
                             <div className="lg:w-1/2 flex items-center justify-center bg-no-repeat bg-center">
                                 <img src={paymentimg} alt="payment" className="w-full h-auto" />
                             </div>
-                            <div className='text-center lg:w-1/2'>
+                            <div className='text-center lg:w-1/2 px-4'>
                                 <h1 className='text-3xl text-blue-500 py-4 font-bold font-serif'>Choose Your Plan</h1>
                                 <p className='text-slate-500'>
                                     The higher the plan you choose, the more features of the system you get!
@@ -152,11 +154,11 @@ const Home = () => {
                             ) : (
                                 plans.map((plan) => (
                                     <PlanCard
-                                        key={plan.planId}
+                                        key={plan._id}
                                         planName={plan.type}
                                         price={plan.price}
                                         features={plan.features}
-                                        planId={plan.planId}
+                                        planId={plan._id}
                                     />
                                 ))
                             )}
