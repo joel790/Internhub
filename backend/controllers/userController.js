@@ -27,33 +27,37 @@ exports.registerUser = async (req, res) => {
             name,
             email,
             password,
-            isVerified: false
         });
 
         await user.save();
 
         // Generate a verification token
-        const verificationToken = crypto.randomBytes(32).toString('hex');
-        const token = new Token({
-            user: user._id,
-            token: verificationToken
-        });
+        // const verificationToken = crypto.randomBytes(32).toString('hex');
+        // const token = new Token({
+        //     user: user._id,
+        //     token: verificationToken
+        // });
 
-        await token.save();
+        // await token.save();
 
         // Send verification email
-    //     const verificationUrl = `${process.env.BASE_URL}/api/users/verify/${verificationToken}`;
-    //     const message = `Email Verification
-    //   Please verify your email by clicking the link below:
-    //   ${verificationUrl}`;
+        //     const verificationUrl = `${process.env.BASE_URL}/api/users/verify/${verificationToken}`;
+        //     const message = `Email Verification
+        //   Please verify your email by clicking the link below:
+        //   ${verificationUrl}`;
 
-    //     await sendEmail({
-    //         to: user.email,
-    //         subject: 'Email Verification',
-    //         text: message
-    //     });
-
-        res.status(201).json({ message: 'you registered succesfully.' });
+        //     await sendEmail({
+        //         to: user.email,
+        //         subject: 'Email Verification',
+        //         text: message
+        //     });
+        // Generate JWT token
+        const token = generateToken(user._id);
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV !== 'development',
+        });
+        res.status(201).json({ token, user });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -62,7 +66,7 @@ exports.registerUser = async (req, res) => {
 // Email Verification
 // exports.verifyEmail = async (req, res) => {
 //     const { token } = req.params;
- 
+
 //     try {
 //         // Find the token
 //         const verificationToken = await Token.findOne({ token });
@@ -210,5 +214,20 @@ exports.resetPassword = async (req, res) => {
         res.status(200).json({ message: 'Password reset successful' });
     } catch (error) {
         res.status(500).json({ message: error.message });
+    }
+};
+
+exports.getUserProfile = async (req, res) => {
+    const userId = req.user._id; // Get user ID from the authenticated user
+
+    try {
+        const user = await User.findById(userId).select('-password'); // Exclude password and version from the response
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        res.status(500).json({ message: 'Server error' });
     }
 };

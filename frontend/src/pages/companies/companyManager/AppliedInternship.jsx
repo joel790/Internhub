@@ -2,6 +2,7 @@
 import ProductTable from "./ProductTable";
 
  const AppliedInternship = () => {
+  
  
 
   return (

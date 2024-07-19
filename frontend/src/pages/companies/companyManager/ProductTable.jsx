@@ -1,66 +1,48 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const ProductTable = () => {
+  const [studApply, setStudApply] = useState([]);
+  // to get internshipid
+  const internId = "123456";
+
+  useEffect(() => {
+    const getStudentApply = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/company/internship/${internId}/applications`);
+        if (response.status === 200) {
+          setStudApply(response.data);
+        } else {
+          console.log("There is something wrong when fetching");
+        }
+      } catch (error) {
+        console.error("You cannot get the student apply for internships", error);
+      }
+    };
+    getStudentApply();
+  }, []);
+
+  console.log(studApply);
+
   const sample = [
-    {
-      id: 1,
-      name: "gebeyehu",
-      title: "frontend",
-      date: "23454",
-      status: "pending",
-    },
-    {
-      id: 2,
-      name: "hab",
-      title: "frontend",
-      date: "23454",
-      status: "pending",
-    },
-    {
-      id: 3,
-      name: "gebesiryehu",
-      title: "frontend",
-      date: "23454",
-      status: "pending",
-    },
-    {
-      id: 4,
-      name: "ader",
-      title: "frontend",
-      date: "23454",
-      status: "pending",
-    },
-    {
-      id: 5,
-      name: "cha",
-      title: "frontend",
-      date: "23454",
-      status: "pending",
-    },
-    {
-      id: 6,
-      name: "eyu",
-      title: "frontend",
-      date: "23454",
-      status: "pending",
-    },
+    { id: 1, name: "gebeyehu", title: "frontend", date: "23454", status: "pending" },
+    { id: 2, name: "hab", title: "frontend", date: "23454", status: "pending" },
+    { id: 3, name: "gebesiryehu", title: "frontend", date: "23454", status: "pending" },
+    { id: 4, name: "ader", title: "frontend", date: "23454", status: "pending" },
+    { id: 5, name: "cha", title: "frontend", date: "23454", status: "pending" },
+    { id: 6, name: "eyu", title: "frontend", date: "23454", status: "pending" },
   ];
 
-  const [status, setStatus] = useState("pending");
-
-  const handleChange = (event) => {
-    setStatus(event.target.value);
-  };
-
-  const handleSubmit = (status) => {
-    if (status === "pending") {
-      console.log("pending");
-    } else if (status === "rejected") {
-      console.log("rejected");
-    } else if (status === "approved") {
-      console.log("approved");
-    } else {
-      console.log("");
+  const handleSubmit = async (applicationId, newStatus) => {
+    try {
+      const response = await axios.post(`http://localhost:5000/api/company/application/${applicationId}/status`, { status: newStatus });
+      if (response.status === 200) {
+        console.log("You updated the status successfully");
+      } else {
+        console.log("There is something wrong");
+      }
+    } catch (error) {
+      console.error("There is something error", error);
     }
   };
 
@@ -98,20 +80,14 @@ const ProductTable = () => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <select
-                    value={status}
+                    value={sam.status}
                     name="status"
-                    onChange={handleChange}
+                    onChange={(event) => handleSubmit(sam.id, event.target.value)}
                     className="border border-gray-300 rounded px-2 py-1"
                   >
-                    <option onClick={() => handleSubmit("pending")} value="pending">
-                      pending
-                    </option>
-                    <option onClick={() => handleSubmit("rejected")} value="rejected">
-                      rejected
-                    </option>
-                    <option onClick={() => handleSubmit("approved")} value="approved">
-                      approved
-                    </option>
+                    <option value="pending">pending</option>
+                    <option value="rejected">rejected</option>
+                    <option value="approved">approved</option>
                   </select>
                 </td>
               </tr>

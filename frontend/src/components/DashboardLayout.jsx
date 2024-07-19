@@ -1,11 +1,11 @@
+// eslint-disable-next-line no-unused-vars
+import React, { useState, useEffect } from "react";
 import Sidebar from "./sidebar/Sidebar";
 import DashboardHeader from "./header/DashboardHeader";
-import { companySidebarData } from "../data/Data";
-import { studentSideBardata } from "../data/Data";
+import { companySidebarData, studentSideBardata } from "../data/Data";
 import { IoIosLogOut } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import imagegeb from "../assets/gebbbb.jpg";
-import { useState } from "react";
 import { IoReorderThreeOutline } from "react-icons/io5";
 import imageportal from "../assets/images.png";
 import "./animations.css";
@@ -20,13 +20,25 @@ export const DashboardLayout = ({ children, usertype }) => {
   const [toggleShow, setToggleShow] = useState(window.innerWidth >= 768);
   // eslint-disable-next-line no-unused-vars
   const [isOpening, setIsOpening] = useState(true);
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth >= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleProfileClick = () => {
-    console.log('Profile is clicked');
+    console.log("Profile is clicked");
   };
 
   const handleLogoutClick = () => {
-    console.log('Logout is clicked');
+    console.log("Logout is clicked");
   };
 
   const handleToggleShow = () => {
@@ -51,7 +63,11 @@ export const DashboardLayout = ({ children, usertype }) => {
     <div className="flex w-full">
       <div
         className={`bg-black min-h-screen fixed top-0 left-0 ${
-          toggleShow ? 'w-64 sm:w-64 animate-slideInFromLeft' : 'hidden'
+          toggleShow
+            ? isLargeScreen
+              ? "w-64 sm:w-64"
+              : "w-64 sm:w-64 animate-slideInFromLeft"
+            : "hidden"
         } md:block md:w-64`}
       >
         <Sidebar data={sidebardata} toggleShow={toggleShow} setToggleShow={setToggleShow} />

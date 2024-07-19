@@ -2,11 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import axios from 'axios';
-import Header from "../../../components/header/Header";
 import Footer from "../../../components/footer/Footer";
 import photo from "../../../assets/company.png";
 import { CiLocationOn } from "react-icons/ci";
-import CompanyContact from "./CompanyContact";
 import "./CompanyDetail.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -92,7 +90,7 @@ const CompanyDetail = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="container mx-auto px-10">
         <div className="flex flex-col md:flex-row w-full mt-6 px-10">
           <img src={photo} alt="Company Photo" className="w-full md:w-1/2 " />

@@ -3,21 +3,18 @@ import { useState } from "react"
 import axios from "axios";
 
  const CompanyForm = () => {
-    // const [openModal, setOpenModal] = useState(true);
-    const applicationId=56666//example
 
     const [companyInfo,setCompanyInfo]=useState({
      
-        name:"",
-        location:"",
-        slogan:"",
-        description:"",
-        industry:"select industry",
-        managerName:"",
-        jobTitle:"",
-        
-        website:"",
-        contactNumber:[""],
+      name: "",
+      slogan: "",
+      description: "",
+      industry: "select industry",
+      location: "",
+      managerName: "",
+      jobTitle: "",
+      contactNumber: [" "],
+      website: ""
     });
 
     const [documents,setDocuments]=useState({
@@ -88,7 +85,11 @@ const handleSubmit=async (event)=>{
 
         try{
          
-         const response=await axios.post(`http://localhost:5000/api/${applicationId}/apply-to-company`,formData)
+         const response=await axios.post(`http://localhost:5000/api/student/${"66986fa419fcddcf3090f6b4"}/apply-to-company`,formData,{
+          headers: {
+            'Content-Type': 'multipart/form-data'
+        },
+         })
          console.log(response.data)
         }
         
@@ -99,10 +100,7 @@ const handleSubmit=async (event)=>{
     
   return (
     <>
-    {/* <button onClick={() => setOpenModal(true)}>Toggle modal</button>
-    <Modal show={openModal} size="md" onClose={()=>setOpenModal(false)} popup>
-      <Modal.Header />
-      <Modal.Body> */}
+    
     
 <div className="flex flex-col items-start justify-start w-full  md:items-center  md:justify-center sm:px-20  md:px-10 mt-5" >
 
@@ -110,13 +108,13 @@ const handleSubmit=async (event)=>{
        
         
         <form onSubmit={handleSubmit} className="flex flex-col px-10 mt-5 py-6  ">
-        <h1 className=" text-black font-bold text-2xl mt-5 ">Company Information</h1>
-        <hr className=" border-blue-700 "></hr>
+          <h1 className=" text-black font-bold text-2xl mt-5 ">Company Information</h1>
+           <hr className=" border-blue-700 "></hr>
             <div className="flex sm:flex-col md:flex-row gap-5 w-full mt-6">
-
+             
             <div className="flex flex-col gap-4 w-full sm:w-full md:w-1/2">
              <label className="font-bold text-xl" htmlFor="company name ">company name</label>
-            <input className=" input px-4 py-1 border border-neutral-400 rounded-lg" type="text" placeholder="company name" name="companyName" value={companyInfo.name} onChange={handleChange}/>
+            <input className=" input px-4 py-1 border border-neutral-400 rounded-lg" type="text" placeholder="company name" name="name" value={companyInfo.name} onChange={handleChange}/>
             {errors.name && <span className="text-red-500">{errors.name}</span>}
 
             </div>
@@ -203,8 +201,7 @@ const handleSubmit=async (event)=>{
             <button  className="bg-blue-700 text-white p-2 mt-5" type="submit">Submit Application</button>
         </form>
     </div>
-      {/* </Modal.Body>
-    </Modal> */}
+     
   </>
   )
 }

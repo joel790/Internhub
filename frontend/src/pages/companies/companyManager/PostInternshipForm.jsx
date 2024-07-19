@@ -8,7 +8,6 @@ const PostInternshipForm = () => {
     duration: "",
     location: "",
     skills: "",
-    company: "",
     deadline: "",
     benefit: "",
     responsibilities: "",
@@ -60,6 +59,21 @@ const PostInternshipForm = () => {
     } catch (error) {
       console.error("Error occurred when posting:", error);
     }
+
+    setInternship({
+      title: "",
+    description: "",
+    duration: "",
+    location: "",
+    skills: "",
+    deadline: "",
+    benefit: "",
+    responsibilities: "",
+    requirements: "",
+    type: "remote",
+    payment: "free",
+
+    })
   };
 
   const handleChange = (event) => {
@@ -73,17 +87,7 @@ const PostInternshipForm = () => {
     <div className="mx-auto max-w-lg">
       <h2 className="text-2xl font-bold mb-4">Create Internship</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="flex flex-col">
-          <label htmlFor="company" className="mb-1">Company</label>
-          <input
-            type="text"
-            name="company"
-            placeholder="Enter company name"
-            value={internship.company}
-            onChange={handleChange}
-            className="py-2 px-3 mt-1 border rounded-lg focus:outline-none focus:border-blue-500"
-          />
-        </div>
+       
 
         <div className="flex flex-col">
           <label htmlFor="title" className="mb-1">Title</label>

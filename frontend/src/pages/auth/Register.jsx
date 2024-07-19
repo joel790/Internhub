@@ -58,8 +58,8 @@ const Register = () => {
     const userData = { name, email, password };
     setIsLoading(true);
     try {
-      await dispatch(registerUser(userData)).unwrap();
-      toast.success("you are registered succesfully.");
+      dispatch(registerUser(userData));
+      toast.success("registered successfully.");
 
     } catch (error) {
       toast.error(error.message || "Registration failed");
@@ -150,7 +150,7 @@ const Register = () => {
             type="submit"
             className="w-full text-white bg-blue-500 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           >
-            {isLoading ? "Registering..." : "Register"}
+           Register
           </button>
           <div className="text-sm">
             <Link to="/" className="text-blue-500 hover:underline">Home</Link>

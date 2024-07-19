@@ -32,7 +32,7 @@ const Login = () => {
     if (!email || !password) {
       return toast.error("Please fill all fields");
     }
-
+  
     try {
       const result = await dispatch(loginUser({ email, password })).unwrap();
           console.log(result.user.role)
@@ -48,9 +48,15 @@ const Login = () => {
       }
        // Adjust this to the appropriate dashboard or home route
     } catch (error) {
-      toast.error(error.message);
+      if (error) {
+        toast.error('User not found, please register.');
+        navigate('/auth/register');
+      } else {
+        toast.error(error.message);
+      }
     }
   };
+  
 
   return (
     <div className="flex flex-col md:flex-row h-screen w-full">
@@ -95,9 +101,8 @@ const Login = () => {
           <button
             type="submit"
             className="w-full text-white bg-blue-500 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            disabled={isLoading}
           >
-            {isLoading ? 'Loading...' : 'Login'}
+            Login
           </button>
           <div className="text-sm mt-2">
             <Link to="/auth/forgotpassword" className="text-blue-500 hover:underline">Forgot Password?</Link>

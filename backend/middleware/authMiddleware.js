@@ -1,27 +1,24 @@
 const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
+const protect = async (req, res, next) => {
+    let token;
+    if (req.cookies.token) {
+        token = req.cookies.token;
+    }
 
-const protect = asyncHandler(async (req, res, next) => {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
     if (!token) {
         return res.status(401).json({ message: 'No token provided' });
     }
+
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.id);
-
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        req.user = user;
+        req.user = await User.findById(decoded.id);
         next();
     } catch (error) {
-        console.error(error);
-        res.status(401).json({ message: 'Invalid token' });
+        res.status(401).json({ message: 'Not authorized' });
     }
-});
+};
 // Middleware to check for admin role
 const admin = (req, res, next) => {
     if (req.user && req.user.role === 'admin') {

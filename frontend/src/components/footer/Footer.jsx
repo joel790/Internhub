@@ -10,7 +10,7 @@ const Footer = () => {
             <div className="rounded-full p-1">
               <img src={Logo} className="h-8 rounded-full" alt="Tourism Logo" />
             </div>
-            <span className="self-center text-2xl font-semibold whitespace-nowrap">EthioTourism</span>
+            <span className="self-center text-2xl font-semibold whitespace-nowrap">Intern-Hub</span>
           </Link>
           <ul className="flex flex-wrap items-center text-sm text-gray-200">
             <li>
