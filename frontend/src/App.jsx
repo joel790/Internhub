@@ -61,13 +61,7 @@ const App = () => {
         <Route path="auth/forgotpassword" element={<ForgotPassword />} />
         <Route path="auth/passwordreset/:resetToken" element={<ResetPassword />} />
         <Route path="/apply/:internshipTitle" element={<ApplicationForm />} />
-
-
-
         <Route path="/managerhome/*" element={<ManagerHome />}>
-
-
-
         </Route>
       </Routes>
     </BrowserRouter>

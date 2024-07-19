@@ -1,4 +1,5 @@
 import React from 'react';
+import Payment from './Payment';
 
 const Dashboard = () => {
   // Dummy data
@@ -77,6 +78,7 @@ const Dashboard = () => {
           </tbody>
         </table>
       </div>
+      <Payment/>
     </div>
   );
 };

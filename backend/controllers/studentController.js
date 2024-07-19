@@ -10,20 +10,17 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const { createPayment } = require('../utils/createPayment');
 dotenv.config();
-
 // Controller for students to apply for an internship
 exports.applyForInternship = async (req, res) => {
     const { coverLetter, resume, portourl } = req.body;
     const { internshipId } = req.params
     const studentId = req.user._id; // Assuming req.user contains student info
-
     try {
         // Check if the internship exists
         const internship = await Internship.findById(internshipId);
         if (!internship) {
             return res.status(404).json({ message: 'Internship not found' });
         }
-
         // Create a new application
         const application = new Application({
             internship: internshipId,
@@ -32,13 +29,10 @@ exports.applyForInternship = async (req, res) => {
             resume,
             portourl
         });
-
         const savedApplication = await application.save();
-
         // Add the application to the internship's applications array
         internship.applications.push(savedApplication._id);
         await internship.save();
-
         res.status(201).json(savedApplication);
     } catch (error) {
         console.error(error);
@@ -46,31 +40,26 @@ exports.applyForInternship = async (req, res) => {
     }
 };
 
-
-// apply to company
 exports.applyToCompany = async (req, res) => {
-    const { 
-        name, 
-        slogan, 
-        description, 
-        industry, 
-        location, 
-        managerName, 
-        jobTitle, 
-        contactNumber, 
-        website, 
-        license, 
-        logo 
+    const { planId } = req.params;
+    const {
+        name, location, slogan, description, industry, managerName,
+        jobTitle, contactNumber, website,
     } = req.body;
-    
-    const { planId } = req.params; // Extract planId from URL parameters
-    const userId = req.user.id; 
+    const license = req.files?.license ? req.files.license[0] : null;
+    const logo = req.files?.logo ? req.files.logo[0] : null;
+    const userId = req.user.id;
 
     try {
         // Validate the ObjectId for planId
         if (!mongoose.Types.ObjectId.isValid(planId)) {
             return res.status(400).json({ message: 'Invalid subscription plan ID' });
         }
+
+        if (!license || !logo) {
+            return res.status(400).json({ message: 'Both license and logo files are required' });
+        }
+
         const application = new CompanyApplication({
             user: userId,
             name,
@@ -82,10 +71,11 @@ exports.applyToCompany = async (req, res) => {
             jobTitle,
             contactNumber,
             website,
-            license,
-            logo,
-            subscriptionPlan: planId // Use planId as ObjectId reference
+            license: license.path,
+            logo: logo.path,
+            subscriptionPlan: planId
         });
+
         const savedApplication = await application.save();
         res.status(201).json(savedApplication);
     } catch (error) {
@@ -119,7 +109,6 @@ exports.selectPlan = async (req, res) => {
             tx_ref: `tx_ref_${Date.now()}`
         });
         await payment.save();
-        console.log(`Created payment: ${payment}`);
         const paymentData = {
             amount: payment.amount.toString(), // Ensure amount is a string
             currency: payment.currency,
@@ -128,22 +117,22 @@ exports.selectPlan = async (req, res) => {
             phone_number: user.phone,
             tx_ref: payment.tx_ref,
             callback_url: `http://localhost:5000/api/payment/callback?tx_ref=${payment.tx_ref}`, // Adjust callback URL
-            return_url: "http://localhost:5173/student/apply-company-form/:planId",
+            return_url: ` http://localhost:5173/student/apply-company-form/${payment.plan._id}`,
             customization: {
-                title: 'Please make a payment',
+                title: 'Payment Plan',
                 description: `Payment for ${plan.type} plan`,
                 backgroundColor: '#0000FF', // Blue background
-                buttonColor: '#0000FF'
+                buttonColor: 'blue'
             },
         };
-        console.log(`Payment data to be sent to Chapa: ${JSON.stringify(paymentData)}`);
+        // console.log(`Payment data to be sent to Chapa: ${JSON.stringify(paymentData)}`);
         const chapaResponse = await axios.post('https://api.chapa.co/v1/transaction/initialize', paymentData, {
             headers: {
                 Authorization: `Bearer ${process.env.CHAPA_SECRET_KEY}`,
                 'Content-Type': 'application/json'
             }
         });
-        console.log(`Chapa response: ${JSON.stringify(chapaResponse.data)}`);
+        // console.log(`Chapa response: ${JSON.stringify(chapaResponse.data)}`);
 
         if (chapaResponse.data.status !== 'success') {
             return res.status(500).json({ message: 'Payment initialization failed' });
@@ -151,7 +140,7 @@ exports.selectPlan = async (req, res) => {
 
         res.status(200).json({ payment_url: chapaResponse.data.data.checkout_url });
     } catch (error) {
-        console.error('Error selecting plan:', error.response ? error.response.data : error.message);
+        // console.error('Error selecting plan:', error.response ? error.response.data : error.message);
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -185,6 +174,22 @@ exports.selectPlan = async (req, res) => {
 //         res.status(500).json({ message: 'Server error' });
 //     }
 // }
+
+exports.TransactionPay = async (req, res) => {
+    try {
+        const response = await axios.get('https://api.chapa.co/v1/transactions', {
+            headers: {
+                'Authorization': `Bearer ${process.env.CHAPA_SECRET_KEY}`
+            }
+        });
+        const payments = await response.data.data.transactions
+        console.log(payments);
+        res.json(payments); // Adjust based on Chapa's API response structure
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to fetch payments' });
+    }
+};
 
 
 exports.getAllInternships = async (req, res) => {

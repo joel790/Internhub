@@ -1,6 +1,5 @@
 import React from 'react';
 import { PiPerson } from 'react-icons/pi';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const PlanCard = ({ planName, price, features, planId }) => {
