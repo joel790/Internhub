@@ -12,27 +12,33 @@ const { createPayment } = require('../utils/createPayment');
 dotenv.config();
 // Controller for students to apply for an internship
 exports.applyForInternship = async (req, res) => {
-    const { coverLetter, resume, portourl } = req.body;
-    const { internshipId } = req.params
+    const { coverLetter, portfolioUrl } = req.body;
+    const { internshipId } = req.params;
     const studentId = req.user._id; // Assuming req.user contains student info
+    const resume = req.file ? req.file.path : null; // Get the resume file path
+
     try {
         // Check if the internship exists
         const internship = await Internship.findById(internshipId);
         if (!internship) {
             return res.status(404).json({ message: 'Internship not found' });
         }
+
         // Create a new application
         const application = new Application({
             internship: internshipId,
             student: studentId,
             coverLetter,
             resume,
-            portourl
+            portfolioUrl // Make sure this field is correctly assigned
         });
+
         const savedApplication = await application.save();
+
         // Add the application to the internship's applications array
         internship.applications.push(savedApplication._id);
         await internship.save();
+
         res.status(201).json(savedApplication);
     } catch (error) {
         console.error(error);
@@ -40,6 +46,21 @@ exports.applyForInternship = async (req, res) => {
     }
 };
 
+exports.getApplications = async (req, res) => {
+    const studentId = req.user._id; // Assuming req.user contains student info
+
+    try {
+        // Find applications where the student is the applicant
+        const applications = await Application.find({ student: studentId })
+            .populate('internship')
+            .populate('student');
+
+        res.status(200).json(applications);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
 exports.applyToCompany = async (req, res) => {
     const { planId } = req.params;
     const {

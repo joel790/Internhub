@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-// eslint-disable-next-line react/prop-types
 const ApplicationForm = ({ internship, closeModal }) => {
   const [formData, setFormData] = useState({
     coverLetter: "",
@@ -12,6 +13,15 @@ const ApplicationForm = ({ internship, closeModal }) => {
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if there's form data in the local storage and set it
+    const savedFormData = JSON.parse(localStorage.getItem('applicationFormData'));
+    if (savedFormData) {
+      setFormData(savedFormData);
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -57,7 +67,7 @@ const ApplicationForm = ({ internship, closeModal }) => {
       formDataToSend.append("portfolioUrl", formData.portfolioUrl);
 
       try {
-        const response = await axios.post(`/api/internships/${internship._id}/apply`, formDataToSend, {
+        const response = await axios.post(`http://localhost:5000/api/student/internships/${internship._id}/apply`, formDataToSend, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -65,23 +75,30 @@ const ApplicationForm = ({ internship, closeModal }) => {
 
         if (response.status === 201) {
           setIsSubmitted(true);
-          setShowSuccessMessage(true); // Show success message
+          setShowSuccessMessage(true);
           setFormData({
             coverLetter: "",
             resume: null,
             portfolioUrl: "",
-          }); // Clear form data
+          });
+          localStorage.removeItem('applicationFormData');
         }
       } catch (error) {
         console.error("Error submitting application:", error);
-        setErrors({ submit: "Failed to submit application" });
+        if (error.response && error.response.status === 401) {
+          toast.error("Please register or login to the system.");
+          localStorage.setItem('applicationFormData', JSON.stringify(formData));
+          navigate("/auth/register");
+        } else {
+          setErrors({ submit: "Failed to submit application" });
+        }
       }
     }
   };
 
   const closeSuccessMessage = () => {
-    setShowSuccessMessage(false); // Close only the success message
-    closeModal(); // Also close the modal
+    setShowSuccessMessage(false);
+    closeModal();
   };
 
   return (
@@ -146,7 +163,7 @@ const ApplicationForm = ({ internship, closeModal }) => {
             <div>
               <label className="block text-gray-700">Portfolio URL</label>
               <input
-                type="url"
+                type="text"
                 name="portfolioUrl"
                 placeholder="Portfolio URL"
                 className="input"

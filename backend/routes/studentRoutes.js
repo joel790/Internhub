@@ -13,6 +13,7 @@ router.post('/:planId/apply', protect, upload.fields([
 ]), studentController.applyToCompany);
 // router.post("/apply", protect, studentController.applyToCompany);
 // Apply for an internship
-router.post('/internships/:internshipId/apply', protect, studentController.applyForInternship);
+router.post('/internships/:internshipId/apply',upload.single('resume'), protect,studentController.applyForInternship);
 router.get('/internships', studentController.getAllInternships);
+router.get('/applications', protect, studentController.getApplications);
 module.exports = router;

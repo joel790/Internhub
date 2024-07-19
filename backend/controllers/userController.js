@@ -127,6 +127,10 @@ exports.loginUser = asyncHandler(async (req, res) => {
         throw new Error("Invalid credentials");
     }
 });
+exports.logout = (req, res) => {
+    res.clearCookie('token'); // Assuming 'token' is the name of your authentication cookie
+    res.status(200).json({ message: 'Logout successful' });
+ };
 
 exports.forgotPassword = async (req, res) => {
     const { email } = req.body;
