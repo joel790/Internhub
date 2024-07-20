@@ -1,9 +1,57 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
 import PlanCard from '../../components/paymentPlan/PlanCard';
 import paymentimg from '../../assets/payment.png';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const ApplyForCompany = () => {
+    const [plan,setPlan]=useState([])
+
+    useEffect(()=>{
+        const fetchPlan =async()=>{
+            try{
+                const response=await axios.get("http://localhost:5000/api/admin/plans")
+                if(response.status===200){
+                    setPlan(response.data)
+                    console.log(response.data)
+                }
+                else{
+                console.log("you cannot fetch the plans")
+                }
+        }catch(error){
+            console.error("the error is occured",error)
+        }
+
+            
+
+        }
+        fetchPlan()
+
+    },[])
+    console.log(plan)
+
+    const plans = [
+        {
+            planName: 'Basic',
+            price: 0,
+            features: ['post 1 internship', 'basic profile of company', 'Feature 3'],
+            planId: 'basic'
+        },
+        {
+            planName: 'Silver',
+            price: 200,
+            features: ['Feature 1', 'Feature 2', 'Feature 3', 'Feature 3', 'Feature 3'],
+            planId: 'silver'
+        },
+        {
+            planName: 'Gold',
+            price: 500,
+            features: ['Feature 1', 'Feature 2', 'Feature 3',],
+            planId: 'gold'
+        }
+    ];
+
     const handleSubscribe = async () => {
         try {
             const response = await axios.post('http://localhost:5000/api/student/selectplan', { planId });

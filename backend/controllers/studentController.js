@@ -6,6 +6,7 @@ const Plan = require('../models/planModel');
 const Payment = require('../models/paymentMmodel');
 const axios = require('axios'); // For making HTTP requests
 const { v4: uuidv4 } = require('uuid');
+
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const { createPayment } = require('../utils/createPayment');
@@ -62,14 +63,26 @@ exports.getApplications = async (req, res) => {
     }
 };
 exports.applyToCompany = async (req, res) => {
-    const { planId } = req.params;
-    const {
-        name, location, slogan, description, industry, managerName,
-        jobTitle, contactNumber, website,
+
+    const license=req.file
+    const logo=req.file
+   
+    const { 
+        name, 
+        slogan, 
+        description, 
+        industry, 
+        location, 
+        managerName, 
+        jobTitle, 
+        contactNumber, 
+        website, 
+       
     } = req.body;
-    const license = req.files?.license ? req.files.license[0] : null;
-    const logo = req.files?.logo ? req.files.logo[0] : null;
+    // const license = req.files?.license ? req.files.license[0] : null;
+    // const logo = req.files?.logo ? req.files.logo[0] : null;
     const userId = req.user.id;
+    const { planId } = req.params; // Extract planId from URL parameters
 
     try {
         // Validate the ObjectId for planId
@@ -77,9 +90,9 @@ exports.applyToCompany = async (req, res) => {
             return res.status(400).json({ message: 'Invalid subscription plan ID' });
         }
 
-        if (!license || !logo) {
-            return res.status(400).json({ message: 'Both license and logo files are required' });
-        }
+        // if (!license || !logo) {
+        //     return res.status(400).json({ message: 'Both license and logo files are required' });
+        // }
 
         const application = new CompanyApplication({
             user: userId,
@@ -92,9 +105,9 @@ exports.applyToCompany = async (req, res) => {
             jobTitle,
             contactNumber,
             website,
-            license: license.path,
-            logo: logo.path,
-            subscriptionPlan: planId
+            license:"uploads/" + license.filename,
+            logo:"uploads/" + logo.filename,
+            subscriptionPlan: planId // Use planId as ObjectId reference
         });
 
         const savedApplication = await application.save();
@@ -228,3 +241,33 @@ exports.getAllInternships = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+exports.paymentCallback = async (req, res) => {
+    const { tx_ref, status } = req.query;
+
+    try {
+        const payment = await Payment.findOne({ tx_ref }).populate('user plan');
+
+        if (!payment) {
+            return res.status(404).json({ message: 'Payment not found' });
+        }
+
+        if (status === 'success') {
+            payment.status = 'completed';
+            await payment.save();
+
+            payment.user.subscriptionPlan = payment.plan._id;
+            await payment.user.save();
+
+            const planId = payment.plan._id;
+            const redirectUrl = `http://localhost:5173/payment-success?planId=${planId}&status=success`;
+            res.redirect(redirectUrl);
+        } else {
+            payment.status = 'failed';
+            await payment.save();
+            res.status(400).json({ message: 'Payment failed' });
+        }
+    } catch (error) {
+        console.error('Error handling payment callback:', error.response ? error.response.data : error.message);
+        res.status(500).json({ message: 'Server error' });
+    }
+}

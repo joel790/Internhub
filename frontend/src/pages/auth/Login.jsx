@@ -34,20 +34,19 @@ const Login = () => {
     }
   
     try {
-      const resultAction = await dispatch(loginUser({ email, password })).unwrap();
-  
+      const result = await dispatch(loginUser({ email, password })).unwrap();
+          console.log(result.user.role)
+
       toast.success('Login successful');
-  
-      const { role } = resultAction.user;  // Assuming the user's role is included in the response
-      if (role === 'admin') {
-        navigate('/admin');
-      } else if (role === 'student') {
-        navigate('/student');
-      } else if (role === 'company') {
-        navigate('/company');
-      } else {
-        navigate('/');  // Default route
+      if(result.user.role==="company"){
+        navigate('/managerhome');
+
       }
+      else if(result.user.role==="student"){
+        navigate("/Student")
+
+      }
+       // Adjust this to the appropriate dashboard or home route
     } catch (error) {
       if (error) {
         toast.error('User not found, please register.');

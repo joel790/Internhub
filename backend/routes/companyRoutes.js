@@ -17,4 +17,3 @@ router.put('/application/:applicationId/status', protect, company, companyContro
 
 
 module.exports = router;
-
