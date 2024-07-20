@@ -1,7 +1,12 @@
 
+import { useLocation } from "react-router";
 import ProductTable from "./ProductTable";
 
  const AppliedInternship = () => {
+  
+  const location=useLocation()
+  const {internshipId}=location.state||{}
+  console.log(internshipId)
   
  
 
@@ -9,7 +14,7 @@ import ProductTable from "./ProductTable";
     
   <div className="overflow-x-auto">
   
-  <ProductTable/>
+  <ProductTable internId={internshipId}/>
 </div>
   )
 }

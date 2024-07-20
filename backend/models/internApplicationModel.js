@@ -17,7 +17,7 @@ const ApplicationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    portourl: {
+    portfolioUrl: {
         type: String,
         required: true
     },

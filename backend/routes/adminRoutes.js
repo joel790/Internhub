@@ -12,6 +12,6 @@ router.get('/companies/:companyId', adminController.getCompanyById);
 // Route to create, update and get  a plan
 router.post('/plans', protect, admin, adminController.createPlan);
 router.put('/plans/:planId', protect, admin, adminController.updatePlan);
-router.get('/plans', protect, adminController.getAllPlans);
+router.get('/plans',protect, adminController.getAllPlans);
 
 module.exports = router;

@@ -10,10 +10,12 @@ import { IoReorderThreeOutline } from "react-icons/io5";
 import imageportal from "../assets/images.png";
 import "./animations.css";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 // eslint-disable-next-line react/prop-types
 export const DashboardLayout = ({ children, usertype }) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const navigate=useNavigate()
   console.log(userInfo.user.name);
 
   const sidebardata = usertype === "company" ? companySidebarData : studentSideBardata;
@@ -38,8 +40,11 @@ export const DashboardLayout = ({ children, usertype }) => {
   };
 
   const handleLogoutClick = () => {
-    console.log("Logout is clicked");
-  };
+    
+      localStorage.removeItem('token'); // Clear token on logout
+      navigate('/auth/login');
+    };
+  
 
   const handleToggleShow = () => {
     setIsOpening(!toggleShow);

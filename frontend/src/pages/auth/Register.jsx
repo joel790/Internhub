@@ -40,33 +40,37 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !email || !password) {
-      return toast.error("Please fill all fields");
+        return toast.error("Please fill all fields");
     }
 
     if (password.length < 6) {
-      return toast.error("Password must be at least 6 characters long");
+        return toast.error("Password must be at least 6 characters long");
     }
 
     if (!validateEmail(email)) {
-      return toast.error("Please enter a valid email");
+        return toast.error("Please enter a valid email");
     }
 
     if (password !== confirmPassword) {
-      return toast.error("Passwords do not match");
+        return toast.error("Passwords do not match");
     }
 
     const userData = { name, email, password };
     setIsLoading(true);
     try {
-      dispatch(registerUser(userData));
-      toast.success("registered successfully.");
-
+        await dispatch(registerUser(userData)).unwrap();
+        toast.success("Registered successfully.");
+        navigate("/auth/login");
     } catch (error) {
-      toast.error(error.message || "Registration failed");
+        if (error.message === 'User already exists') {
+            toast.error("User already exists");
+        } else {
+            toast.error(error.message || "Registration failed");
+        }
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
-  };
+};
 
   return (
     <div className="flex flex-col md:flex-row h-screen w-full">

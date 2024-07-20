@@ -7,6 +7,10 @@ export const registerUser = createAsyncThunk('auth/registerUser', async (userDat
         const response = await axios.post('http://localhost:5000/api/users/register', userData);
         return response.data;
     } catch (error) {
+        if (error.response && error.response.status === 400) {
+            // Handle user already exists error
+            return thunkAPI.rejectWithValue({ message: 'User already exists' });
+        }
         return thunkAPI.rejectWithValue(error.response.data);
     }
 });

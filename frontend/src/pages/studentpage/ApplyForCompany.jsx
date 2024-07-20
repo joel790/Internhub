@@ -52,6 +52,21 @@ const ApplyForCompany = () => {
         }
     ];
 
+    const handleSubscribe = async () => {
+        try {
+            const response = await axios.post('http://localhost:5000/api/student/selectplan', { planId });
+            const paymentUrl = response.data.payment_url;
+            console.log(paymentUrl);
+            if (paymentUrl) {
+                window.location.href = paymentUrl;
+            } else {
+                console.error('Payment URL not found');
+            }
+        } catch (error) {
+            console.error('Error subscribing to plan:', error.response ? error.response.data : error.message);
+        }
+    };
+
     return (
         <div className='min-h-screen  p-14 '>
             <div className=' flex flex-collg:flex-row py-6 px-14 gap-4 '>
@@ -68,6 +83,7 @@ const ApplyForCompany = () => {
                 {plans.map((plan) => (
                     <PlanCard
                         key={plan.planId}
+                        handleSubscribe={handleSubscribe}
                         planName={plan.planName}
                         price={plan.price}
                         features={plan.features}

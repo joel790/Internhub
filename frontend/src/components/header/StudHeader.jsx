@@ -31,11 +31,6 @@ const TopNav = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-        // const token = Cookies.get('token');
-        // if (!token) {
-        //     console.error('No token found in cookies');
-        //     return;
-        // }
 
         try {
             const response = await axios.get('http://localhost:5000/api/users/profile')
@@ -79,10 +74,10 @@ const TopNav = () => {
           <HiChevronDown size={24} />
         </button>
         {dropdownOpen && (
-          <div className="absolute right-0 z-10 mt-56 w-48 bg-blue-50 text-black rounded-md shadow-lg py-2">
-            <Link to="/profile" className="block px-4 py-2 hover:bg-gray-200">Profile</Link>
-            <Link to="/student/dashboard" className="block px-4 py-2 hover:bg-gray-200">Dashboard</Link>
-            <button onClick={handleLogout} className="block w-full text-left px-4 py-2 hover:bg-gray-200">Logout</button>
+          <div className="absolute border right-0 z-10 mt-56 w-48 bg-white text-black rounded-md shadow-lg py-2">
+            <Link to="/profile" className="block px-4 py-2 hover:bg-blue-400 hover:text-white">Profile</Link>
+            <Link to="/student/dashboard" className="block px-4 py-2 hover:bg-blue-400 hover:text-white">Dashboard</Link>
+            <button onClick={handleLogout} className="block w-full text-left px-4 py-2 hover:bg-blue-400 hover:text-white">Logout</button>
           </div>
         )}
       </div>

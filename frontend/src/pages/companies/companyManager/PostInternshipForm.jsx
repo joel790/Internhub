@@ -27,7 +27,7 @@ const PostInternshipForm = () => {
     if (!internship.benefit) newErrors.benefit = "Benefit is required";
     if (!internship.location) newErrors.location = "Location is required";
     if (!internship.requirements) newErrors.requirements = "Requirement is required";
-    if (!internship.responsibilities) newErrors.responsibilities = "Responsibilities is required";
+    if (!internship.responsibilities) newErrors.responsibilities = "Responsibilities are required";
     if (!internship.skills) newErrors.skills = "Skills are required";
 
     return newErrors;
@@ -62,18 +62,17 @@ const PostInternshipForm = () => {
 
     setInternship({
       title: "",
-    description: "",
-    duration: "",
-    location: "",
-    skills: "",
-    deadline: "",
-    benefit: "",
-    responsibilities: "",
-    requirements: "",
-    type: "remote",
-    payment: "free",
-
-    })
+      description: "",
+      duration: "",
+      location: "",
+      skills: "",
+      deadline: "",
+      benefit: "",
+      responsibilities: "",
+      requirements: "",
+      type: "remote",
+      payment: "free",
+    });
   };
 
   const handleChange = (event) => {
@@ -84,154 +83,164 @@ const PostInternshipForm = () => {
   };
 
   return (
-    <div className="mx-auto max-w-lg">
-      <h2 className="text-2xl font-bold mb-4">Create Internship</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-       
-
+    <div className="mx-auto max-w-4xl p-8 bg-white shadow-lg rounded-lg">
+      <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">Create Internship</h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex flex-col">
-          <label htmlFor="title" className="mb-1">Title</label>
+          <label htmlFor="title" className="mb-1 font-semibold text-gray-700">Title</label>
           <input
             type="text"
             name="title"
             placeholder="Enter internship title"
             value={internship.title}
             onChange={handleChange}
-            className="py-2 px-3 mt-1 border rounded-lg focus:outline-none focus:border-blue-500"
+            className="py-2 px-4 mt-1 border rounded-lg focus:outline-none focus:border-blue-500"
           />
           {errors.title && <span className="text-red-500">{errors.title}</span>}
         </div>
 
         <div className="flex flex-col">
-          <label htmlFor="description" className="mb-1">Description</label>
+          <label htmlFor="description" className="mb-1 font-semibold text-gray-700">Description</label>
           <textarea
             name="description"
             placeholder="Enter internship description"
             value={internship.description}
             onChange={handleChange}
-            className="py-2 px-3 mt-1 border rounded-lg focus:outline-none focus:border-blue-500"
+            className="py-2 px-4 mt-1 border rounded-lg focus:outline-none focus:border-blue-500 h-32"
           />
           {errors.description && <span className="text-red-500">{errors.description}</span>}
         </div>
 
-        <div className="flex flex-col">
-          <label htmlFor="duration" className="mb-1">Duration</label>
-          <input
-            type="date"
-            name="duration"
-            placeholder="Enter internship duration"
-            value={internship.duration}
-            onChange={handleChange}
-            className="py-2 px-3 mt-1 border rounded-lg focus:outline-none focus:border-blue-500"
-          />
-          {errors.duration && <span className="text-red-500">{errors.duration}</span>}
+        <div className="flex flex-wrap -mx-3">
+          <div className="w-full md:w-1/2 px-3 mb-6">
+            <label htmlFor="duration" className="mb-1 font-semibold text-gray-700">Duration</label>
+            <input
+              type="date"
+              name="duration"
+              placeholder="Enter internship duration"
+              value={internship.duration}
+              onChange={handleChange}
+              className="py-2 px-4 mt-1 border rounded-lg focus:outline-none focus:border-blue-500 w-full"
+            />
+            {errors.duration && <span className="text-red-500">{errors.duration}</span>}
+          </div>
+
+          <div className="w-full md:w-1/2 px-3 mb-6">
+            <label htmlFor="deadline" className="mb-1 font-semibold text-gray-700">Deadline</label>
+            <input
+              type="date"
+              name="deadline"
+              placeholder="Enter internship deadline"
+              value={internship.deadline}
+              onChange={handleChange}
+              className="py-2 px-4 mt-1 border rounded-lg focus:outline-none focus:border-blue-500 w-full"
+            />
+            {errors.deadline && <span className="text-red-500">{errors.deadline}</span>}
+          </div>
         </div>
 
-        <div className="flex flex-col">
-          <label htmlFor="deadline" className="mb-1">Deadline</label>
-          <input
-            type="date"
-            name="deadline"
-            placeholder="Enter internship deadline"
-            value={internship.deadline}
-            onChange={handleChange}
-            className="py-2 px-3 mt-1 border rounded-lg focus:outline-none focus:border-blue-500"
-          />
-          {errors.deadline && <span className="text-red-500">{errors.deadline}</span>}
+        <div className="flex flex-wrap -mx-3">
+          <div className="w-full md:w-1/2 px-3 mb-6">
+            <label htmlFor="benefit" className="mb-1 font-semibold text-gray-700">Benefit</label>
+            <input
+              type="text"
+              name="benefit"
+              placeholder="Enter internship benefit"
+              value={internship.benefit}
+              onChange={handleChange}
+              className="py-2 px-4 mt-1 border rounded-lg focus:outline-none focus:border-blue-500 w-full"
+            />
+            {errors.benefit && <span className="text-red-500">{errors.benefit}</span>}
+          </div>
+
+          <div className="w-full md:w-1/2 px-3 mb-6">
+            <label htmlFor="location" className="mb-1 font-semibold text-gray-700">Location</label>
+            <input
+              type="text"
+              name="location"
+              placeholder="Enter internship location"
+              value={internship.location}
+              onChange={handleChange}
+              className="py-2 px-4 mt-1 border rounded-lg focus:outline-none focus:border-blue-500 w-full"
+            />
+            {errors.location && <span className="text-red-500">{errors.location}</span>}
+          </div>
         </div>
 
-        <div className="flex flex-col">
-          <label htmlFor="benefit" className="mb-1">Benefit</label>
-          <input
-            type="text"
-            name="benefit"
-            placeholder="Enter internship benefit"
-            value={internship.benefit}
-            onChange={handleChange}
-            className="py-2 px-3 mt-1 border rounded-lg focus:outline-none focus:border-blue-500"
-          />
-          {errors.benefit && <span className="text-red-500">{errors.benefit}</span>}
+        <div className="flex flex-wrap -mx-3">
+          <div className="w-full md:w-1/2 px-3 mb-6">
+            <label htmlFor="type" className="mb-1 font-semibold text-gray-700">Type</label>
+            <select
+              name="type"
+              value={internship.type}
+              onChange={handleChange}
+              className="py-2 px-4 mt-1 border rounded-lg focus:outline-none focus:border-blue-500 w-full"
+            >
+              <option value="remote">Remote</option>
+              <option value="part time">Part Time</option>
+              <option value="full time">Full Time</option>
+            </select>
+          </div>
+
+          <div className="w-full md:w-1/2 px-3 mb-6">
+            <label htmlFor="payment" className="mb-1 font-semibold text-gray-700">Payment</label>
+            <select
+              name="payment"
+              value={internship.payment}
+              onChange={handleChange}
+              className="py-2 px-4 mt-1 border rounded-lg focus:outline-none focus:border-blue-500 w-full"
+            >
+              <option value="free">Free</option>
+              <option value="paid">Paid</option>
+            </select>
+          </div>
         </div>
 
-        <div className="flex flex-col">
-          <label htmlFor="location" className="mb-1">Location</label>
-          <input
-            type="text"
-            name="location"
-            placeholder="Enter internship location"
-            value={internship.location}
-            onChange={handleChange}
-            className="py-2 px-3 mt-1 border rounded-lg focus:outline-none focus:border-blue-500"
-          />
-          {errors.location && <span className="text-red-500">{errors.location}</span>}
+        <div className="flex flex-wrap -mx-3">
+          <div className="w-full px-3 mb-6">
+            <label htmlFor="skills" className="mb-1 font-semibold text-gray-700">Skills</label>
+            <textarea
+              name="skills"
+              placeholder="Enter internship skills (comma-separated)"
+              value={internship.skills}
+              onChange={handleChange}
+              className="py-2 px-4 mt-1 border rounded-lg focus:outline-none focus:border-blue-500 h-24 w-full"
+            />
+            {errors.skills && <span className="text-red-500">{errors.skills}</span>}
+          </div>
         </div>
 
-        <div className="flex flex-col">
-          <label htmlFor="type" className="mb-1">Type</label>
-          <select
-            name="type"
-            value={internship.type}
-            onChange={handleChange}
-            className="py-2 px-3 mt-1 border rounded-lg focus:outline-none focus:border-blue-500"
-          >
-            <option value="remote">Remote</option>
-            <option value="part time">Part Time</option>
-            <option value="full time">Full Time</option>
-          </select>
+        <div className="flex flex-wrap -mx-3">
+          <div className="w-full px-3 mb-6">
+            <label htmlFor="responsibilities" className="mb-1 font-semibold text-gray-700">Responsibilities</label>
+            <textarea
+              name="responsibilities"
+              placeholder="Enter internship responsibilities (comma-separated)"
+              value={internship.responsibilities}
+              onChange={handleChange}
+              className="py-2 px-4 mt-1 border rounded-lg focus:outline-none focus:border-blue-500 h-24 w-full"
+            />
+            {errors.responsibilities && <span className="text-red-500">{errors.responsibilities}</span>}
+          </div>
         </div>
 
-        <div className="flex flex-col">
-          <label htmlFor="skills" className="mb-1">Skills</label>
-          <textarea
-            name="skills"
-            placeholder="Enter internship skills (comma-separated)"
-            value={internship.skills}
-            onChange={handleChange}
-            className="py-2 px-3 mt-1 border rounded-lg focus:outline-none focus:border-blue-500"
-          />
-          {errors.skills && <span className="text-red-500">{errors.skills}</span>}
-        </div>
-
-        <div className="flex flex-col">
-          <label htmlFor="responsibilities" className="mb-1">Responsibilities</label>
-          <textarea
-            name="responsibilities"
-            placeholder="Enter internship responsibilities (comma-separated)"
-            value={internship.responsibilities}
-            onChange={handleChange}
-            className="py-2 px-3 mt-1 border rounded-lg focus:outline-none focus:border-blue-500"
-          />
-          {errors.responsibilities && <span className="text-red-500">{errors.responsibilities}</span>}
-        </div>
-
-        <div className="flex flex-col">
-          <label htmlFor="requirements" className="mb-1">Requirements</label>
-          <textarea
-            name="requirements"
-            placeholder="Enter internship requirements (comma-separated)"
-            value={internship.requirements}
-            onChange={handleChange}
-            className="py-2 px-3 mt-1 border rounded-lg focus:outline-none focus:border-blue-500"
-          />
-          {errors.requirements && <span className="text-red-500">{errors.requirements}</span>}
-        </div>
-
-        <div className="flex flex-col">
-          <label htmlFor="payment" className="mb-1">Payment</label>
-          <select
-            name="payment"
-            value={internship.payment}
-            onChange={handleChange}
-            className="py-2 px-3 mt-1 border rounded-lg focus:outline-none focus:border-blue-500"
-          >
-            <option value="free">Free</option>
-            <option value="paid">Paid</option>
-          </select>
+        <div className="flex flex-wrap -mx-3">
+          <div className="w-full px-3 mb-6">
+            <label htmlFor="requirements" className="mb-1 font-semibold text-gray-700">Requirements</label>
+            <textarea
+              name="requirements"
+              placeholder="Enter internship requirements (comma-separated)"
+              value={internship.requirements}
+              onChange={handleChange}
+              className="py-2 px-4 mt-1 border rounded-lg focus:outline-none focus:border-blue-500 h-24 w-full"
+            />
+            {errors.requirements && <span className="text-red-500">{errors.requirements}</span>}
+          </div>
         </div>
 
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200"
+          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-200 w-full"
         >
           Submit
         </button>
@@ -240,4 +249,4 @@ const PostInternshipForm = () => {
   );
 };
 
-export default PostInternshipForm
+export default PostInternshipForm;

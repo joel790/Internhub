@@ -13,7 +13,7 @@ const generateToken = (id) => {
 
 // Register User
 exports.registerUser = async (req, res) => {
-    const { name, email, password, } = req.body;
+    const { name, email, password } = req.body;
 
     try {
         // Check if user exists
@@ -31,37 +31,19 @@ exports.registerUser = async (req, res) => {
 
         await user.save();
 
-        // Generate a verification token
-        // const verificationToken = crypto.randomBytes(32).toString('hex');
-        // const token = new Token({
-        //     user: user._id,
-        //     token: verificationToken
-        // });
-
-        // await token.save();
-
-        // Send verification email
-        //     const verificationUrl = `${process.env.BASE_URL}/api/users/verify/${verificationToken}`;
-        //     const message = `Email Verification
-        //   Please verify your email by clicking the link below:
-        //   ${verificationUrl}`;
-
-        //     await sendEmail({
-        //         to: user.email,
-        //         subject: 'Email Verification',
-        //         text: message
-        //     });
         // Generate JWT token
         const token = generateToken(user._id);
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV !== 'development',
+            sameSite: "none"
         });
         res.status(201).json({ token, user });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Email Verification
 // exports.verifyEmail = async (req, res) => {
