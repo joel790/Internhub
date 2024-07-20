@@ -77,7 +77,7 @@ const Register = () => {
       <div className="md:w-1/2 flex items-center justify-center bg-cover bg-no-repeat bg-center bg-sky-500">
         <img  src={loginimg} alt="Login" />
       </div>
-      <div className="md:w-1/2 py-10 md:py-20 md:px-36 border-2 rounded-r-2xl border-white">
+      <div className="md:w-1/2 py-10 md:py-20 md:px-36 px-6 border-2 rounded-r-2xl border-white">
         <h2 className="text-center text-xl text-blue-600">Sign Up To The System</h2>
         <form className="space-y-3" onSubmit={handleSubmit}>
           <div>

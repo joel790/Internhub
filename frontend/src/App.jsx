@@ -43,11 +43,12 @@ const App = () => {
         <Route path="/student" element={<StudentHome />}>
           <Route index element={<StudHome />} />
           <Route path="apply" element={<ApplyForCompany />} />
-          <Route path="dashboard" element={<Dashboard />} />
           <Route path="applications" element={<Applications />} />
           <Route path="internships" element={<InternHome />} />
           <Route path="companies" element={<CompanyHome />} />
         </Route>
+        <Route path="/dashboard" element={<Dashboard />} />
+
         <Route path="/payment-success" element={<PaymentSuccess />} />
         {/* <Route path="payment/:planId" element={<PaymentForm />} /> */}
         {/* <Route path="auth/verify/:token" element={<VerifyEmail />} /> */}

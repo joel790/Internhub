@@ -35,9 +35,8 @@ const TopNav = () => {
 
         try {
             const response = await axios.get('http://localhost:5000/api/users/profile')
-
-            const data = response.data;
-            setUserName(data.email);
+            // const data = await response.data;
+            setUserName(response.data.name);
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
@@ -84,7 +83,7 @@ const handleLogout = async () => {
         {dropdownOpen && (
           <div className="absolute border right-0 z-10 mt-56 w-48 bg-white text-black rounded-md shadow-lg py-2">
             <Link to="/student/profile" className="block px-4 py-2 hover:bg-blue-400 hover:text-white">Profile</Link>
-            <Link to="/student/dashboard" className="block px-4 py-2 hover:bg-blue-400 hover:text-white">Dashboard</Link>
+            <Link to="/dashboard" className="block px-4 py-2 hover:bg-blue-400 hover:text-white">Dashboard</Link>
             <button onClick={handleLogout} className="block w-full text-left px-4 py-2 hover:bg-blue-400 hover:text-white">Logout</button>
           </div>
         )}

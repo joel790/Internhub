@@ -64,7 +64,7 @@ const Login = () => {
       <div className="md:w-1/2 flex items-center justify-center bg-no-repeat bg-center bg-sky-500">
         <img src={loginImg} alt="Login"  />
       </div>
-      <div className="md:w-1/2 py-10 md:py-20 md:px-36 flex flex-col items-center justify-center">
+      <div className="md:w-1/2 py-10 md:py-20 md:px-36 px-6 flex flex-col items-center justify-center">
         <h2 className="text-center text-xl text-blue-600 mb-6">Sign In To The System</h2>
         <form className="space-y-3 w-full max-w-md" onSubmit={handleSubmit}>
           <div>

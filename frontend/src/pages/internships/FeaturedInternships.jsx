@@ -15,7 +15,6 @@ const FeaturedInternships = () => {
       try {
         const response = await axios.get('http://localhost:5000/api/company/internship/featured');
         setFeaturedInternships(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error('Error fetching featured internships:', error);
       }
