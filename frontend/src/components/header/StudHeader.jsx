@@ -4,6 +4,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import { HiChevronDown } from 'react-icons/hi';
 import logo from "../../assets/Logo1.png";
 import axios from "axios"
+import { toast } from 'react-toastify';
 const TopNav = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isScrollingUp, setIsScrollingUp] = useState(false);
@@ -36,7 +37,7 @@ const TopNav = () => {
             const response = await axios.get('http://localhost:5000/api/users/profile')
 
             const data = response.data;
-            setUserName(data.name);
+            setUserName(data.email);
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
@@ -46,11 +47,18 @@ const TopNav = () => {
 }, []);
 
 
-  const handleLogout = () => {
-    // Implement logout functionality here
-    localStorage.removeItem('token'); // Clear token on logout
+const handleLogout = async () => {
+  try {
+    await axios.post('http://localhost:5000/api/users/logout', {}, {
+      withCredentials: true, // Ensure cookies are sent with the request
+    });
+    toast.success('Logout successful');
     navigate('/auth/login');
-  };
+  } catch (error) {
+    console.error('Error during logout:', error);
+    toast.error('Failed to logout');
+  }
+};
 
   return (
     <nav className={`bg-white shadow-md text-black p-4 flex justify-between z-30 items-center transition-transform duration-300 ${isScrollingUp ? 'sticky top-0' : ''}`}>
@@ -75,7 +83,7 @@ const TopNav = () => {
         </button>
         {dropdownOpen && (
           <div className="absolute border right-0 z-10 mt-56 w-48 bg-white text-black rounded-md shadow-lg py-2">
-            <Link to="/profile" className="block px-4 py-2 hover:bg-blue-400 hover:text-white">Profile</Link>
+            <Link to="/student/profile" className="block px-4 py-2 hover:bg-blue-400 hover:text-white">Profile</Link>
             <Link to="/student/dashboard" className="block px-4 py-2 hover:bg-blue-400 hover:text-white">Dashboard</Link>
             <button onClick={handleLogout} className="block w-full text-left px-4 py-2 hover:bg-blue-400 hover:text-white">Logout</button>
           </div>
