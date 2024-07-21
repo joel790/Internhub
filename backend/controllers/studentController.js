@@ -17,14 +17,12 @@ exports.applyForInternship = async (req, res) => {
     const { internshipId } = req.params;
     const studentId = req.user._id; // Assuming req.user contains student info
     const resume = req.file ? req.file.path : null; // Get the resume file path
-
     try {
         // Check if the internship exists
         const internship = await Internship.findById(internshipId);
         if (!internship) {
             return res.status(404).json({ message: 'Internship not found' });
         }
-
         // Create a new application
         const application = new Application({
             internship: internshipId,
@@ -33,13 +31,10 @@ exports.applyForInternship = async (req, res) => {
             resume,
             portfolioUrl // Make sure this field is correctly assigned
         });
-
         const savedApplication = await application.save();
-
         // Add the application to the internship's applications array
         internship.applications.push(savedApplication._id);
         await internship.save();
-
         res.status(201).json(savedApplication);
     } catch (error) {
         console.error(error);
@@ -64,8 +59,8 @@ exports.getApplications = async (req, res) => {
 };
 exports.applyToCompany = async (req, res) => {
 
-    const license=req.file
-    const logo=req.file
+    // const license=req.file
+    // const logo=req.file
    
     const { 
         name, 
@@ -79,8 +74,8 @@ exports.applyToCompany = async (req, res) => {
         website, 
        
     } = req.body;
-    // const license = req.files?.license ? req.files.license[0] : null;
-    // const logo = req.files?.logo ? req.files.logo[0] : null;
+    const license = req.files?.license ? req.files.license[0] : null;
+    const logo = req.files?.logo ? req.files.logo[0] : null;
     const userId = req.user.id;
     const { planId } = req.params; // Extract planId from URL parameters
 

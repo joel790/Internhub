@@ -9,10 +9,9 @@ router.get('/internship/featured', companyController.featuredInternships);
 router.put('/internship/:internshipId', protect, company, companyController.updateInternship);
 router.delete('/internship/:internshipId', protect, company, companyController.deleteInternship);
 router.get('/internship/my-internship', protect, company, companyController.getAllInternshipsByCompany);
-// router.get('/internships', companyController.getAllInternships);
+router.get('/companyinternship/:companyId', companyController.getAllInternshipsOfCompany);
 router.get('/internships/:id', companyController.getInternshipsById);
 router.get('/internship/:internshipId/applications', protect, company, companyController.getApplicationsForInternship);
-// Approve or reject an application 
 router.put('/application/:applicationId/status', protect, company, companyController.updateApplicationStatus);
 
 

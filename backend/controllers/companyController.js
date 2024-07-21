@@ -76,6 +76,22 @@ exports.deleteInternship = async (req, res) => {
     }
 };
 
+exports.getAllInternshipsOfCompany = async (req, res) => {
+    const { companyId } = req.params;
+
+    try {
+        const internships = await Internship.find({ company: companyId });
+
+        if (!internships.length) {
+            return res.status(404).json({ message: 'No internships found' });
+        }
+
+        res.status(200).json(internships);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
 // Controller to get all internships by company
 exports.getAllInternshipsByCompany = async (req, res) => {
     const companyId = req.user._id; // Assuming req.user contains company info
