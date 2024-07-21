@@ -12,7 +12,7 @@ import ProductTable from "./ProductTable";
 
   return (
     
-  <div className="overflow-x-auto">
+  <div className="overflow-x-auto bg-white min-h-screen">
   
   <ProductTable internId={internshipId}/>
 </div>

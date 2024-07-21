@@ -21,17 +21,17 @@ const Sidebar = ({data,toggleShow,setToggleShow}) => {
     <div className="relative">
       {toggleShow && (
         <div className="absolute top-4 right-4 md:hidden">
-          <IoReorderThreeOutline onClick={handleToggle} className="text-3xl text-white cursor-pointer" />
+          <IoReorderThreeOutline onClick={handleToggle} className="text-3xl text-slate-900 cursor-pointer" />
         </div>
       )}
-      <div className={`bg-black h-full ${toggleShow ? 'w-64' : 'w-72'}`}>
+      <div className={`bg-zinc-100 h-full ${toggleShow ? 'w-64' :""}`}>
         <ul className="flex flex-col">
           {data.map((item, index) => (
             <li key={index} className="py-2 ">
 
               <Link
                 to={item.link}
-                className={`flex items-center text-white px-4 py-2 rounded-lg hover:bg-gray-800 ${color===index?'bg-zinc-400':""}`}
+                className={`flex items-center text-black px-4 py-2 rounded-lg hover:bg-gray-800 ${color===index?'bg-zinc-400':""}`}
                 onClick={()=>handleColor(index)}
               >
                 <span className="mr-2 text-xl">{item.icon}</span>

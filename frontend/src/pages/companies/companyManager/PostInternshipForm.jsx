@@ -115,7 +115,7 @@ const PostInternshipForm = () => {
           <div className="w-full md:w-1/2 px-3 mb-6">
             <label htmlFor="duration" className="mb-1 font-semibold text-gray-700">Duration</label>
             <input
-              type="date"
+              type="text"
               name="duration"
               placeholder="Enter internship duration"
               value={internship.duration}

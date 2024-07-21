@@ -16,7 +16,7 @@ import { useNavigate } from "react-router";
 export const DashboardLayout = ({ children, usertype }) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const navigate=useNavigate()
-  console.log(userInfo.user.name);
+  // console.log(userInfo.user.name);
 
   const sidebardata = usertype === "company" ? companySidebarData : studentSideBardata;
   const [toggleShow, setToggleShow] = useState(window.innerWidth >= 768);
@@ -65,9 +65,9 @@ export const DashboardLayout = ({ children, usertype }) => {
   ];
 
   return (
-    <div className="flex w-full">
+    <div className="flex w-full ">
       <div
-        className={`bg-black min-h-screen fixed top-0 left-0 ${
+        className={`bg-zinc-100 min-h-screen fixed top-0 left-0 ${
           toggleShow
             ? isLargeScreen
               ? "w-64 sm:w-64"
@@ -87,10 +87,10 @@ export const DashboardLayout = ({ children, usertype }) => {
           <div className="flex items-center">
             <img src={imageportal} alt="Logo" className="w-10 h-10 object-cover mr-4" />
           </div>
-          <DashboardHeader image={imagegeb} name={userInfo.user.name} dropdown={dropdowns} />
+          <DashboardHeader image={imagegeb} name={userInfo?userInfo.user.name:""} dropdown={dropdowns} />
         </div>
 
-        <div className="w-full min-h-screen bg-zinc-300 p-4 flex-grow">
+        <div className="w-full min-h-screen bg-white p-4 flex-grow">
           {children}
         </div>
       </div>
