@@ -113,7 +113,6 @@ exports.applyToCompany = async (req, res) => {
     }
 };
 
-
 exports.selectPlan = async (req, res) => {
     const { planId } = req.body;
     const userId = req.user._id;
@@ -222,20 +221,21 @@ exports.TransactionPay = async (req, res) => {
 
 
 exports.getAllInternships = async (req, res) => {
-
     try {
-        const internships = await Internship.find();
-
-        if (!internships.length) {
-            return res.status(404).json({ message: 'No internships found' });
-        }
-
-        res.status(200).json(internships);
+      const internships = await Internship.find().populate({
+        path: 'company',
+        select: 'companyDetails', 
+      });
+  
+      if (!internships.length) {
+        return res.status(404).json({ message: 'No internships found' });
+      }
+      res.status(200).json(internships);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
     }
-};
+  };
 exports.paymentCallback = async (req, res) => {
     const { tx_ref, status } = req.query;
 

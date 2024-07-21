@@ -3,7 +3,7 @@ const Application = require("../models/internApplicationModel");
 const User = require('../models/userModel');
 // Controller to create an internship
 exports.createInternship = async (req, res) => {
-    const { title, location, type, payment, duration,industry, description, requirements, skills, deadline, benefit, responsibilities } = req.body;
+    const { title, location, type, payment, duration, industry, description, requirements, skills, deadline, benefit, responsibilities } = req.body;
     const companyId = req.user._id; // Assuming req.user contains company info
 
     try {
@@ -144,7 +144,7 @@ exports.updateApplicationStatus = async (req, res) => {
         // Update the application status
         application.status = status;
         const updatedApplication = await application.save();
-       
+
         res.status(200).json(updatedApplication);
     } catch (error) {
         console.error(error);
@@ -187,7 +187,7 @@ exports.getInternshipsById = async (req, res) => {
 
 exports.featuredInternships = async (req, res) => {
     try {
-        const featuredinternships= await Internship.find({featured:true});
+        const featuredinternships = await Internship.find({ featured: true });
         if (!featuredinternships) {
             return res.status(404).json("no featured internships")
         }
