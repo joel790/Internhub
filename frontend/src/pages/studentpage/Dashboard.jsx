@@ -1,85 +1,67 @@
-// eslint-disable-next-line no-unused-vars
-import React from 'react';
-import Payment from './Payment';
+import React, { useState } from 'react';
+import Sidebar from './StudDashboard/Sidebar';
+import Header from './StudDashboard/Header';
+import Card from './StudDashboard/Card';
+import Messages from './StudDashboard/Messages';
+import RecentOrders from './StudDashboard/RecentOrders';
+import { FaArrowUp, FaArrowDown, FaChartLine, FaChartPie, FaHome, FaEnvelope, FaCog, FaQuestionCircle, FaSignOutAlt, FaUser, FaThumbsUp, FaRegThumbsUp } from 'react-icons/fa';
+import TopNav from '../../components/header/StudHeader';
 
 const Dashboard = () => {
-  // Dummy data
-  const statistics = {
-    totalInternships: 10,
-    activeApplications: 3,
-    completedInternships: 2,
-    rejectedApplications: 1
-  };
+  const [openSideBar, setOpenSideBar] = useState(true);
+  const [showMenu, setShowMenu] = useState(false);
 
-  const appliedInternships = [
+  const navigationList = [
+    { name: 'Dashboard', icon: <FaHome/> },
+    { name: 'Applications', icon: <FaThumbsUp /> },
+    { name: 'Profiles', icon: <FaEnvelope /> },
+    { name: 'Payments', icon: <FaCog /> },
+    { name: 'Help', icon: <FaQuestionCircle /> },
+  ];
+
+  const footerNavigation = [
+    { name: 'Logout', icon: <FaSignOutAlt /> },
+  ];
+
+  const messages = [
     {
-      id: 1,
-      company: 'Tech Corp',
-      position: 'Software Developer Intern',
-      status: 'Active',
-      appliedDate: '2024-06-01'
+      image: 'https://randomuser.me/api/portraits/men/32.jpg',
+      name: 'John Doe',
+      message: 'Hey, I need some help!',
+      time: '2 hours ago',
     },
+    // Add more messages here
+  ];
+
+  const orders = [
     {
-      id: 2,
-      company: 'Innovate Solutions',
-      position: 'Data Analyst Intern',
-      status: 'Completed',
-      appliedDate: '2024-05-15'
+      orderId: '12345',
+      product: 'Product A',
+      date: '2023-07-20',
+      amount: '$100',
+      status: 'Pending',
     },
-    {
-      id: 3,
-      company: 'Future Tech',
-      position: 'UX/UI Designer Intern',
-      status: 'Rejected',
-      appliedDate: '2024-04-20'
-    }
+    // Add more orders here
   ];
 
   return (
-    <div className="p-10">
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-      <div className="cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="card p-4 bg-white border-blue-200 border shadow-md rounded cursor-pointer">
-          <h2 className="text-xl font-semibold">Total Internships</h2>
-          <p className="text-2xl">{statistics.totalInternships}</p>
-        </div>
-        <div className="card p-4 bg-white shadow-md rounded border-blue-200 border cursor-pointer">
-          <h2 className="text-xl font-semibold">Active Applications</h2>
-          <p className="text-2xl">{statistics.activeApplications}</p>
-        </div>
-        <div className="card p-4 bg-white shadow-md rounded border-blue-200 border cursor-pointer">
-          <h2 className="text-xl font-semibold">Completed Internships</h2>
-          <p className="text-2xl">{statistics.completedInternships}</p>
-        </div>
-        <div className="card p-4 bg-white shadow-md rounded border-blue-200 border cursor-pointer">
-          <h2 className="text-xl font-semibold">Rejected Applications</h2>
-          <p className="text-2xl">{statistics.rejectedApplications}</p>
+    <div className="flex">
+      <Sidebar openSideBar={openSideBar} showMenu={showMenu} setShowMenu={setShowMenu} setOpenSideBar={setOpenSideBar} navigationList={navigationList} footerNavigation={footerNavigation} />
+      <div className="flex flex-col flex-1 bg-[#F9FAFB] relative">
+
+        <Header showMenu={showMenu} setShowMenu={setShowMenu} />
+        <div className="p-6 space-y-6">
+          <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <Card type="Revenue" percentage="10%" arrow={<FaArrowUp />} price="$10,000" graph={<FaChartLine />} />
+            <Card type="Orders" percentage="5%" arrow={<FaArrowDown />} price="100" graph={<FaChartPie />} />
+            <Card type="Sales" percentage="15%" arrow={<FaArrowUp />} price="200" graph={<FaChartLine />} />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Messages messages={messages} />
+            <RecentOrders orders={orders} />
+          </div>
         </div>
       </div>
-      <div className="applied-internships">
-        <h2 className="text-xl font-bold mb-4">Applied Internships</h2>
-        <table className="min-w-full bg-white shadow-md rounded overflow-hidden">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 bg-gray-200 text-left">Company</th>
-              <th className="py-2 px-4 bg-gray-200 text-left">Position</th>
-              <th className="py-2 px-4 bg-gray-200 text-left">Status</th>
-              <th className="py-2 px-4 bg-gray-200 text-left">Applied Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {appliedInternships.map((internship) => (
-              <tr key={internship.id}>
-                <td className="py-2 px-4 border-b">{internship.company}</td>
-                <td className="py-2 px-4 border-b">{internship.position}</td>
-                <td className="py-2 px-4 border-b">{internship.status}</td>
-                <td className="py-2 px-4 border-b">{internship.appliedDate}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <Payment/>
     </div>
   );
 };

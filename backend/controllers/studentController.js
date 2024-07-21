@@ -64,8 +64,8 @@ exports.getApplications = async (req, res) => {
 };
 exports.applyToCompany = async (req, res) => {
 
-    const license=req.file
-    const logo=req.file
+    // const license=req.file
+    // const logo=req.file
    
     const { 
         name, 
@@ -79,8 +79,8 @@ exports.applyToCompany = async (req, res) => {
         website, 
        
     } = req.body;
-    // const license = req.files?.license ? req.files.license[0] : null;
-    // const logo = req.files?.logo ? req.files.logo[0] : null;
+    const license = req.files?.license ? req.files.license[0] : null;
+    const logo = req.files?.logo ? req.files.logo[0] : null;
     const userId = req.user.id;
     const { planId } = req.params; // Extract planId from URL parameters
 
@@ -117,6 +117,7 @@ exports.applyToCompany = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
 
 
 exports.selectPlan = async (req, res) => {
