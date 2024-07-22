@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import Sidebar from "./sidebar/Sidebar";
 import axios from "axios";
@@ -14,6 +13,7 @@ import { Link } from "react-router-dom";
 import "./animations.css";
 // import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 // eslint-disable-next-line react/prop-types
 export const DashboardLayout = ({ children, usertype }) => {
@@ -24,8 +24,6 @@ export const DashboardLayout = ({ children, usertype }) => {
 
   const sidebardata = usertype === "company" ? companySidebarData : studentSideBardata;
   const [toggleShow, setToggleShow] = useState(window.innerWidth >= 768);
-  // eslint-disable-next-line no-unused-vars
-  const [isOpening, setIsOpening] = useState(true);
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);
 
   useEffect(() => {
@@ -59,14 +57,11 @@ export const DashboardLayout = ({ children, usertype }) => {
   };
 
   const handleLogoutClick = () => {
-    
-      localStorage.removeItem('token'); // Clear token on logout
-      navigate('/auth/login');
-    };
-  
+    localStorage.removeItem('token'); // Clear token on logout
+    navigate('/auth/login');
+  };
 
   const handleToggleShow = () => {
-    setIsOpening(!toggleShow);
     setToggleShow(!toggleShow);
   };
 
@@ -97,8 +92,11 @@ export const DashboardLayout = ({ children, usertype }) => {
         <Sidebar data={sidebardata} toggleShow={toggleShow} setToggleShow={setToggleShow} />
       </div>
 
-      <div className="md:hidden sm:flex">
-        <IoReorderThreeOutline className="text-3xl cursor-pointer m-4" onClick={handleToggleShow} />
+      <div className="md:hidden flex w-full">
+        <IoReorderThreeOutline
+          className="text-3xl cursor-pointer m-4"
+          onClick={handleToggleShow}
+        />
       </div>
 
       <div className="flex flex-col w-full bg-gray-100">

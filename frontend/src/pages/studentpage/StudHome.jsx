@@ -13,14 +13,15 @@ import paymentimg from '../../assets/payment.png';
 // eslint-disable-next-line no-unused-vars
 import { FaClosedCaptioning } from 'react-icons/fa';
 import { CgClose } from 'react-icons/cg';
-
+import {toast} from "react-toastify"
+import { useNavigate } from 'react-router';
 const Home = () => {
     const [selectedTab, setSelectedTab] = useState('Student');
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [plans, setPlans] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-
+const navigate = useNavigate()
     useEffect(() => {
         const fetchPlans = async () => {
             try {
@@ -28,6 +29,10 @@ const Home = () => {
                 setPlans(response.data);
             } catch (error) {
                 setError(error.message);
+                if (error.response && error.response.status === 401) {
+                    toast.error("session expired please login")
+                    navigate("/auth/login")
+                }
             } finally {
                 setIsLoading(false);
             }
@@ -150,7 +155,7 @@ const Home = () => {
                         </div>
                         <div className="flex flex-col lg:flex-row gap-6 items-center justify-center pb-6">
                             {isLoading ? (
-                                <p>Loading plans...</p>
+                                <p></p>
                             ) : error ? (
                                 <p>Error fetching plans: {error}</p>
                             ) : (
