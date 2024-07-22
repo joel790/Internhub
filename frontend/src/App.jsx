@@ -15,15 +15,16 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import ManagerHome from "./pages/companies/companyManager/ManagerHome";
-import ForgotPassword from './pages/auth/ForgotPassword';
+import ForgotPassword from "./pages/auth/ForgotPassword";
 // import VerifyEmail from './components/email/VerifyEmail';
-import ApplyForCompany from './pages/studentpage/ApplyForCompany';
-import StudHome from './pages/studentpage/StudHome';
-import StudentHome from './pages/studentpage/StudentHome';
+import ApplyForCompany from "./pages/studentpage/ApplyForCompany";
+import StudHome from "./pages/studentpage/StudHome";
+import StudentHome from "./pages/studentpage/StudentHome";
 import Dashboard from "./pages/studentpage/Dashboard";
 import Profile from "./pages/studentpage/Profile";
 import Applications from "./pages/studentpage/Applications";
 import PaymentSuccess from "./pages/studentpage/PaymentSuccess";
+import AdminDashboard from "./pages/adminpage/AdminDashboard";
 axios.defaults.withCredentials = true;
 const App = () => {
   return (
@@ -40,24 +41,32 @@ const App = () => {
           <Route path="apply" element={<ApplyForCompany />} />
           <Route path="applications" element={<Applications />} />
           <Route path="companies" element={<CompanyHome />} />
-          <Route path="internships" element={<InternHome/>}/>
+          <Route path="internships" element={<InternHome />} />
         </Route>
 
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admindashboard" element={<AdminDashboard />} />
+
         <Route path="/payment-success" element={<PaymentSuccess />} />
         {/* <Route path="payment/:planId" element={<PaymentForm />} /> */}
         {/* <Route path="auth/verify/:token" element={<VerifyEmail />} /> */}
-        <Route path="/auth/login" element={<Login/>}/>
-        <Route path="/auth/register" element={<Register/>}/>
-        <Route path="profile" element={<Profile/>}/>
-        <Route path="/auth/forgotpassword" element={<ForgotPassword/>}/>
+        <Route path="/auth/login" element={<Login />} />
+        <Route path="/auth/register" element={<Register />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="/auth/forgotpassword" element={<ForgotPassword />} />
         <Route path="company/:id" element={<CompanyDetail />} />
-        <Route path="/internship/all-internships" element={<AllInternships />} />
+        <Route
+          path="/internship/all-internships"
+          element={<AllInternships />}
+        />
         <Route path="/internship/:id" element={<InternshipDetail />} />
-        <Route path="student/apply-company-form/:planId" element={<CompanyForm />} />
+        <Route
+          path="student/apply-company-form/:planId"
+          element={<CompanyForm />}
+        />
         <Route path="/apply/:internshipTitle" element={<ApplicationForm />} />
-        <Route path="/managerhome/*" element={<ManagerHome />}>
-        </Route>
+        <Route path="/managerhome/*" element={<ManagerHome />} />
+        {/* <Route path="/admin/*" element={<AdminHome />}></Route> */}
       </Routes>
     </BrowserRouter>
   );
