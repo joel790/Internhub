@@ -12,6 +12,7 @@ const DashboardHeader = ({ image, name, dropdown }) => {
   return (
     
       <div className="flex flex-row justify-between items-center">
+        
         <div className="flex items-center gap-2 cursor-pointer" >
           <img
             src={image}

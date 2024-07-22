@@ -1,9 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import axios from 'axios';
 import React, { useState } from 'react';
 
-const DataTable = ({ columns, data, onEdit, onDelete, onView }) => {
+const DataTable = ({ columns, data, onEdit, onView, ondeleteShow }) => {
     const [sortBy, setSortBy] = useState(null);
     const [sortOrder, setSortOrder] = useState('asc');
     const [searchTerm, setSearchTerm] = useState('');
@@ -41,12 +40,10 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView }) => {
     );
 
     return (
-        <div className="relative overflow-x-auto  sm:rounded-lg bg-white">
-            <div className="flex flex-col md:flex-row items-center justify-between p-4 space-y-4 md:space-y-0 bg-gray-100">
+        <div className="relative overflow-x-auto bg-white  rounded-lg border border-gray-200 ml-10 p-6">
+            <div className="flex flex-col md:flex-row items-center justify-between p-4 bg-gray-50 border-b border-gray-200 rounded-t-lg">
                 <div className="flex items-center space-x-4">
-                    <label htmlFor="table-search" className="sr-only">
-                        Search
-                    </label>
+                    <label htmlFor="table-search" className="sr-only">Search</label>
                     <input
                         type="text"
                         id="table-search"
@@ -55,32 +52,12 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView }) => {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    <button
-                        type="button"
-                        className="inline-flex items-center text-gray-500 bg-white border border-gray-300 rounded-lg px-3 py-1.5 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100"
-                    >
-                        Actions
-                        <svg
-                            className="w-4 h-4 ml-2"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 10 6"
-                        >
-                            <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="m1 1 4 4 4-4"
-                            />
-                        </svg>
-                    </button>
+                 
                 </div>
             </div>
 
             <table className="w-full text-sm text-gray-500">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-100">
                     <tr>
                         <th className="p-4">
                             <div className="flex items-center">
@@ -115,7 +92,7 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView }) => {
                     {filteredData.length > 0 ? filteredData.map((row, rowIndex) => (
                         <tr
                             key={rowIndex}
-                            className="bg-white border-b hover:bg-gray-100"
+                            className="bg-white border-b hover:bg-gray-100 transition-colors duration-200"
                         >
                             <td className="p-4">
                                 <div className="flex items-center">
@@ -136,22 +113,22 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView }) => {
                             ))}
                             <td className="px-6 py-4 flex space-x-2">
                                 <button
-                                    className="px-4 py-2 text-blue-600 bg-blue-100 rounded hover:bg-blue-200"
+                                    className="px-4 py-2 text-blue-600 bg-blue-100 rounded hover:bg-blue-200 transition-colors duration-200"
                                     onClick={() => onEdit(row.id)}
                                 >
                                     Edit
                                 </button>
                                 <button
-                                    className="px-4 py-2 text-red-600 bg-red-100 rounded hover:bg-red-200"
-                                    onClick={() => onDelete(row.id)}
+                                    className="px-4 py-2 text-red-600 bg-red-100 rounded hover:bg-red-200 transition-colors duration-200"
+                                    onClick={() => ondeleteShow(row.id)}
                                 >
                                     Delete
                                 </button>
                                 <button
-                                    className="px-4 py-2 text-green-600 bg-green-100 rounded hover:bg-green-200"
+                                    className="px-4 py-2 text-green-600 bg-green-100 rounded hover:bg-green-200 transition-colors duration-200"
                                     onClick={() => onView(row.id)}
                                 >
-                                    View
+                                    applicants
                                 </button>
                             </td>
                         </tr>
