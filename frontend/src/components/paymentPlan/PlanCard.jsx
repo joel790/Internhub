@@ -15,6 +15,7 @@ const PlanCard = ({ planName, price, features, planId }) => {
             }
         } catch (error) {
             console.error('Error subscribing to plan:', error.response ? error.response.data : error.message);
+           
         }
     };
 

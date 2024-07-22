@@ -20,7 +20,6 @@ const AllInternships = () => {
       try {
         const response = await axios.get("http://localhost:5000/api/student/internships");
         setInternships(response.data);
-        console.log(response.data);
         setFilteredInternships(response.data);
       } catch (error) {
         console.error("Error fetching internships:", error);
@@ -29,63 +28,22 @@ const AllInternships = () => {
     fetchInternships();
   }, []);
 
-  const handleFilter = (filters) => {
-    // Filter logic here based on filters
-    let filteredInternships = internships;
-
-    if (filters.location) {
-      filteredInternships = filteredInternships.filter(
-        (internship) => internship.location === filters.location
-      );
+  const handleFilter = async (filters) => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/student/internships", { params: filters });
+      setFilteredInternships(response.data);
+    } catch (error) {
+      console.error("Error fetching filtered internships:", error);
     }
-
-    if (filters.company) {
-      filteredInternships = filteredInternships.filter(
-        (internship) => internship.company === filters.company
-      );
-    }
-
-    if (filters.industry) {
-      filteredInternships = filteredInternships.filter((internship) =>
-        internship.role.toLowerCase().includes(filters.industry.toLowerCase())
-      );
-    }
-
-    if (filters.type.fullTime) {
-      filteredInternships = filteredInternships.filter(
-        (internship) => internship.type === "Full time"
-      );
-    }
-
-    if (filters.type.partTime) {
-      filteredInternships = filteredInternships.filter(
-        (internship) => internship.type === "Part time"
-      );
-    }
-
-    if (filters.type.remote) {
-      filteredInternships = filteredInternships.filter(
-        (internship) => internship.type === "Remote"
-      );
-    }
-
-    if (filters.payment.free) {
-      filteredInternships = filteredInternships.filter(
-        (internship) => internship.payment === "free"
-      );
-    }
-
-    if (filters.payment.paid) {
-      filteredInternships = filteredInternships.filter(
-        (internship) => internship.payment === "paid"
-      );
-    }
-
-    setFilteredInternships(filteredInternships);
   };
 
-  const handleClearFilter = () => {
-    setFilteredInternships(internships);
+  const handleClearFilter = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/student/internships");
+      setFilteredInternships(response.data);
+    } catch (error) {
+      console.error("Error fetching internships:", error);
+    }
   };
 
   // Get current posts

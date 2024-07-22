@@ -79,7 +79,7 @@ const CompanyInternships = ({ companyId }) => {
                                 <p className="text-gray-600 font-medium">
                                     Location: {intern.location}
                                 </p>
-                                <p className="text-gray-600">{intern.description}</p>
+                                <p className="text-gray-600 line-clamp-3">{intern.description}</p>
                                 <p className="text-gray-600 font-medium">
                                     Deadline: {intern.deadline}
                                 </p>

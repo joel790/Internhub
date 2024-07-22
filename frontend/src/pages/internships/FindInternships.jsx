@@ -23,49 +23,53 @@ const FindInternships = () => {
     navigate("/internship/all-internships");
   };
 
-  const initialDisplayCount = 6;
+  const initialDisplayCount = 8;
   const displayedInternships = internships.slice(0, initialDisplayCount);
 
   return (
     <section className="my-8">
-      <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold text-blue-600 mt-8 ml-20">
-          Find internships that favor you
+      <div className="flex justify-between items-center mx-20">
+        <h2 className="text-3xl font-bold text-blue-600 mt-8">
+          Find Internships That Favor You
         </h2>
         <button
-          className="text-gray-800 underline text-2xl font-serif hover:text-gray-600 mr-20"
+          className="text-gray-800 underline text-2xl font-serif hover:text-gray-600"
           onClick={handleSeeAllClick}
         >
           See all
         </button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pl-20 pr-20 pt-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  mx-20 mt-8">
         {displayedInternships.map((internship, index) => (
-          <div key={index} className="p-2">
-            <div className="border rounded-lg p-4 bg-white shadow-sm">
-              <div className="flex">
-                <img src={internship.logo} className="w-8  mr-1" alt="logo" />
-                <h3 className="font-bold text-lg text-gray-700">
-                  {internship.title}
-                </h3>
+          <div key={index} className="p-4">
+            <div className="border border-slate-300  rounded-lg bg-white shadow-lg shadow-gray-200 overflow-hidden">
+              <div className="flex items-center p-4 gap-2">
+                <img
+                  src={internship.logo}
+                  className="w-20 h-20 object-cover mx-auto mb-4 rounded-full shadow-md"
+                  alt="Company Logo"
+                />
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-800">{internship.title}</h3>
+                  <p className="text-blue-600 text-sm">{internship.role}</p>
+                </div>
               </div>
-              <p className="text-blue-600">{internship.role}</p>
-              <p className="text-gray-900 font-medium">
-                Duration: {internship.duration}
-              </p>
-              <p className="text-gray-600 font-medium">
-                Location: {internship.location}
-              </p>
-              <p className="text-gray-600">{internship.description}</p>
-              {/* <p className="text-gray-600 font-medium">
-                Deadline: {internship.deadline}
-              </p> */}
-              <button
-                className="bg-blue-600 w-full text-white px-4 py-2 rounded-md mt-4 hover:bg-blue-700"
-                onClick={() => navigate(`/internship/${internship._id}`)}
-              >
-                View
-              </button>
+              <div className="px-4 pb-4">
+                <p className="text-gray-900 font-medium">Duration: <span className="font-normal">{internship.duration}</span></p>
+                <p className="text-gray-900 font-medium">Location: <span className="font-normal">{internship.location}</span></p>
+                <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+                  {internship.description}
+                </p>
+                <p className="text-gray-900 font-medium mt-2">Deadline: <span className="font-normal">{internship.deadline}</span></p>
+              </div>
+              <div className="px-4 pb-4">
+                <button
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg w-full text-lg font-medium hover:bg-blue-700 transition duration-300"
+                  onClick={() => navigate(`/internship/${internship._id}`)}
+                >
+                  View Details
+                </button>
+              </div>
             </div>
           </div>
         ))}

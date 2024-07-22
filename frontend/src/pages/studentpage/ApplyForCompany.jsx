@@ -6,29 +6,30 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const ApplyForCompany = () => {
-    const [plan,setPlan]=useState([])
+    const [plan, setPlan] = useState([])
 
-    useEffect(()=>{
-        const fetchPlan =async()=>{
-            try{
-                const response=await axios.get("http://localhost:5000/api/admin/plans")
-                if(response.status===200){
+    useEffect(() => {
+        const fetchPlan = async () => {
+            try {
+                const response = await axios.get("http://localhost:5000/api/admin/plans")
+                if (response.status === 200) {
                     setPlan(response.data)
                     console.log(response.data)
                 }
-                else{
-                console.log("you cannot fetch the plans")
+                else {
+                    console.log("you cannot fetch the plans")
                 }
-        }catch(error){
-            console.error("the error is occured",error)
-        }
+            } catch (error) {
+              
+                console.error("the error is occured", error)
+            }
 
-            
+
 
         }
         fetchPlan()
 
-    },[])
+    }, [])
     console.log(plan)
 
     const plans = [

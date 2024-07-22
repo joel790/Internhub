@@ -222,14 +222,37 @@ exports.TransactionPay = async (req, res) => {
 
 exports.getAllInternships = async (req, res) => {
     try {
-      const internships = await Internship.find().populate({
+      const filters = {};
+      
+      if (req.query.location) {
+        filters.location = req.query.location;
+      }
+  
+      if (req.query.company) {
+        filters.company = req.query.company;
+      }
+  
+      if (req.query.industry) {
+        filters.industry = req.query.industry;
+      }
+  
+      if (req.query.type) {
+        filters.type = req.query.type;
+      }
+  
+      if (req.query.payment) {
+        filters.payment = req.query.payment;
+      }
+  
+      const internships = await Internship.find(filters).populate({
         path: 'company',
-        select: 'companyDetails', 
+        select: 'companyDetails', // Select only companyDetails from User
       });
   
       if (!internships.length) {
         return res.status(404).json({ message: 'No internships found' });
       }
+  
       res.status(200).json(internships);
     } catch (error) {
       console.error(error);
