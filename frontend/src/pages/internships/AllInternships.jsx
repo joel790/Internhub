@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 import FilterInterns from "./FilterInterns";
 import Pagination from "./Pagination"; // Import Pagination component
 import { MdClear } from "react-icons/md"; // Import Heroicons XMarkIcon for clear button
+import logo from "../../assets/Logo1.png"
+import { Link } from "react-router-dom";
 
 const AllInternships = () => {
   const navigate = useNavigate();
@@ -84,6 +86,10 @@ const AllInternships = () => {
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-4">
+        <div className='flex px-24  items-center bg-sky-100 border'>
+          <img src={logo} alt="Logo" className='w-20 h-20' />
+          <Link to="/" className="text-2xl font-bold text-blue-800 ml-4">Intern-Hub</Link>
+        </div>
         <h2 className="text-3xl font-bold text-blue-600">
           All Available Internships
         </h2>
@@ -100,7 +106,7 @@ const AllInternships = () => {
               onClick={handleClearSearch}
               className="absolute right-2 top-2 text-gray-500 hover:text-gray-700"
             >
-              <MdClear className="w-5 h-5"  />
+              <MdClear className="w-5 h-5" />
             </button>
           )}
           {suggestions.length > 0 && (
@@ -155,7 +161,7 @@ const AllInternships = () => {
                   className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
                   onClick={() => navigate(`/internship/${internship._id}`)}
                 >
-                  View
+                  View Details
                 </button>
               </div>
             </div>

@@ -8,7 +8,16 @@ const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage }) => {
   }
 
   return (
-    <div className="flex justify-center mt-6">
+    <div className="flex justify-end mt-6">
+      <button
+        onClick={() => currentPage > 1 && paginate(currentPage - 1)}
+        className={`px-3 py-1 border rounded mx-1 ${
+          currentPage === 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-700'
+        }`}
+        disabled={currentPage === 1}
+      >
+        &lt;
+      </button>
       {pageNumbers.map(number => (
         <button
           key={number}
@@ -20,6 +29,15 @@ const Pagination = ({ postsPerPage, totalPosts, paginate, currentPage }) => {
           {number}
         </button>
       ))}
+      <button
+        onClick={() => currentPage < pageNumbers.length && paginate(currentPage + 1)}
+        className={`px-3 py-1 border rounded mx-1 ${
+          currentPage === pageNumbers.length ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-white text-gray-700'
+        }`}
+        disabled={currentPage === pageNumbers.length}
+      >
+        &gt;
+      </button>
     </div>
   );
 };
