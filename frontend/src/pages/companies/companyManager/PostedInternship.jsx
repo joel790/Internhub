@@ -72,7 +72,7 @@ const PostedInternship = () => {
   };
 
   const handleView = (internshipId) => {
-    navigate('/managerhome/appliedinternship', { state: internshipId });
+    navigate('/managerhome/appliedinternship', { state: internshipId});
   };
 
   const handleDelete = async () => {
@@ -89,7 +89,7 @@ const PostedInternship = () => {
     }
   };
 
-  const columns = ["Name", "Benefit", "Type", "Duration", "Deadline"];
+  const columns = ["Name", "Benefit", "Type", "Duration", "Deadline",];
   const data = internshipForCompany.map((intern) => ({
     id: intern._id,
     Name: intern.title,

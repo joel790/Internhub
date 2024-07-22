@@ -5,7 +5,7 @@ import ProductTable from "./ProductTable";
  const AppliedInternship = () => {
   
   const location=useLocation()
-  const {internshipId}=location.state||{}
+  const internshipId=location.state||{}
   console.log(internshipId)
   
  
@@ -14,7 +14,7 @@ import ProductTable from "./ProductTable";
     
   <div className="overflow-x-auto bg-white min-h-screen">
   
-  <ProductTable internId={internshipId}/>
+  <ProductTable  internId={internshipId}/>
 </div>
   )
 }

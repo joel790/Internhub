@@ -52,27 +52,7 @@ const DataTable = ({ columns, data, onEdit, onView, ondeleteShow }) => {
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    <button
-                        type="button"
-                        className="inline-flex items-center text-gray-500 bg-white border border-gray-300 rounded-lg px-3 py-1.5 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100"
-                    >
-                        Actions
-                        <svg
-                            className="w-4 h-4 ml-2"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 10 6"
-                        >
-                            <path
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="m1 1 4 4 4-4"
-                            />
-                        </svg>
-                    </button>
+                 
                 </div>
             </div>
 

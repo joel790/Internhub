@@ -130,7 +130,7 @@ exports.loginUser = asyncHandler(async (req, res) => {
 exports.logout = (req, res) => {
     res.clearCookie('token'); // Assuming 'token' is the name of your authentication cookie
     res.status(200).json({ message: 'Logout successful' });
- };
+};
 
 exports.forgotPassword = async (req, res) => {
     const { email } = req.body;
@@ -205,7 +205,6 @@ exports.resetPassword = async (req, res) => {
 
 exports.getUserProfile = async (req, res) => {
     const userId = req.user._id; // Get user ID from the authenticated user
-
     try {
         const user = await User.findById(userId).select('-password'); // Exclude password and version from the response
         if (!user) {

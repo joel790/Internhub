@@ -18,7 +18,7 @@ const Sidebar = ({data,toggleShow,setToggleShow}) => {
   }
 
   return (
-    <div className="relative">
+    <div className="relative ">
       {toggleShow && (
         <div className="absolute top-4 right-4 md:hidden">
           <IoReorderThreeOutline onClick={handleToggle} className="text-3xl text-slate-900 cursor-pointer" />

@@ -84,7 +84,7 @@ const ApplicationForm = ({ internship, closeModal }) => {
           localStorage.removeItem('applicationFormData');
         }
       } catch (error) {
-        console.error("Error submitting application:", error);
+        // console.error("Error submitting application:", error);
         if (error.response && error.response.status === 401) {
           toast.error("Please register or login to the system.");
           localStorage.setItem('applicationFormData', JSON.stringify(formData));

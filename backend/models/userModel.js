@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  phone:{
+  phone: {
     type: Number,
   },
   password: {
@@ -55,8 +55,8 @@ const userSchema = new mongoose.Schema({
     },
     contactNumber: [
       {
-       type: String,
-       required:true,
+        type: String,
+        required: true,
       }
     ],
     website: {
@@ -73,7 +73,7 @@ const userSchema = new mongoose.Schema({
       enum: ['pending', 'approved', 'rejected'],
       default: 'pending'
     },
-    internships:[{
+    internships: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Internship'
     }
@@ -81,7 +81,7 @@ const userSchema = new mongoose.Schema({
     subscriptionPlan: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Plan',
-      default:null
+      default: null
     },
   },
   isApproved: {

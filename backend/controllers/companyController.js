@@ -3,7 +3,7 @@ const Application = require("../models/internApplicationModel");
 const User = require('../models/userModel');
 // Controller to create an internship
 exports.createInternship = async (req, res) => {
-    const { title, location, type, payment, duration,industry, description, requirements, skills, deadline, benefit, responsibilities } = req.body;
+    const { title, location, type, payment, duration, industry, description, requirements, skills, deadline, benefit, responsibilities } = req.body;
     const companyId = req.user._id; // Assuming req.user contains company info
 
     try {
@@ -75,7 +75,23 @@ exports.deleteInternship = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+//this is used for students inorder to get all internships for a company
+exports.getAllInternshipsOfCompany = async (req, res) => {
+    const { companyId } = req.params;
 
+    try {
+        const internships = await Internship.find({ company: companyId });
+
+        if (!internships.length) {
+            return res.status(404).json({ message: 'No internships found' });
+        }
+
+        res.status(200).json(internships);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
 // Controller to get all internships by company
 exports.getAllInternshipsByCompany = async (req, res) => {
     const companyId = req.user._id; // Assuming req.user contains company info
@@ -128,7 +144,7 @@ exports.getAllInternshipsByCompany = async (req, res) => {
         // Update the application status
         application.status = status;
         const updatedApplication = await application.save();
-       
+
         res.status(200).json(updatedApplication);
     } catch (error) {
         console.error(error);
@@ -168,7 +184,7 @@ exports.getInternshipsById = async (req, res) => {
 
 exports.featuredInternships = async (req, res) => {
     try {
-        const featuredinternships= await Internship.find({featured:true});
+        const featuredinternships = await Internship.find({ featured: true });
         if (!featuredinternships) {
             return res.status(404).json("no featured internships")
         }

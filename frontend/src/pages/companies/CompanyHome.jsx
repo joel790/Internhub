@@ -38,7 +38,7 @@ const CompanyHome = () => {
       filteredIndustry(selectedIndustry);
     } else {
       const searched = companies.filter(company =>
-        company.name.toLowerCase().includes(searchterm)
+        company.companyDetails.name.toLowerCase().includes(searchterm)
       );
 
       setFilteredCompanies(searched);
@@ -55,7 +55,7 @@ const CompanyHome = () => {
       setFilteredCompanies(companies);
     } else {
       const filtered = companies.filter(company =>
-        company.industry === industry
+        company.companyDetails.industry === industry
       );
       setFilteredCompanies(filtered);
     }
@@ -97,7 +97,7 @@ const CompanyHome = () => {
             industry={company.companyDetails.industry}
             location={company.companyDetails.location}
             description={company.companyDetails.description}
-            num={company.companyDetails.internships.length}
+            num={company.companyDetails.internships.length} // Number of internships
           />
         ))}
       </div>

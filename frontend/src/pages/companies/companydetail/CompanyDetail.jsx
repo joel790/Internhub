@@ -4,15 +4,13 @@ import { useParams } from "react-router-dom";
 import axios from 'axios';
 import Footer from "../../../components/footer/Footer";
 import photo from "../../../assets/company.png";
-import { CiLocationOn } from "react-icons/ci";
-import "./CompanyDetail.css";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import CompanyInternships from './CompanyInternships';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 const CompanyDetail = () => {
   const { id } = useParams();
   const [companyDetail, setCompanyDetail] = useState(null);
+  const [showFullDescription, setShowFullDescription] = useState(false);
 
   useEffect(() => {
     const fetchCompanyDetail = async () => {
@@ -26,63 +24,6 @@ const CompanyDetail = () => {
 
     fetchCompanyDetail();
   }, [id]);
-  const SampleNextArrow = (props) => {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", background: "black" }}
-        onClick={onClick}
-      />
-    );
-  };
-
-  const SamplePrevArrow = (props) => {
-    const { className, style, onClick } = props;
-    return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", background: "black" }}
-        onClick={onClick}
-      />
-    );
-  };
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          infinite: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          initialSlide: 2
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
-  };
 
   if (!companyDetail) {
     return <div>No company found</div>;
@@ -90,76 +31,40 @@ const CompanyDetail = () => {
 
   return (
     <>
-      {/* <Header /> */}
-      <div className="container mx-auto px-10">
-        <div className="flex flex-col md:flex-row w-full mt-6 px-10">
-          <img src={photo} alt="Company Photo" className="w-full md:w-1/2 " />
-          <div className="w-full md:w-1/2 flex flex-col  md:pl-4">
-            <div className="flex flex-row gap-0 ">
-              <img src={companyDetail.logo} alt="Company Logo" className="w-28 h-16 object-contain" />
-              <h1 className=" text-sky-600 text-2xl font-bold ">{companyDetail.name}</h1>
-              <h1 className=" text-sky-600 text-2xl font-bold ">{companyDetail.slogan}</h1>
-            </div>
-            <p>{companyDetail.description}</p>
-          </div>
-        </div> 
-        <div className="mt-4 px-10">
-          <h1 className="text-2xl font-bold text-blue-600 text-center">Internship Opportunities</h1>
-          <div className="px-4 ">
-            {companyDetail.internships && companyDetail.internships.length <= 2 ?
-              <div className="flex flex-col md:flex-row gap-5 justify-center">
-                {companyDetail.internships.map((intern) => (
-                  <div key={intern.id} className="mt-4 border border-slate-400 p-4 w-72 rounded-xl h-[350px]">
-                    <div className="flex flex-row items-center px-4 gap-1">
-                      <img src={companyDetail.logo} alt="Company Logo" className="w-32 h-16 object-contain mb-4 md:mb-0" />
-                      <h1 className="font-bold px-4">{intern.name}</h1>
-                    </div>
-                    <h2 className="font-bold">{intern.title}</h2>
-                    <div className="flex flex-col md:flex-row mt-2 items-center">
-                      <h2 className="md:mr-4">Duration: {intern.duration}</h2>
-                      <h2>Location: {intern.location}</h2>
-                    </div>
-                    <p className="md:block">{intern.description}</p>
-                    <div className="flex flex-col md:flex-row items-center mt-2">
-                      <h2 className="md:mr-4">Deadline: {intern.deadline}</h2>
-                      <div className="flex items-center">
-                        <CiLocationOn className="text-rose-600 mr-1" />
-                        <p className="text-sm">{companyDetail.location}</p>
-                      </div>
-                    </div>
-                    <button className="w-full text-white bg-blue-600 items-center rounded-xl">View</button>
+      <div className="container mx-auto px-4 md:px-10 py-6">
+        <div className="bg-white shadow-lg border border-sky-100 rounded-lg overflow-hidden">
+          <div className="flex flex-col md:flex-row">
+            <img src={photo} alt="Company Photo" className="w-full md:w-1/2 object-cover" />
+            <div className="w-full md:w-1/2 p-6 flex flex-col justify-between">
+              <div>
+                <div className="flex flex-row gap-4 items-center mb-4">
+                  <img src={companyDetail.logo} alt="Company Logo" className="w-28 h-16 object-contain" />
+                  <div>
+                    <h1 className="text-sky-600 text-2xl font-bold">{companyDetail.name}</h1>
+                    <h2 className="text-sky-600 text-xl">{companyDetail.slogan}</h2>
                   </div>
-                ))}
+                </div>
+                <div className="relative">
+                  <p className={`transition-all duration-500 ${showFullDescription ? 'max-h-full' : 'max-h-20 overflow-hidden'}`}>
+                    {companyDetail.description}
+                  </p>
+                  <button
+                    className="absolute bottom-0 right-0 bg-gradient-to-t from-white to-transparent pt-4 text-sky-600 flex items-center"
+                    onClick={() => setShowFullDescription(!showFullDescription)}
+                  >
+                    {showFullDescription ? 'Show Less' : 'Show More'} {showFullDescription ? <FaChevronUp /> : <FaChevronDown />}
+                  </button>
+                </div>
               </div>
-              :
-              <Slider {...settings}>
-                {companyDetail.internships && companyDetail.internships.map((intern) => (
-                  <div key={intern.id} className="mt-4 border border-slate-400 p-4 rounded-xl flex-col h-[350px]">
-                    <div className="flex flex-row items-center px-4 gap-1">
-                      <img src={companyDetail.logo} alt="Company Logo" className="w-32 h-16 object-contain mb-4 md:mb-0" />
-                      <h1 className="font-bold">{intern.title}</h1>
-                    </div>
-                    <h2 className="font-bold px-4">{intern.title}</h2>
-                    <div className="px-4 flex flex-col md:flex-row mt-2 items-center">
-                      <h2 className="md:mr-4">Duration: {intern.duration}</h2>
-                      <h2>Location: {intern.location}</h2>
-                    </div>
-                    <p className="px-4 hidden md:block">{intern.description}</p>
-                    <div className="px-4 flex flex-col md:flex-row items-center mt-2">
-                      <h2 className="md:mr-4">Deadline: {intern.deadline}</h2>
-                      <div className="flex items-center">
-                        <CiLocationOn className="text-rose-600 mr-1" />
-                        <p className="text-sm">{companyDetail.location}</p>
-                      </div>
-                    </div>
-                    <button className="w-full text-white bg-blue-600 mt-5 items-center rounded-xl">View</button>
-                  </div>
-                ))}
-              </Slider>
-            }
+            </div>
           </div>
         </div>
-        {/* <CompanyContact companyDetail={companyDetail} /> */}
+        <div className="mt-8">
+          <h1 className="text-2xl font-bold text-blue-600 text-center mb-4">Internship Opportunities</h1>
+          <div className="px-4">
+            <CompanyInternships companyId={id} />
+          </div>
+        </div>
       </div>
       <Footer />
     </>

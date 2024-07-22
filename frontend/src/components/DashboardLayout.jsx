@@ -1,20 +1,24 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import Sidebar from "./sidebar/Sidebar";
+import axios from "axios";
 import DashboardHeader from "./header/DashboardHeader";
 import { companySidebarData, studentSideBardata } from "../data/Data";
 import { IoIosLogOut } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import imagegeb from "../assets/gebbbb.jpg";
 import { IoReorderThreeOutline } from "react-icons/io5";
-import imageportal from "../assets/images.png";
+// import imageportal from "../assets/images.png";
+import logo from "../assets/Logo1.png"
+import { Link } from "react-router-dom";
 import "./animations.css";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 // eslint-disable-next-line react/prop-types
 export const DashboardLayout = ({ children, usertype }) => {
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  // const userInfo = useSelector((state) => state.auth.userInfo);
+  const [userName,setUserName]=useState(null)
   const navigate=useNavigate()
   // console.log(userInfo.user.name);
 
@@ -34,6 +38,21 @@ export const DashboardLayout = ({ children, usertype }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  useEffect(() => {
+    const fetchUserData = async () => {
+
+        try {
+            const response = await axios.get('http://localhost:5000/api/users/profile')
+            // const data = await response.data;
+            setUserName(response.data.name);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
+
+    fetchUserData();
+}, []);
+
 
   const handleProfileClick = () => {
     console.log("Profile is clicked");
@@ -67,7 +86,7 @@ export const DashboardLayout = ({ children, usertype }) => {
   return (
     <div className="flex w-full ">
       <div
-        className={`bg-zinc-100 min-h-screen fixed top-0 left-0 ${
+        className={`bg-zinc-100 min-h-screen fixed top-14 left-0 ${
           toggleShow
             ? isLargeScreen
               ? "w-64 sm:w-64"
@@ -83,11 +102,14 @@ export const DashboardLayout = ({ children, usertype }) => {
       </div>
 
       <div className="flex flex-col w-full bg-gray-100">
-        <div className="flex items-center justify-between w-full bg-gray-100 p-2">
+        <div className="flex items-center justify-between w-full fixed bg-gray-100 p-2">
           <div className="flex items-center">
-            <img src={imageportal} alt="Logo" className="w-10 h-10 object-cover mr-4" />
+          <div className="flex items-center space-x-2">
+        <img src={logo} alt="logo" className="h-10 w-10" />
+        <Link to="/" className="text-lg font-bold text-blue-600">Intern-Hub</Link>
+      </div>
           </div>
-          <DashboardHeader image={imagegeb} name={userInfo?userInfo.user.name:""} dropdown={dropdowns} />
+          <DashboardHeader image={imagegeb} name={userName} dropdown={dropdowns} />
         </div>
 
         <div className="w-full min-h-screen bg-white p-4 flex-grow">

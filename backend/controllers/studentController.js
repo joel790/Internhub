@@ -17,14 +17,12 @@ exports.applyForInternship = async (req, res) => {
     const { internshipId } = req.params;
     const studentId = req.user._id; // Assuming req.user contains student info
     const resume = req.file ? req.file.path : null; // Get the resume file path
-
     try {
         // Check if the internship exists
         const internship = await Internship.findById(internshipId);
         if (!internship) {
             return res.status(404).json({ message: 'Internship not found' });
         }
-
         // Create a new application
         const application = new Application({
             internship: internshipId,
@@ -33,13 +31,10 @@ exports.applyForInternship = async (req, res) => {
             resume,
             portfolioUrl // Make sure this field is correctly assigned
         });
-
         const savedApplication = await application.save();
-
         // Add the application to the internship's applications array
         internship.applications.push(savedApplication._id);
         await internship.save();
-
         res.status(201).json(savedApplication);
     } catch (error) {
         console.error(error);
@@ -117,8 +112,6 @@ exports.applyToCompany = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
-
-
 
 exports.selectPlan = async (req, res) => {
     const { planId } = req.body;
@@ -228,20 +221,21 @@ exports.TransactionPay = async (req, res) => {
 
 
 exports.getAllInternships = async (req, res) => {
-
     try {
-        const internships = await Internship.find();
-
-        if (!internships.length) {
-            return res.status(404).json({ message: 'No internships found' });
-        }
-
-        res.status(200).json(internships);
+      const internships = await Internship.find().populate({
+        path: 'company',
+        select: 'companyDetails', 
+      });
+  
+      if (!internships.length) {
+        return res.status(404).json({ message: 'No internships found' });
+      }
+      res.status(200).json(internships);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
     }
-};
+  };
 exports.paymentCallback = async (req, res) => {
     const { tx_ref, status } = req.query;
 

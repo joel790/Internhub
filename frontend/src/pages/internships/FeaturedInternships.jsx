@@ -15,7 +15,6 @@ const FeaturedInternships = () => {
       try {
         const response = await axios.get('http://localhost:5000/api/company/internship/featured');
         setFeaturedInternships(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error('Error fetching featured internships:', error);
       }
@@ -26,7 +25,7 @@ const FeaturedInternships = () => {
 
   const settings = {
     dots: true,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -38,8 +37,6 @@ const FeaturedInternships = () => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          infinite: true,
-          dots: true,
         },
       },
       {
@@ -53,42 +50,44 @@ const FeaturedInternships = () => {
   };
 
   return (
-    <section className="">
-      <h2 className="text-3xl font-bold text-blue-600 text-center">
+    <section className="py-12 px-4 md:px-8 bg-white">
+      <h2 className="text-4xl font-extrabold text-blue-600 text-center mb-4">
         Featured Internships
       </h2>
-      <p className="text-center text-gray-600">
-        Explore the following featured internships. These are the mostly applied
-        internships.
+      <p className="text-center text-gray-700 mb-8">
+        Explore these featured internships – the most popular and sought-after opportunities.
       </p>
-      <div className="relative pl-20 pr-20 pt-5">
+      <div className="relative max-w-6xl mx-auto">
         <Slider {...settings}>
-          {featuredInternships.map((internship, index) => (
-            <div key={index} className="p-2">
-              <div className="border rounded-lg p-4 bg-white shadow-sm">
-                <div className="flex">
-                  <img src={internship.logo} className="w-8  mr-1" alt="logo" />
-                  <h3 className="font-bold text-lg text-gray-700">
-                    {internship.title}
-                  </h3>
+          {featuredInternships.map((internship) => (
+            <div key={internship._id} className="p-4">
+              <div className="border border-slate-300  rounded-lg bg-white shadow-lg shadow-blue-200 overflow-hidden">
+                <div className="flex items-center p-4 gap-2">
+                  <img
+                    src={internship.logo}
+                    className="w-20 h-20 object-cover mx-auto mb-4 rounded-full shadow-md"
+                    alt="Company Logo"
+                  />                  <div>
+                    <h3 className="text-xl font-semibold text-gray-800">{internship.title}</h3>
+                    <p className="text-blue-600 text-sm">{internship.role}</p>
+                  </div>
                 </div>
-                <p className="text-blue-600">{internship.role}</p>
-                <p className="text-gray-900 font-medium">
-                  Duration: {internship.duration}
-                </p>
-                <p className="text-gray-600 font-medium">
-                  Location: {internship.location}
-                </p>
-                <p className="text-gray-600">{internship.description}</p>
-                <p className="text-gray-600 font-medium">
-                  Deadline: {internship.deadline}
-                </p>
-                <button
-                  className="bg-blue-600 w-full text-white px-4 py-2 rounded-md mt-4 hover:bg-blue-700"
-                  onClick={() => navigate(`/internship/${internship._id}`)}
-                >
-                  View
-                </button>
+                <div className="px-4 pb-4">
+                  <p className="text-gray-900 font-medium">Duration: <span className="font-normal">{internship.duration}</span></p>
+                  <p className="text-gray-900 font-medium">Location: <span className="font-normal">{internship.location}</span></p>
+                  <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+                    {internship.description}
+                  </p>
+                  <p className="text-gray-900 font-medium mt-2">Deadline: <span className="font-normal">{internship.deadline}</span></p>
+                </div>
+                <div className="px-4 pb-4">
+                  <button
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg w-full text-lg font-medium hover:bg-blue-700 transition duration-300"
+                    onClick={() => navigate(`/internship/${internship._id}`)}
+                  >
+                    View Details
+                  </button>
+                </div>
               </div>
             </div>
           ))}
