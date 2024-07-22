@@ -75,7 +75,7 @@ exports.deleteInternship = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
-
+//this is used for students inorder to get all internships for a company
 exports.getAllInternshipsOfCompany = async (req, res) => {
     const { companyId } = req.params;
 
@@ -127,7 +127,7 @@ exports.getAllInternshipsByCompany = async (req, res) => {
 //     }
 // };
 
-exports.updateApplicationStatus = async (req, res) => {
+    exports.updateApplicationStatus = async (req, res) => {
     const { applicationId } = req.params;
     const { status } = req.body;
     const companyId = req.user._id; // Assuming req.user contains company info
@@ -151,9 +151,7 @@ exports.updateApplicationStatus = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
-
-
-exports.getApplicationsForInternship = async (req, res) => {
+    exports.getApplicationsForInternship = async (req, res) => {
     const { internshipId } = req.params;
     try {
         // Check if the internship exists
@@ -170,7 +168,6 @@ exports.getApplicationsForInternship = async (req, res) => {
     }
 };
 
-// Controller to get all internships by company
 exports.getInternshipsById = async (req, res) => {
     const { id } = req.params; // Assuming req.user contains company info
     try {

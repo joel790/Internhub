@@ -9,6 +9,9 @@ const PostedInternship = () => {
   const [add, setAdd] = useState(false);
   const [internshipForCompany, setInternshipForCompany] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showDelete,setShoweDelete]=useState(false)
+  const [internshipToDelete, setInternshipToDelete] = useState(null);
+
   const [currentInternship, setCurrentInternship] = useState({
     id: "",
     title: "",
@@ -69,31 +72,43 @@ const PostedInternship = () => {
   };
 
   const handleView = (internshipId) => {
-    navigate('/managerhome/appliedinternship', { state: internshipId });
+    navigate('/managerhome/appliedinternship', { state: internshipId});
   };
 
-  const handleDelete = async (internshipId) => {
+  const handleDelete = async () => {
+    if (!internshipToDelete) return;
+  
     try {
-      await axios.delete(`http://localhost:5000/api/company/internship/${internshipId}`);
+      await axios.delete(`http://localhost:5000/api/company/internship/${internshipToDelete}`);
       const response = await axios.get("http://localhost:5000/api/company/internship/my-internship");
       setInternshipForCompany(response.data);
+      setShoweDelete(false);
+      setInternshipToDelete(null);
     } catch (error) {
       console.log("Error deleting internship", error);
     }
   };
 
-  const columns = ["Name", "Benefit", "Type", "Duration", "Deadline"];
+  const columns = ["Name", "Benefit", "Type", "Duration", "Deadline",];
   const data = internshipForCompany.map((intern) => ({
     id: intern._id,
     Name: intern.title,
     Benefit: intern.benefit,
     Type: intern.type,
     Duration: intern.duration,
-    Deadline: intern.deadline,
+    Deadline:new Date(intern.deadline).toLocaleString()
   }));
 
   const handleAddClick = () => {
     setAdd(!add);
+  };
+  const handledeleteShow = (internshipId) => {
+    setInternshipToDelete(internshipId);
+    setShoweDelete(true);
+  };
+  const handleCancel = () => {
+    setShoweDelete(false);
+    setInternshipToDelete(null);
   };
 
   useEffect(() => {
@@ -115,8 +130,8 @@ const PostedInternship = () => {
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
-      <div className="w-full max-w-6xl p-4 md:p-8 bg-white shadow-md rounded-lg">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+      <div className="w-full  p-4 md:p-8 bg-white  rounded-lg">
+        <div className="flex flex-col md:flex-row justify-between items-center md:pl-52 mb-4">
           <button
             className="text-white bg-blue-600 rounded px-4 py-2 hover:bg-blue-700 transition"
             onClick={handleAddClick}
@@ -131,7 +146,9 @@ const PostedInternship = () => {
         )}
         {!add && (
           <div className="relative">
-            <DataTable columns={columns} data={data} onEdit={handleEdit} onDelete={handleDelete} onView={handleView} />
+            <div className="md:pl-52">  
+              <DataTable columns={columns} data={data} onEdit={handleEdit}  ondeleteShow={handledeleteShow}  onView={handleView} />
+               </div>
             <Modal show={showModal} size="lg" onClose={() => setShowModal(false)} popup>
               <ModalHeader className="bg-blue-600 text-white">
                 <span>Update Internship</span>
@@ -280,6 +297,18 @@ const PostedInternship = () => {
           </div>
         )}
       </div>
+      {showDelete&&  <div className="md:w-1/3 fixed top-44 left-1/2 transform -translate-x-1/2 p-4 bg-red-200 h-40 items-center rounded-lg">
+    <h1 className="text-red-700 mb-4 text-center">Are you sure you want to delete?</h1>
+    <div className="flex justify-around">
+      <Button className="bg-gray-400 text-white hover:bg-gray-500" onClick={handleCancel}>
+        Cancel
+      </Button>
+      <Button className="bg-red-700 text-white hover:bg-red-800" onClick={handleDelete}>
+        Yes
+      </Button>
+    </div>
+  </div>}
+     
     </div>
   );
 };

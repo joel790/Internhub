@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import studentimg from "../../assets/student1.jpg";
@@ -9,6 +10,7 @@ import { PiStudentFill } from "react-icons/pi";
 import { GrUserManager } from "react-icons/gr";
 import PlanCard from '../../components/paymentPlan/PlanCard';
 import paymentimg from '../../assets/payment.png';
+// eslint-disable-next-line no-unused-vars
 import { FaClosedCaptioning } from 'react-icons/fa';
 import { CgClose } from 'react-icons/cg';
 import {toast} from "react-toastify"

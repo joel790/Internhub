@@ -6,7 +6,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 
 const ManagerHome = () => {
   return (
-    <div>
+    <div className="bg-zinc-100 min-h-screen">
       <DashboardLayout usertype="company">
         <Routes>
           <Route path="/" element={<Navigate to="companydashboard" />} />

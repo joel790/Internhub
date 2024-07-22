@@ -5,16 +5,16 @@ import ProductTable from "./ProductTable";
  const AppliedInternship = () => {
   
   const location=useLocation()
-  const {internshipId}=location.state||{}
+  const internshipId=location.state||{}
   console.log(internshipId)
   
  
 
   return (
     
-  <div className="overflow-x-auto">
+  <div className="overflow-x-auto bg-white min-h-screen">
   
-  <ProductTable internId={internshipId}/>
+  <ProductTable  internId={internshipId}/>
 </div>
   )
 }
