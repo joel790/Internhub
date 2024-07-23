@@ -28,7 +28,7 @@ const CompanyDetail = () => {
   if (!companyDetail) {
     return <div>No company found</div>;
   }
-
+console.log(companyDetail.industry)
   return (
     <>
       <div className="container mx-auto px-4 md:px-10 py-6">
@@ -38,7 +38,7 @@ const CompanyDetail = () => {
             <div className="w-full md:w-1/2 p-6 flex flex-col justify-between">
               <div>
                 <div className="flex flex-row gap-4 items-center mb-4">
-                  <img src={companyDetail.logo} alt="Company Logo" className="w-28 h-16 object-contain" />
+                  <img src={`http://localhost:5000/${companyDetail.logo}`} alt="Company Logo" className="w-28 h-16 object-contain" />
                   <div>
                     <h1 className="text-sky-600 text-2xl font-bold">{companyDetail.name}</h1>
                     <h2 className="text-sky-600 text-xl">{companyDetail.slogan}</h2>

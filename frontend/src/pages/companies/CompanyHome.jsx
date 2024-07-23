@@ -24,7 +24,7 @@ const CompanyHome = () => {
 
     fetchCompanies();
   }, []);
-
+console.log(companies)
   const handleChange = (event) => {
     setSearch(event.target.value);
     handleSearch(event.target.value);
@@ -92,12 +92,12 @@ const CompanyHome = () => {
           <CompanyComponent
             id={company._id}
             key={company._id}
-            logo={company.logoCompany}
+            logo={`http://localhost:5000/${company.companyDetails.logo}`}
             name={company.companyDetails.name}
             industry={company.companyDetails.industry}
             location={company.companyDetails.location}
             description={company.companyDetails.description}
-            num={company.companyDetails.internships.length} // Number of internships
+            num={company.companyDetails.internships?.length} // Number of internships
           />
         ))}
       </div>

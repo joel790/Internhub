@@ -6,7 +6,6 @@ import ProductTable from "./ProductTable";
   
   const location=useLocation()
   const internshipId=location.state||{}
-  console.log(internshipId)
   
  
 

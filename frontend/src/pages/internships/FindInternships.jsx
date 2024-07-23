@@ -18,6 +18,8 @@ const FindInternships = () => {
 
     fetchInternships();
   }, []);
+ 
+
 
   const handleSeeAllClick = () => {
     navigate("/internship/all-internships");
@@ -45,7 +47,8 @@ const FindInternships = () => {
             <div className="border border-slate-300  rounded-lg bg-white shadow-lg shadow-gray-200 overflow-hidden">
               <div className="flex items-center p-4 gap-2">
                 <img
-                  src={internship.logo}
+                src={`http://localhost:5000/${internship.company.companyDetails.logo}`}
+                  
                   className="w-20 h-20 object-cover mx-auto mb-4 rounded-full shadow-md"
                   alt="Company Logo"
                 />
@@ -65,7 +68,7 @@ const FindInternships = () => {
               <div className="px-4 pb-4">
                 <button
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg w-full text-lg font-medium hover:bg-blue-700 transition duration-300"
-                  onClick={() => navigate(`/internship/${internship._id}`)}
+                  onClick={() => navigate(`/internship/${internship._id}`,{state:`http://localhost:5000/${internship.company.companyDetails.logo}`})}
                 >
                   View Details
                 </button>

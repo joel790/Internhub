@@ -62,7 +62,7 @@ const ProductTable = ({ internId }) => {
   };
 
   return (
-    <div className="w-full flex justify-center p-4">
+    <div className="w-full flex justify-center mt-10 p-4">
       <div className="w-full max-w-4xl rounded-lg bg-white">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from 'axios';
 import ApplicationForm from './ApplicationForm';
 
@@ -21,7 +21,8 @@ const InternshipDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [internship, setInternship] = useState(null);
-
+const location=useLocation()
+const logoImage=location.state||{}
   useEffect(() => {
     const fetchInternship = async () => {
       try {
@@ -34,6 +35,7 @@ const InternshipDetail = () => {
 
     fetchInternship();
   }, [id]);
+  console.log(internship)
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -102,7 +104,7 @@ const InternshipDetail = () => {
       <h2 className="text-4xl font-bold text-blue-600">{internship.title}</h2>
       <hr className="mt-4" />
       <div className="flex items-center mt-6">
-        <img src={internship.logo} alt="logo" className="w-20 h-20 rounded-full shadow-md mr-6" />
+        <img src={logoImage} alt="logo" className="w-20 h-20 rounded-full shadow-md mr-6" />
         <div>
           <p className="text-gray-700">
             <span className="font-semibold">Duration: </span>
