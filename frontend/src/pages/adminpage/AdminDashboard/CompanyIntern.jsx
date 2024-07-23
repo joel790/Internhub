@@ -19,7 +19,7 @@ const CompanyIntern = ({ internships }) => {
                 breakpoint: 1024,
                 settings: {
                     slidesToShow: 2,
-                    slidesToScroll: 2,
+                    slidesToScroll: 1,
                     infinite: true,
                     dots: true,
                 },
@@ -60,7 +60,7 @@ const CompanyIntern = ({ internships }) => {
                                 </p>
                                 <p className="text-gray-600 line-clamp-3">{intern.description}</p>
                                 <p className="text-gray-600 font-medium">
-                                    Deadline: {intern.deadline}
+                                    Deadline: {new Date(intern.deadline).toLocaleDateString()}
                                 </p>
                                 <button
                                     className="bg-blue-600 w-full text-white px-4 py-2 rounded-md mt-4 hover:bg-blue-700"

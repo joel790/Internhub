@@ -84,7 +84,7 @@ const Sidebar = ({
         </ul>
         <ul
           className={`flex flex-col gap-2.5 px-4 sm:px-0 ${
-            openSideBar ? "w-full" : "sm:items-center"
+            openSideBar ? "w-full" : "sm:items-center "
           }`}
         >
           {footerNavigation.map(({ path, title, icon }, index) => (
@@ -92,12 +92,12 @@ const Sidebar = ({
               key={index}
               className="group cursor-pointer flex items-center gap-3.5 py-3.5 px-4 w-full rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-200"
             >
-              <Link to={path} className={`flex items-center gap-4`}>
+              <Link to={path} className={`flex items-center gap-4 bg-blue-500 w-full p-3 justify-center rounded-md text-white font-bold`}>
                 {React.createElement(icon, { size: 18 })}
                 <span
                   className={`${
                     openSideBar ? "block" : "hidden sm:group-hover:block"
-                  } text-sm font-medium text-[#637381]`}
+                  } text-sm font-medium `}
                 >
                   {title}
                 </span>

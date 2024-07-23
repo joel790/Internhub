@@ -150,7 +150,7 @@ const Applications = () => {
                     >
                       <path
                         fillRule="evenodd"
-                        d="M5.292 7.707a1 1 0 011.414 0L10 11.001l3.293-3.294a1 1 0 011.414 1.415l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.415z"
+                        d="M5.292 7.707a1 1 0 011.414 0L10 11.001l3.293-3.294a1 1 0 011.414 1.415l-4 4a 1 0 01-1.414 0l-4-4a1 0 010-1.415z"
                         clipRule="evenodd"
                       />
                     </svg>
@@ -172,7 +172,29 @@ const Applications = () => {
                     >
                       <path
                         fillRule="evenodd"
-                        d="M5.292 7.707a1 1 0 011.414 0L10 11.001l3.293-3.294a1 1 0 011.414 1.415l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.415z"
+                        d="M5.292 7.707a1 1 0 011.414 0L10 11.001l3.293-3.294a1 1 0 011.414 1.415l-4 4a 1 0 01-1.414 0l-4-4a1 0 010-1.415z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  )}
+                </th>
+                <th
+                  className="py-3 px-4 text-left text-sm font-semibold cursor-pointer"
+                  onClick={() => handleSort("applicationDate")}
+                >
+                  Application Date
+                  {sortConfig.key === "applicationDate" && (
+                    <svg
+                      className={`w-4 h-4 inline-block ml-1 ${
+                        sortConfig.direction === "ascending" ? "transform rotate-180" : ""
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.292 7.707a1 1 0 011.414 0L10 11.001l3.293-3.294a1 1 0 011.414 1.415l-4 4a 1 0 01-1.414 0l-4-4a1 0 010-1.415z"
                         clipRule="evenodd"
                       />
                     </svg>
@@ -194,7 +216,7 @@ const Applications = () => {
                     >
                       <path
                         fillRule="evenodd"
-                        d="M5.292 7.707a1 1 0 011.414 0L10 11.001l3.293-3.294a1 1 0 011.414 1.415l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.415z"
+                        d="M5.292 7.707a1 1 0 011.414 0L10 11.001l3.293-3.294a1 1 0 011.414 1.415l-4 4a 1 0 01-1.414 0l-4-4a1 0 010-1.415z"
                         clipRule="evenodd"
                       />
                     </svg>
@@ -203,85 +225,85 @@ const Applications = () => {
                 <th className="py-3 px-4 text-left text-sm font-semibold">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
-              {currentPosts.length > 0 ? (
-                currentPosts.map((app) => (
-                  <tr key={app._id} className="hover:bg-gray-50">
-                    <td className="py-3 px-4">{app.name}</td>
-                    <td className="py-3 px-4">{app.industry}</td>
-                    <td className="py-3 px-4">{app.location}</td>
-                    <td className="py-3 px-4">
-                      <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          app.status === "pending"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : app.status === "approved"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
-                        }`}
-                      >
-                        {app.status}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="relative inline-block text-left">
-                        <div>
-                          {app.status === "pending" ? (
-                            <button
-                              type="button"
-                              className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
-                              id="options-menu"
-                              onClick={() => handleDropdownClick(app._id)}
-                            >
-                              Pending
-                              <svg
-                                className="-mr-1 ml-2 h-5 w-5"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M5.292 7.707a1 1 0 011.414 0L10 11.001l3.293-3.294a1 1 0 011.414 1.415l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.415z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
-                            </button>
-                          ) : (
-                            app.status
-                          )}
-                        </div>
-                        {openDropdown === app._id && (
-                          <div
-                            className="origin-top-right absolute right-0 mt-2 z-20 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
-                            role="menu"
-                            aria-orientation="vertical"
-                            aria-labelledby="options-menu"
+            <tbody>
+              {currentPosts.map((application) => (
+                <tr key={application._id} className="border-b">
+                  <td className="py-3 px-4 text-sm">{application.name}</td>
+                  <td className="py-3 px-4 text-sm">{application.industry}</td>
+                  <td className="py-3 px-4 text-sm">{application.location}</td>
+                  <td className="py-3 px-4 text-sm">{new Date(application.createdAt).toLocaleDateString()}</td>
+                  <td className="py-3 px-4">
+                    <span
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        application.status === "pending"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : application.status === "approved"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                      }`}
+                    >
+                      {application.status}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4">
+                    <div className="relative inline-block text-left">
+                      <div>
+                        {application.status === "pending" ? (
+                          <button
+                            type="button"
+                            className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
+                            id="options-menu"
+                            onClick={() => handleDropdownClick(application._id)}
                           >
-                            <div className="py-1">
-                              <button
-                                onClick={() => handleApprove(app._id)}
-                                className="block px-4 py-2 text-sm text-green-700 hover:bg-green-100"
-                              >
-                                Approve
-                              </button>
-                              <button
-                                onClick={() => handleReject(app._id)}
-                                className="block px-4 py-2 text-sm text-red-700 hover:bg-red-100"
-                              >
-                                Reject
-                              </button>
-                            </div>
-                          </div>
+                            Pending
+                            <svg
+                              className="-mr-1 ml-2 h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M5.292 7.707a1 1 0 011.414 0L10 11.001l3.293-3.294a1 1 0 011.414 1.415l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.415z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        ) : (
+                          application.status
                         )}
                       </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
+                      {openDropdown === application._id && (
+                        <div
+                          className="origin-top-right absolute right-0 mt-2 z-20 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                          role="menu"
+                          aria-orientation="vertical"
+                          aria-labelledby="options-menu"
+                        >
+                          <div className="py-1">
+                            <button
+                              onClick={() => handleApprove(application._id)}
+                              className="block px-4 py-2 text-sm text-green-700 hover:bg-green-100"
+                            >
+                              Approve
+                            </button>
+                            <button
+                              onClick={() => handleReject(application._id)}
+                              className="block px-4 py-2 text-sm text-red-700 hover:bg-red-100"
+                            >
+                              Reject
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {filteredApplications.length === 0 && (
                 <tr>
-                  <td colSpan="5" className="py-4 text-center text-gray-500">
+                  <td colSpan="6" className="py-4 text-center text-gray-500">
                     No applications available
                   </td>
                 </tr>
@@ -290,6 +312,7 @@ const Applications = () => {
           </table>
         </div>
       )}
+
       <Pagination
         postsPerPage={postsPerPage}
         totalPosts={filteredApplications.length}

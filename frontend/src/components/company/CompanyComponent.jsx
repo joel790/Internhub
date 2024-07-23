@@ -21,7 +21,7 @@ const CompanyComponent = ({ id, logo, name, industry, location, description, int
             {description}
           </p>
         </div>
-        <p className="text-sm text-sky-700 mb-4 text-center">{internships.length} internships available</p>
+        <p className="text-sm text-sky-700 mb-4 text-center">{internships} internships available</p>
       </div>
       <Link to={`/company/${id}`}>
         <button className="w-full text-white bg-blue-700 py-2 rounded-lg hover:bg-blue-800 focus:outline-none focus:bg-blue-800 mt-auto">

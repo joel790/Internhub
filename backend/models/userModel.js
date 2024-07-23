@@ -14,7 +14,8 @@ const userSchema = new mongoose.Schema({
     type: Number,
   },
   password: {
-    type: String, required: true
+    type: String,
+    required: true,
   },
   role: {
     type: String,
@@ -83,10 +84,6 @@ const userSchema = new mongoose.Schema({
       ref: 'Plan',
       default: null
     },
-  },
-  isApproved: {
-    type: Boolean,
-    default: false,
   },
   isVerified: {
     type: Boolean,
