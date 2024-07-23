@@ -1,52 +1,34 @@
-// src/components/AdminDashboard/Companies.jsx
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaTrash } from "react-icons/fa";
+import ViewCompany from "./ViewCompany";
 
 const Companies = () => {
   const [companies, setCompanies] = useState([]);
   const [statusFilter, setStatusFilter] = useState("all");
-
-  const staticData = [
-    {
-      _id: "1",
-      companyName: "Tech Innovators",
-      contact: "info@techinnovators.com",
-      internshipsPosted: 5,
-      status: "active",
-    },
-    {
-      _id: "2",
-      companyName: "Green Solutions",
-      contact: "contact@greensolutions.com",
-      internshipsPosted: 2,
-      status: "inactive",
-    },
-  ];
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState(null);
 
   useEffect(() => {
     fetchCompanies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusFilter]);
 
   const fetchCompanies = async () => {
     try {
-      const response = await axios.get(`/api/admin/companies`);
+      const response = await axios.get(`http://localhost:5000/api/admin/companies`);
       if (response.data.companies && Array.isArray(response.data.companies)) {
         setCompanies(response.data.companies);
       } else {
         console.error("Invalid response format");
-        setCompanies(staticData);
       }
     } catch (error) {
       console.error("Error fetching companies", error);
-      setCompanies(staticData);
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/api/admin/companies/${id}`);
+      await axios.delete(`http://localhost:5000/api/admin/companies/${id}`);
       setCompanies(companies.filter((company) => company._id !== id));
     } catch (error) {
       console.error("Error deleting company", error);
@@ -56,6 +38,33 @@ const Companies = () => {
   const handleFilterChange = (e) => {
     setStatusFilter(e.target.value);
   };
+
+  const handleView = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/admin/companies/${id}`);
+      setSelectedCompany(response.data);
+      setModalIsOpen(true);
+    } catch (error) {
+      console.error("Error fetching company details", error);
+    }
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setSelectedCompany(null);
+  };
+
+  const getStatus = (status) => {
+    if (status === "approved") return "active";
+    if (status === "rejected" || status === "pending") return "inactive";
+    return "unknown";
+  };
+
+  const filteredCompanies = companies.filter((company) => {
+    if (statusFilter === "all") return true;
+    const status = getStatus(company.companyDetails?.status);
+    return status === statusFilter;
+  });
 
   return (
     <div className="p-6 space-y-6">
@@ -77,19 +86,39 @@ const Companies = () => {
             <th className="py-2 border-b">Company Name</th>
             <th className="py-2 border-b">Contact</th>
             <th className="py-2 border-b">Internships Posted</th>
+            <th className="py-2 border-b">Subscription Plan</th>
             <th className="py-2 border-b">Status</th>
             <th className="py-2 border-b">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {companies.length > 0 ? (
-            companies.map((company) => (
+          {filteredCompanies.length > 0 ? (
+            filteredCompanies.map((company) => (
               <tr key={company._id}>
-                <td className="py-2 border-b">{company.companyName}</td>
-                <td className="py-2 border-b">{company.contact}</td>
-                <td className="py-2 border-b">{company.internshipsPosted}</td>
-                <td className="py-2 border-b">{company.status}</td>
+                <td className="py-2 border-b">{company.companyDetails?.name || 'N/A'}</td>
+                <td className="py-2 border-b">{company.phone}</td>
                 <td className="py-2 border-b">
+                  {company.companyDetails?.internships.length > 0 ? (
+                    company.companyDetails.internships.map(internship => (
+                      <div key={internship._id}>{internship.title}</div>
+                    ))
+                  ) : (
+                    'No internships'
+                  )}
+                </td>
+                <td className="py-2 border-b">
+                  {company.companyDetails?.subscriptionPlan ? company.companyDetails.subscriptionPlan.type : 'N/A'}
+                </td>
+                <td className="py-2 border-b">
+                  {getStatus(company.companyDetails?.status)}
+                </td>
+                <td className="py-2 border-b flex space-x-2">
+                  <button
+                    className="p-2 bg-blue-500 text-white rounded"
+                    onClick={() => handleView(company._id)}
+                  >
+                    View
+                  </button>
                   <button
                     className="p-2 bg-red-500 text-white rounded"
                     onClick={() => handleDelete(company._id)}
@@ -101,15 +130,19 @@ const Companies = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="5" className="py-2 text-center border-b">
+              <td colSpan="6" className="py-2 text-center border-b">
                 No companies available
               </td>
             </tr>
           )}
         </tbody>
       </table>
+
+      {modalIsOpen && selectedCompany && (
+        <ViewCompany companyDetail={selectedCompany.companyDetails} onClose={closeModal} />
+      )}
     </div>
   );
-};
+}
 
 export default Companies;

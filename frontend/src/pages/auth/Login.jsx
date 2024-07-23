@@ -36,27 +36,37 @@ const Login = () => {
   
     try {
       const result = await dispatch(loginUser({ email, password })).unwrap();
-          console.log(result.user.role)
-
+      console.log(result.user.role);
+  
       toast.success('Login successful');
-      if(result.user.role==="company"){
+      if (result.user.role === "company") {
         navigate('/managerhome');
-
+      } else if (result.user.role === "admin") {
+        navigate('/admindashboard');
+      } else if (result.user.role === "student") {
+        navigate("/Student");
       }
-      else if(result.user.role==="student"){
-        navigate("/Student")
-
-      }
-       // Adjust this to the appropriate dashboard or home route
     } catch (error) {
-      if (error) {
-        toast.error('User not found, please register.');
-        navigate('/auth/register');
+      if (error.response) {
+        const status = error.response.status;
+        const message = error.response.data.message ;
+  
+        if (status === 401) {
+          toast.error(message); // Handle incorrect password or unauthorized error
+        } else if (status === 404) {
+          toast.error('User not found, please register.');
+          navigate('/auth/register');
+        } else {
+          toast.error(message);
+        }
       } else {
-        toast.error(error.message);
+        toast.error('An unexpected error occurred');
       }
     }
   };
+  
+  
+  
   
 
   return (

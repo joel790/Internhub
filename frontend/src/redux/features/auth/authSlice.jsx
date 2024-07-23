@@ -51,7 +51,14 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (userData, thu
         const response = await axios.post('http://localhost:5000/api/users/login', userData);
         return response.data;
     } catch (error) {
-        return thunkAPI.rejectWithValue(error.response.data);
+        // Log the error for debugging
+        console.error('Login error:', error.response);
+
+        // Return a rejected value with a clear message
+        if (error.response && error.response.data && error.response.data.message) {
+            return thunkAPI.rejectWithValue(error.response.data.message);
+        }
+        return thunkAPI.rejectWithValue('An unexpected error occurred');
     }
 });
 

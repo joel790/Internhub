@@ -39,14 +39,6 @@ exports.approveCompanyApplication = async (req, res) => {
     }
 };
 
-exports.getAllApplications = async (req, res) => {
-    try {
-        const applications = await CompanyApplication.find().populate('user subscriptionPlan');
-        res.status(200).json(applications);
-    } catch (error) {
-        res.status(500).json({ message: 'Server Error', error: error.message });
-    }
-};
 // Controller to reject a company application
 exports.rejectCompanyApplication = async (req, res) => {
     const { applicationId } = req.params;
@@ -65,6 +57,14 @@ exports.rejectCompanyApplication = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
+    }
+};
+exports.getAllApplications = async (req, res) => {
+    try {
+        const applications = await CompanyApplication.find().populate('user subscriptionPlan');
+        res.status(200).json(applications);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
     }
 };
 
@@ -89,8 +89,10 @@ exports.filterCompaniesByStatus = async (req, res) => {
 // get all companies
 exports.getAllCompanies = async (req, res) => {
     try {
-        // Retrieve all users with role 'company' from the database
-        const companies = await User.find({ role: 'company' });
+        // Retrieve all users with role 'company' from the database and populate internships and subscription plan
+        const companies = await User.find({ role: 'company' })
+            .populate('companyDetails.internships')
+            .populate('companyDetails.subscriptionPlan');
 
         // Check if there are no companies
         if (companies.length === 0) {
@@ -106,12 +108,14 @@ exports.getAllCompanies = async (req, res) => {
     }
 };
 // get company by id
-
 exports.getCompanyById = async (req, res) => {
     const { companyId } = req.params;
     try {
-        // Find the user by its ID and check if it has a role of 'company'
-        const company = await User.findOne({ _id: companyId, role: 'company' }).select('-password');
+        // Find the user by its ID and check if it has a role of 'company', then populate the internships and subscriptionPlan
+        const company = await User.findOne({ _id: companyId, role: 'company' })
+            .select('-password')
+            .populate('companyDetails.internships')
+            .populate('companyDetails.subscriptionPlan');
 
         // Check if the company exists
         if (!company) {
@@ -125,7 +129,21 @@ exports.getCompanyById = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+exports.deleteCompanyById = async (req, res) => {
+    const { companyId } = req.params;
+    try {
+        // Find the user by its ID and check if it has a role of 'company', then populate the internships and subscriptionPlan
+        const company = await User.findOne({ _id: companyId, role: 'company' })
 
+        if (!company) {
+            return res.status(404).json({ message: 'Company not found' });
+        }
+        res.status(200).json(company);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
 // create plane
 exports.createPlan = async (req, res) => {
     const { type, price, features } = req.body;

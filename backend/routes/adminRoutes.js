@@ -9,6 +9,7 @@ router.get('/companies/status/:status', protect, admin, adminController.filterCo
 router.get('/applications', adminController.getAllApplications);
 router.get('/companies', adminController.getAllCompanies);
 router.get('/companies/:companyId', adminController.getCompanyById);
+router.delete('/companies/:companyId', adminController.deleteCompanyById);
 // Route to create, update and get  a plan
 router.post('/plans', protect, admin, adminController.createPlan);
 router.put('/plans/:planId', protect, admin, adminController.updatePlan);

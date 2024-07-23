@@ -19,6 +19,7 @@ import {
   FaIndustry,
   FaMoneyCheckAlt,
 } from "react-icons/fa";
+import 'tailwindcss/tailwind.css';
 
 const AdminDashboard = () => {
   const [openSideBar, setOpenSideBar] = useState(true);
@@ -69,7 +70,7 @@ const AdminDashboard = () => {
     },
     {
       applicationId: "346",
-      company: "Future tech",
+      company: "Future Tech",
       date: "2023-07-23",
       status: "Rejected",
     },
@@ -129,7 +130,7 @@ const AdminDashboard = () => {
                 />
               ))}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
               <Messages messages={messages} />
               <RecentOrders approvals={approvals} />
             </div>
@@ -139,7 +140,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex h-screen bg-gray-100">
       <Sidebar
         openSideBar={openSideBar}
         showMenu={showMenu}
@@ -150,13 +151,15 @@ const AdminDashboard = () => {
         setActiveTab={setActiveTab}
         activeTab={activeTab}
       />
-      <div className="flex flex-col flex-1 bg-[#F9FAFB] relative">
+      <div className="flex flex-col flex-1">
         <Header
           showMenu={showMenu}
           setShowMenu={setShowMenu}
           adminName="Admin"
         />
-        <div className="p-6 space-y-6">{renderContent()}</div>
+        <div className="p-6 space-y-6 overflow-auto">
+          {renderContent()}
+        </div>
       </div>
     </div>
   );

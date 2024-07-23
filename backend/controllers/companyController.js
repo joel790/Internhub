@@ -1,6 +1,7 @@
 const Internship = require('../models/internshipModel');
 const Application = require("../models/internApplicationModel");
 const User = require('../models/userModel');
+const  mongoose  = require('mongoose');
 // Controller to create an internship
 exports.createInternship = async (req, res) => {
     const { title, location, type, payment, duration, industry, description, requirements, skills, deadline, benefit, responsibilities } = req.body;
@@ -151,19 +152,26 @@ exports.getAllInternshipsByCompany = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
-    exports.getApplicationsForInternship = async (req, res) => {
+exports.getApplicationsForInternship = async (req, res) => {
     const { internshipId } = req.params;
+
+    // Validate the ObjectId
+    if (!mongoose.Types.ObjectId.isValid(internshipId)) {
+        return res.status(400).json({ message: 'Invalid internship ID format' });
+    }
+
     try {
         // Check if the internship exists
         const internship = await Internship.findById(internshipId);
         if (!internship) {
             return res.status(404).json({ message: 'Internship not found' });
         }
+
         // Fetch applications associated with this internship
         const applications = await Application.find({ internship: internshipId });
         res.status(200).json(applications);
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching applications:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };

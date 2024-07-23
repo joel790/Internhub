@@ -33,7 +33,7 @@ const Sidebar = ({
           onClick={toggleMenu}
         />
         <Link
-          to="/admin"
+          to="/"
           className={`text-blue-500 text-2xl font-bold ${
             openSideBar ? "block" : "block sm:hidden"
           }`}
@@ -64,8 +64,8 @@ const Sidebar = ({
           {navigationList.map(({ title, icon }, index) => (
             <li
               key={index}
-              className={`group cursor-pointer flex items-center gap-3.5 py-3.5 px-4 w-full rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-200 ${
-                activeTab === title ? "bg-gray-200 text-[#637381]" : ""
+              className={`group cursor-pointer flex items-center gap-3.5 py-3.5 px-4 w-full rounded-lg transition-all duration-300 ease-in-out hover:bg-blue-50 ${
+                activeTab === title ? "bg-blue-50 text-blue-500" : ""
               }`}
               onClick={() => setActiveTab(title)}
             >
@@ -74,7 +74,7 @@ const Sidebar = ({
                 className={`${
                   openSideBar ? "block" : "hidden sm:group-hover:block"
                 } text-sm font-medium ${
-                  activeTab === title ? "text-[#637381]" : "text-[#637381]"
+                  activeTab === title ? "text-blue-500" : "text-black"
                 }`}
               >
                 {title}

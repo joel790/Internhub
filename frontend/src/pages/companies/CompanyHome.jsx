@@ -89,16 +89,16 @@ const CompanyHome = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-6 px-10 mt-4">
         {filteredCompanies.map((company) => (
-          <CompanyComponent
-            id={company._id}
-            key={company._id}
-            logo={company.logoCompany}
-            name={company.companyDetails.name}
-            industry={company.companyDetails.industry}
-            location={company.companyDetails.location}
-            description={company.companyDetails.description}
-            num={company.companyDetails.internships.length} // Number of internships
-          />
+        <CompanyComponent
+        id={company._id}
+        key={company._id}
+        logo={company.logoCompany}
+        name={company.companyDetails.name}
+        industry={company.companyDetails.industry}
+        location={company.companyDetails.location}
+        description={company.companyDetails.description}
+        internships={company.companyDetails.internships} // Full array
+      />
         ))}
       </div>
       <OtherPartner />

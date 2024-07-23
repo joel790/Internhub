@@ -1,5 +1,4 @@
 // DashboardLayout.js
-// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import Sidebar from "./sidebar/Sidebar";
 import axios from "axios";
@@ -13,20 +12,17 @@ import { IoIosLogOut } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import imagegeb from "../assets/gebbbb.jpg";
 import { IoReorderThreeOutline } from "react-icons/io5";
-// import imageportal from "../assets/images.png";
 import logo from "../assets/Logo1.png";
 import { Link } from "react-router-dom";
 import "./animations.css";
-// import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 
-// eslint-disable-next-line react/prop-types
 export const DashboardLayout = ({ children, usertype }) => {
-  // const userInfo = useSelector((state) => state.auth.userInfo);
+  // Get userInfo from the Redux store
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const [userName, setUserName] = useState(null);
   const navigate = useNavigate();
-  // console.log(userInfo.user.name);
 
   const getSidebarData = () => {
     switch (usertype) {
@@ -53,13 +49,13 @@ export const DashboardLayout = ({ children, usertype }) => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
           "http://localhost:5000/api/users/profile"
         );
-        // const data = await response.data;
         setUserName(response.data.name);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -132,7 +128,7 @@ export const DashboardLayout = ({ children, usertype }) => {
           </div>
           <DashboardHeader
             image={imagegeb}
-            name={userInfo.user.name}
+            name={userName || (userInfo && userInfo.user && userInfo.user.name)}
             dropdown={dropdowns}
           />
         </div>
