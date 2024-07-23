@@ -1,8 +1,7 @@
-/* eslint-disable react/prop-types */
 import { CiLocationOn } from "react-icons/ci";
-import { Link,  } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const CompanyComponent = ({ id, logo, name, industry, location, description, num }) => {
+const CompanyComponent = ({ id, logo, name, industry, location, description, internships }) => {
   return (
     <div className="border border-slate-300 rounded-lg p-6 shadow-lg bg-white flex flex-col justify-between h-full">
       <div>
@@ -22,7 +21,7 @@ const CompanyComponent = ({ id, logo, name, industry, location, description, num
             {description}
           </p>
         </div>
-        <p className="text-sm text-sky-700 mb-4 text-center">{num} internships available</p>
+        <p className="text-sm text-sky-700 mb-4 text-center">{internships.length} internships available</p>
       </div>
       <Link to={`/company/${id}`}>
         <button className="w-full text-white bg-blue-700 py-2 rounded-lg hover:bg-blue-800 focus:outline-none focus:bg-blue-800 mt-auto">

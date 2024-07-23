@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 import FilterInterns from "./FilterInterns";
 import Pagination from "./Pagination"; // Import Pagination component
 import { MdClear } from "react-icons/md"; // Import Heroicons XMarkIcon for clear button
+import logo from "../../assets/Logo1.png"
+import { Link } from "react-router-dom";
 
 const AllInternships = () => {
   const navigate = useNavigate();
@@ -18,7 +20,9 @@ const AllInternships = () => {
     // Fetch internships from the backend
     const fetchInternships = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/student/internships");
+        const response = await axios.get(
+          "http://localhost:5000/api/student/internships"
+        );
         setInternships(response.data);
         setFilteredInternships(response.data);
       } catch (error) {
@@ -30,7 +34,10 @@ const AllInternships = () => {
 
   const handleFilter = async (filters) => {
     try {
-      const response = await axios.get("http://localhost:5000/api/student/internships", { params: filters });
+      const response = await axios.get(
+        "http://localhost:5000/api/student/internships",
+        { params: filters }
+      );
       setFilteredInternships(response.data);
     } catch (error) {
       console.error("Error fetching filtered internships:", error);
@@ -39,7 +46,9 @@ const AllInternships = () => {
 
   const handleClearFilter = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/student/internships");
+      const response = await axios.get(
+        "http://localhost:5000/api/student/internships"
+      );
       setFilteredInternships(response.data);
     } catch (error) {
       console.error("Error fetching internships:", error);
@@ -49,7 +58,10 @@ const AllInternships = () => {
   // Get current posts
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentInternships = filteredInternships.slice(indexOfFirstPost, indexOfLastPost);
+  const currentInternships = filteredInternships.slice(
+    indexOfFirstPost,
+    indexOfLastPost
+  );
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -84,6 +96,10 @@ const AllInternships = () => {
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-4">
+        <div className='flex px-24  items-center bg-sky-100 border'>
+          <img src={logo} alt="Logo" className='w-20 h-20' />
+          <Link to="/" className="text-2xl font-bold text-blue-800 ml-4">Intern-Hub</Link>
+        </div>
         <h2 className="text-3xl font-bold text-blue-600">
           All Available Internships
         </h2>
@@ -100,7 +116,7 @@ const AllInternships = () => {
               onClick={handleClearSearch}
               className="absolute right-2 top-2 text-gray-500 hover:text-gray-700"
             >
-              <MdClear className="w-5 h-5"  />
+              <MdClear className="w-5 h-5" />
             </button>
           )}
           {suggestions.length > 0 && (
@@ -129,7 +145,11 @@ const AllInternships = () => {
               className="relative border rounded-lg p-6 mb-6 bg-white shadow-lg"
             >
               <div className="flex items-center mb-4">
-                <img src={internship.logo} className="w-12 h-12 mr-4 rounded-full" alt="logo" />
+                <img
+                  src={internship.logo}
+                  className="w-12 h-12 mr-4 rounded-full"
+                  alt="logo"
+                />
                 <div>
                   <h3 className="font-bold text-xl text-gray-800">
                     {internship.title}
@@ -140,22 +160,29 @@ const AllInternships = () => {
                 </div>
               </div>
               <p className="text-blue-600 mb-2">{internship.role}</p>
-              <p className="text-gray-700 mb-2 font-medium">Duration: {internship.duration}</p>
-              <p className="text-gray-600 mb-2">Location: {internship.location}</p>
+              <p className="text-gray-700 mb-2 font-medium">
+                Duration: {internship.duration}
+              </p>
+              <p className="text-gray-600 mb-2">
+                Location: {internship.location}
+              </p>
               <p className="text-sm text-gray-600 mb-2 line-clamp-2">
                 {internship.description}
               </p>
               <div className="flex justify-between items-center">
-                <p className="text-blue-800 font-semibold">{internship.payment}</p>
+                <p className="text-blue-800 font-semibold">
+                  {internship.payment}
+                </p>
                 <p className="text-gray-800 capitalize">{internship.type}</p>
                 <div className="text-yellow-500 text-xl">
-                  {"★".repeat(internship.rating) + "☆".repeat(5 - internship.rating)}
+                  {"★".repeat(internship.rating) +
+                    "☆".repeat(5 - internship.rating)}
                 </div>
                 <button
                   className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
                   onClick={() => navigate(`/internship/${internship._id}`)}
                 >
-                  View
+                  View Details
                 </button>
               </div>
             </div>

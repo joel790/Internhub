@@ -97,7 +97,7 @@ exports.loginUser = asyncHandler(async (req, res) => {
     // Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
-        res.status(401);
+        res.status(404);
         throw new Error("User not found");
     }
 

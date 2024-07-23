@@ -47,7 +47,6 @@ const Dashboard = () => {
       (application.status && application.status.toLowerCase().includes(searchQuery.toLowerCase()))
     );
     setFilteredApplications(filtered);
-
     const suggestionList = applications.filter(application =>
       searchQuery &&
       ((application.internship && application.internship.title.toLowerCase().startsWith(searchQuery.toLowerCase())) ||
