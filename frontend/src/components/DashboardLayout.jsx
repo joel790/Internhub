@@ -13,6 +13,7 @@ import "./animations.css";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 
+// eslint-disable-next-line react/prop-types
 export const DashboardLayout = ({ children, usertype }) => {
   // Get userInfo from the Redux store
   const userInfo = useSelector((state) => state.auth.userInfo);
