@@ -1,13 +1,8 @@
-// DashboardLayout.js
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "./sidebar/Sidebar";
 import axios from "axios";
 import DashboardHeader from "./header/DashboardHeader";
-import {
-  companySidebarData,
-  studentSideBardata,
-  adminSidebarData,
-} from "../data/Data";
+import { companySidebarData, studentSideBardata } from "../data/Data";
 import { IoIosLogOut } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import imagegeb from "../assets/gebbbb.jpg";
@@ -18,24 +13,16 @@ import "./animations.css";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 
+// eslint-disable-next-line react/prop-types
 export const DashboardLayout = ({ children, usertype }) => {
   // Get userInfo from the Redux store
   const userInfo = useSelector((state) => state.auth.userInfo);
   const [userName, setUserName] = useState(null);
   const navigate = useNavigate();
+  // console.log(userInfo.user.name);
 
-  const getSidebarData = () => {
-    switch (usertype) {
-      case "company":
-        return companySidebarData;
-      case "admin":
-        return adminSidebarData;
-      default:
-        return studentSideBardata;
-    }
-  };
-
-  const sidebardata = getSidebarData();
+  const sidebardata =
+    usertype === "company" ? companySidebarData : studentSideBardata;
   const [toggleShow, setToggleShow] = useState(window.innerWidth >= 768);
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth >= 768);
 
@@ -128,7 +115,7 @@ export const DashboardLayout = ({ children, usertype }) => {
           </div>
           <DashboardHeader
             image={imagegeb}
-            name={userName || (userInfo && userInfo.user && userInfo.user.name)}
+            name={userName}
             dropdown={dropdowns}
           />
         </div>
