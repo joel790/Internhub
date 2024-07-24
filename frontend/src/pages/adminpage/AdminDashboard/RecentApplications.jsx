@@ -52,14 +52,14 @@ const RecentApplications = () => {
             {applications.map((application, index) => (
               <tr key={index}>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {application.studentName}
+                  {application.student?.name}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {application.internshipTitle}
+                  {application.internship?.title}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {application.applicationDate}
-                </td>
+                {new Date(application.date).toLocaleDateString()} 
+                          </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {application.status}
                 </td>

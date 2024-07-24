@@ -186,6 +186,18 @@ exports.updatePlan = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+// delete plan
+exports.deletPlan = async (req, res) => {
+  const { planId } = req.params;
+  try {
+   await Plan.findByIdAndDelete(planId);
+   
+    res.status(200).json({message:"plane deleted"});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
 // Get all plans
 exports.getAllPlans = async (req, res) => {
@@ -198,107 +210,110 @@ exports.getAllPlans = async (req, res) => {
   }
 };
 
-// Aggregation for applications over time
+// Get applications over time
 exports.getApplicationsOverTime = async (req, res) => {
   try {
-    const applicationsOverTime = await Application.aggregate([
-      {
-        $group: {
-          _id: { $month: "$date" },
-          count: { $sum: 1 },
-        },
-      },
-      {
-        $project: {
-          month: "$_id",
-          count: 1,
-          _id: 0,
-        },
-      },
-      { $sort: { month: 1 } },
-    ]);
-    res.status(200).json(applicationsOverTime);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
-// Aggregation for companies over time
-exports.getCompaniesOverTime = async (req, res) => {
-  try {
-    const companiesOverTime = await User.aggregate([
-      { $match: { role: "company" } },
+    const applications = await Application.aggregate([
       {
         $group: {
           _id: { $month: "$createdAt" },
-          count: { $sum: 1 },
-        },
+          count: { $sum: 1 }
+        }
       },
       {
         $project: {
           month: "$_id",
           count: 1,
-          _id: 0,
-        },
+          _id: 0
+        }
       },
-      { $sort: { month: 1 } },
+      { $sort: { month: 1 } } // Sort by month
     ]);
-    res.status(200).json(companiesOverTime);
+    res.status(200).json(applications);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
-// Aggregation for application status counts
+// Get companies over time
+exports.getCompaniesOverTime = async (req, res) => {
+  try {
+    const companies = await User.aggregate([
+      { $match: { role: "company" } }, // Match only company roles
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } }, // Group by month and year
+          count: { $sum: 1 } // Count the number of companies
+        }
+      },
+      {
+        $project: {
+          month: "$_id",
+          count: 1,
+          _id: 0
+        }
+      },
+      { $sort: { month: 1 } } // Sort by month
+    ]);
+    res.status(200).json(companies);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+// Get application status counts
 exports.getApplicationStatusCounts = async (req, res) => {
   try {
-    const applicationStatusCounts = await Application.aggregate([
+    const statusCounts = await Application.aggregate([
       {
         $group: {
           _id: "$status",
-          count: { $sum: 1 },
-        },
+          count: { $sum: 1 }
+        }
       },
       {
         $project: {
           status: "$_id",
           count: 1,
-          _id: 0,
-        },
-      },
+          _id: 0
+        }
+      }
     ]);
-    res.status(200).json(applicationStatusCounts);
+    res.status(200).json(statusCounts);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
-// Aggregation for internships over time
+// Get internships over time
 exports.getInternshipsOverTime = async (req, res) => {
   try {
-    const internshipsOverTime = await Internship.aggregate([
+    const internships = await User.aggregate([
+      { $match: { role: "company" } },
+      { $unwind: "$companyDetails.internships" },
       {
         $group: {
-          _id: { $month: "$createdAt" },
-          count: { $sum: 1 },
-        },
+          _id: { $month: "$companyDetails.internships.startDate" },
+          count: { $sum: 1 }
+        }
       },
       {
         $project: {
           month: "$_id",
           count: 1,
-          _id: 0,
-        },
+          _id: 0
+        }
       },
-      { $sort: { month: 1 } },
+      { $sort: { month: 1 } } // Sort by month
     ]);
-    res.status(200).json(internshipsOverTime);
+    res.status(200).json(internships);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 

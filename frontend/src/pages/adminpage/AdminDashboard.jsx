@@ -53,8 +53,7 @@ const AdminDashboard = () => {
     { title: "Companies", icon: FaIndustry },
     { title: "PricingPlan", icon: FaMoneyCheckAlt },
     { title: "Profiles", icon: FaEnvelope },
-    { title: "Payments", icon: FaCog },
-    { title: "Help", icon: FaQuestionCircle },
+ 
   ];
 
   const footerNavigation = [

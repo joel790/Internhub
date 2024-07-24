@@ -55,10 +55,10 @@ const ActiveInternships = () => {
                   {internship.title}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {internship.companyName}
+                  {internship.company?.companyDetails?.name}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {internship.postedDate}
+                  {new Date(internship.createdAt).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   {internship.applicants}

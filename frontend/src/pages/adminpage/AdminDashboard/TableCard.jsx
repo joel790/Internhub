@@ -22,43 +22,11 @@ const TableCard = () => {
   const [applicationStatusData, setApplicationStatusData] = useState([]);
   const [internshipData, setInternshipData] = useState([]);
 
-  // Static data for testing purposes
-  const staticApplicationData = [
-    { name: "January", applications: 40 },
-    { name: "February", applications: 30 },
-    { name: "March", applications: 20 },
-    { name: "April", applications: 27 },
-    { name: "May", applications: 18 },
-  ];
-
-  const staticCompaniesData = [
-    { name: "January", companies: 20 },
-    { name: "February", companies: 15 },
-    { name: "March", companies: 10 },
-    { name: "April", companies: 17 },
-    { name: "May", companies: 13 },
-  ];
-
-  const staticApplicationStatusData = [
-    { name: "approved", value: 30 },
-    { name: "rejected", value: 10 },
-    { name: "pending", value: 20 },
-  ];
-
-  const staticInternshipData = [
-    { name: "January", internships: 10 },
-    { name: "February", internships: 5 },
-    { name: "March", internships: 8 },
-    { name: "April", internships: 12 },
-    { name: "May", internships: 6 },
-  ];
-
   useEffect(() => {
     fetchApplicationData();
-    fetchCompaniesData();
+    // fetchCompaniesData();
     fetchApplicationStatusData();
     fetchInternshipData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchApplicationData = async () => {
@@ -73,8 +41,6 @@ const TableCard = () => {
       setApplicationData(backendData);
     } catch (error) {
       console.error("Error fetching application data:", error);
-      // Use static data for testing purposes
-      setApplicationData(staticApplicationData);
     }
   };
 
@@ -90,8 +56,6 @@ const TableCard = () => {
       setCompaniesData(backendData);
     } catch (error) {
       console.error("Error fetching companies data:", error);
-      // Use static data for testing purposes
-      setCompaniesData(staticCompaniesData);
     }
   };
 
@@ -107,8 +71,6 @@ const TableCard = () => {
       setApplicationStatusData(backendData);
     } catch (error) {
       console.error("Error fetching application status data:", error);
-      // Use static data for testing purposes
-      setApplicationStatusData(staticApplicationStatusData);
     }
   };
 
@@ -124,7 +86,6 @@ const TableCard = () => {
       setInternshipData(backendData);
     } catch (error) {
       console.error("Error fetching internship data:", error);
-      setInternshipData(staticInternshipData);
     }
   };
 
@@ -146,7 +107,7 @@ const TableCard = () => {
         <h2 className="text-xl font-bold mb-4">
           Companies Registered Over Time
         </h2>
-        <ResponsiveContainer width="100%" height={300}>
+        {/* <ResponsiveContainer width="100%" height={300}>
           <BarChart data={companiesData}>
             <XAxis dataKey="name" />
             <YAxis />
@@ -154,7 +115,7 @@ const TableCard = () => {
             <Tooltip />
             <Bar dataKey="companies" fill="#2196F3" />
           </BarChart>
-        </ResponsiveContainer>
+        </ResponsiveContainer> */}
       </div>
       <div className="chart-card bg-white shadow rounded p-4">
         <h2 className="text-xl font-bold mb-4">Applications Status</h2>
