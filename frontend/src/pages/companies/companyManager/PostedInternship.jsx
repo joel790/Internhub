@@ -89,11 +89,11 @@ const PostedInternship = () => {
     }
   };
 
-  const columns = ["Name", "Benefit", "Type", "Duration", "Deadline",];
+  const columns = ["InternshipTitle", "createdAt", "Type", "Duration", "Deadline",];
   const data = internshipForCompany.map((intern) => ({
     id: intern._id,
-    Name: intern.title,
-    Benefit: intern.benefit,
+    InternshipTitle: intern.title,
+    createdAt:new Date( intern.createdAt).toLocaleString(),
     Type: intern.type,
     Duration: intern.duration,
     Deadline:new Date(intern.deadline).toLocaleString()
@@ -129,7 +129,7 @@ const PostedInternship = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
+    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4 ">
       <div className="w-full  p-4 md:p-8 bg-white  rounded-lg">
         <div className="flex flex-col md:flex-row justify-between items-center md:pl-52 mb-4">
           <button

@@ -39,6 +39,7 @@ const Dashboard = () => {
 
     fetchApplications();
   }, [navigate]);
+  console.log(applications)
 
   useEffect(() => {
     const filtered = applications.filter(application =>

@@ -13,6 +13,8 @@ router.get('/companyinternship/:companyId', companyController.getAllInternshipsO
 router.get('/internships/:id', companyController.getInternshipsById);
 router.get('/internship/:internshipId/applications', protect, company, companyController.getApplicationsForInternship);
 router.put('/application/:applicationId/status', protect, company, companyController.updateApplicationStatus);
+router.get("/application/:id",protect,company,companyController.getapplicationsforInternshipByappid);
+router.get("/student/:id",protect,company,companyController.getStudentbyId)
 
 
 module.exports = router;

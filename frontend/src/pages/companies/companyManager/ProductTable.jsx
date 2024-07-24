@@ -2,13 +2,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const ProductTable = ({ internId }) => {
+  const ProductTable = ({ internId }) => {
   const [studApply, setStudApply] = useState([]);
   const [internship, setInternship] = useState(null);
-
-
-  
-  useEffect(() => {
+    useEffect(() => {
     const getStudentApply = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/company/internship/${internId}/applications`);
@@ -61,7 +58,7 @@ const ProductTable = ({ internId }) => {
     }
   };
 
-  return (
+   return (
     <div className="w-full flex justify-center mt-10 p-4">
       <div className="w-full max-w-4xl rounded-lg bg-white">
         <table className="min-w-full divide-y divide-gray-200">
@@ -82,9 +79,8 @@ const ProductTable = ({ internId }) => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{stud.student}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(stud.date).toLocaleString()}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <a href={stud.resume} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
-                    View Resume
-                  </a>
+               
+                  <a href={`http://localhost:5000/${stud.resume}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">view resume</a>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <a href={stud.portfolioUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
@@ -112,6 +108,7 @@ const ProductTable = ({ internId }) => {
         </table>
       </div>
     </div>
+    
   );
 };
 

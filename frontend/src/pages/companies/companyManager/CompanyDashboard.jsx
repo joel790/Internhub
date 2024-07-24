@@ -11,21 +11,22 @@ import logo from "../../../assets/Logo1.png"
 import { useNavigate } from 'react-router';
 
 const CompanyDashboard = () => {
-  const [applications, setApplications] = useState([]);
   const [filteredApplications, setFilteredApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
   const [allInternship,setAllInternship]=useState([])
   const [totalApplications,setTotalApplications]=useState(0)
+  const [train,setTrain]=useState(0)
+  const [testApplication,setTestApplication]=useState([])
+  const [student,setStudent]=useState([])
   useEffect(() => {
   const getInternship = async () => {
   try {
   const response = await axios.get("http://localhost:5000/api/company/internship/my-internship");
   if (response.status === 200) {
    setAllInternship(response.data);
+   countTotalApplications(response.data)
       } else {
         console.log("You cannot fetch the internships");
       }
@@ -37,6 +38,61 @@ const CompanyDashboard = () => {
   getInternship();
 }, []);
 
+// console.log(allInternship)
+const countTotalApplications = (internships) => {
+  const allApplications = internships.flatMap(internship => internship.applications || []);
+  setTrain(allApplications.length);
+};
+// console.log(train)
+useEffect(() => {
+  const fetchApplicationDetails = async () => {
+    try {
+      const applicationIds = allInternship?.flatMap(internship => internship.applications || []);
+      const applicationDetails = await Promise.all(
+        applicationIds.map(async (id) => {
+          const response = await axios.get(`http://localhost:5000/api/company/application/${id}`);
+          return response.data;
+        })
+      );
+      setTestApplication(applicationDetails);
+      setFilteredApplications(applicationDetails);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching application details", error);
+    }
+  };
+  fetchApplicationDetails();
+}, [allInternship]);
+
+
+// console.log(testApplication)
+useEffect(() => {
+  const fetchStudents = async () => {
+    try {
+      const studentIds = testApplication.map(application => application.student);
+      //this are used inorder to remove duplicates.
+      const uniqueStudentIds = [...new Set(studentIds)];
+      const studentDetails = await Promise.all(
+        uniqueStudentIds.map(async (id) => {
+          const response = await axios.get(`http://localhost:5000/api/company/student/${id}`);
+          return response.data;
+        })
+      );
+
+      const studentMap = studentDetails.reduce((map, student) => {
+        map[student._id] = student;
+        return map;
+      }, {});
+
+      setStudent(studentMap);
+    } catch (error) {
+      console.error("Error fetching student details", error);
+    }
+  };
+  fetchStudents();
+}, [testApplication]);
+console.log(student)
+
 
 useEffect(() => {
 // Calculate total number of applications whenever allInternship changes
@@ -44,52 +100,11 @@ const total = allInternship.reduce((acc, curr) => acc + curr.applications.length
 setTotalApplications(total);
 }, [allInternship]);
 
-  useEffect(() => {
-    const fetchApplications = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/student/applications');
-        setApplications(response.data);
-        setFilteredApplications(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching applications:', error);
-        if (error.response && error.response.status === 401) {
-          toast.error("Session expired, please login");
-          navigate("/auth/login");
-        }
-        setError('Failed to fetch applications');
-        setLoading(false);
-      }
-    };
+ 
 
-    fetchApplications();
-  }, [navigate]);
-  console.log(applications)
-
-  useEffect(() => {
-    const filtered = applications.filter(application =>
-      (application.internship && application.internship.title.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (application.student && application.student.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (application.status && application.status.toLowerCase().includes(searchQuery.toLowerCase()))
-    );
-    setFilteredApplications(filtered);
-
-    const suggestionList = applications.filter(application =>
-      searchQuery &&
-      ((application.internship && application.internship.title.toLowerCase().startsWith(searchQuery.toLowerCase())) ||
-      (application.student && application.student.name.toLowerCase().startsWith(searchQuery.toLowerCase())) ||
-      (application.status && application.status.toLowerCase().startsWith(searchQuery.toLowerCase())))
-    ).slice(0, 5);
-    setSuggestions(suggestionList);
-  }, [searchQuery, applications]);
-
-  const clearSearch = () => {
-    setSearchQuery('');
-    setSuggestions([]);
-  };
-
+ 
   const getStatusData = () => {
-    const statusCounts = applications.reduce((acc, application) => {
+    const statusCounts = testApplication.reduce((acc, application) => {
       acc[application.status] = (acc[application.status] || 0) + 1;
       return acc;
     }, {});
@@ -101,7 +116,7 @@ setTotalApplications(total);
   };
 
   const getApplicationTrendsData = () => {
-    const trends = applications.reduce((acc, application) => {
+    const trends = testApplication.reduce((acc, application) => {
       const month = new Date(application.date).toLocaleString('default', { month: 'short' });
       acc[month] = (acc[month] || 0) + 1;
       return acc;
@@ -124,39 +139,15 @@ setTotalApplications(total);
       <div className="flex justify-between items-center mb-6 border-b border-gray-300 pb-4 bg-whiterounded-lg px-6">
       
         <h1 className="text-2xl font-bold text-gray-900">Welcome Back to Dashboard</h1>
-        <div className="relative flex-1 max-w-sm">
-          <input
-            type="text"
-            placeholder="Search title, status..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="border border-gray-300 p-3 rounded-lg w-full"
-          />
-          {searchQuery && (
-            <button onClick={clearSearch} className="absolute right-2 top-2 text-gray-400 hover:text-gray-600">
-              &#x2715;
-            </button>
-          )}
-          {suggestions.length > 0 && (
-            <ul className="absolute left-0 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-10">
-              {suggestions.map((suggestion, index) => (
-                <li
-                  key={index}
-                  onClick={() => setSearchQuery(suggestion.internship.title || suggestion.student.name || suggestion.status)}
-                  className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                >
-                  {suggestion.internship.title || suggestion.student.name || suggestion.status}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mx-8 gap-6">
         <SmallCards title="Total Internships" count={allInternship.length} icon="📄" />
-        <SmallCards title="Accepted Applications" count={applications.filter(app => app.status === 'accepted').length} icon="✅" />
-        <SmallCards title="Rejected Applications" count={applications.filter(app => app.status === 'rejected').length} icon="❌" />
-        <SmallCards title="Pending Applications" count={applications.filter(app => app.status === 'pending').length} icon="⌛️" />
+        <SmallCards title="Total Applications" count={train} />
+        <SmallCards title="Accepted Applications" count={testApplication.filter(total=>total.status==="accepted").length} icon="✅" />
+        <SmallCards title="Rejected Applications" count={testApplication.filter(total => total.status === 'rejected').length} icon="❌" />
+        <SmallCards title="Pending Applications" count={testApplication.filter(total => total.status === 'pending').length} icon="⌛️" />
+
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 m-8">
         <div className="bg-white p-6 rounded-lg shadow-lg">
@@ -190,26 +181,34 @@ setTotalApplications(total);
         <table className="min-w-full divide-y divide-gray-300">
           <thead>
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Internship</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Student</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Status</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Date Applied</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Resume</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Portfolio URL</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Date Applied</th>
+
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-300">
-            {filteredApplications.map(application => (
+          {filteredApplications.map(application => {
+            const studentDetail = student[application.student];
+            return (
               <tr key={application._id}>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{application.internship.title}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{application.student.name}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{studentDetail?.name || 'Unknown'}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-gray-800">{application.status}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{new Date(application.date).toLocaleDateString()}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">
+                <a href={`http://localhost:5000/${application.resume}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">view resume</a>
+
+               </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <a href={application.portfolioUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">portfolioUrl</a>
                 </td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{new Date(application.date).toLocaleDateString()}</td>
               </tr>
-            ))}
-          </tbody>
+            );
+          })}
+        </tbody>
+
         </table>
       </div>
     </div>

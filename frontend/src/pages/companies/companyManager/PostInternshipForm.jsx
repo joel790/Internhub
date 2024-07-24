@@ -83,7 +83,7 @@ const PostInternshipForm = () => {
   };
 
   return (
-    <div className="mx-auto max-w-4xl p-8 bg-white shadow-lg rounded-lg">
+    <div className="mx-auto max-w-4xl p-8 bg-white s rounded-lg">
       <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">Create Internship</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex flex-col">

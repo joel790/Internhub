@@ -40,7 +40,7 @@ const DataTable = ({ columns, data, onEdit, onView, ondeleteShow }) => {
     );
 
     return (
-        <div className="relative overflow-x-auto bg-white  rounded-lg border border-gray-200 ml-10 p-6">
+        <div className=" z-20 overflow-x-auto bg-white  rounded-lg border border-gray-200 ml-10 p-6">
             <div className="flex flex-col md:flex-row items-center justify-between p-4 bg-gray-50 border-b border-gray-200 rounded-t-lg">
                 <div className="flex items-center space-x-4">
                     <label htmlFor="table-search" className="sr-only">Search</label>

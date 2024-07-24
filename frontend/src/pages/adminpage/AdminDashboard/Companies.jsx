@@ -94,11 +94,11 @@ const Companies = () => {
         <tbody>
           {filteredCompanies.length > 0 ? (
             filteredCompanies.map((company) => (
-              <tr key={company._id} className="hover:bg-gray-50">
-                <td className="py-3 px-4 border-b text-gray-700">{company.companyDetails?.name || 'N/A'}</td>
-                <td className="py-3 px-4 border-b text-gray-700">{company.phone}</td>
-                <td className="py-3 px-4 border-b text-gray-700">
-                  {company.companyDetails?.internships.length > 0 ? (
+              <tr key={company._id}>
+                <td className="py-2 border-b">{company.companyDetails?.name || 'N/A'}</td>
+                <td className="py-2 border-b">{company.phone}</td>
+                <td className="py-2 border-b">
+                  {company.companyDetails?.internships?.length > 0 ? (
                     company.companyDetails.internships.map(internship => (
                       <div key={internship._id}>{internship.title}</div>
                     ))

@@ -11,12 +11,10 @@ import logo from "../assets/Logo1.png";
 import { Link } from "react-router-dom";
 import "./animations.css";
 import { useNavigate } from "react-router";
-import { useSelector } from "react-redux";
 
 // eslint-disable-next-line react/prop-types
 export const DashboardLayout = ({ children, usertype }) => {
   // Get userInfo from the Redux store
-  const userInfo = useSelector((state) => state.auth.userInfo);
   const [userName, setUserName] = useState(null);
   const navigate = useNavigate();
   // console.log(userInfo.user.name);
@@ -120,7 +118,7 @@ export const DashboardLayout = ({ children, usertype }) => {
           />
         </div>
 
-        <div className="w-full min-h-screen bg-white p-4 flex-grow">
+        <div className="w-full min-h-screen bg-white p-4 flex-grow ">
           {children}
         </div>
       </div>
