@@ -63,7 +63,7 @@ const FindInternships = () => {
                 <p className="text-sm text-gray-600 mb-2 line-clamp-2">
                   {internship.description}
                 </p>
-                <p className="text-gray-900 font-medium mt-2">Deadline: <span className="font-normal">{internship.deadline}</span></p>
+                <p className="text-gray-900 font-medium mt-2">Deadline: <span className="font-normal">{new Date(internship.deadline).toLocaleString()}</span></p>
               </div>
               <div className="px-4 pb-4">
                 <button

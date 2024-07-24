@@ -102,7 +102,7 @@ const AdminDashboard = () => {
       percentage: "15",
       arrow: "up",
       count: 300,
-      graph: <FaChartLine />,
+      graph: <FaChartLine />
     },
   ];
 

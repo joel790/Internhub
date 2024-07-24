@@ -188,6 +188,42 @@ exports.getInternshipsById = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+//inorder to get all internships applications by id
+exports.getapplicationsforInternshipByappid=async(req,res)=>{
+    const {id}=req.params
+    try{
+          const application=await Application.findById(id);
+    if(!application){
+        return res.status(404).json({ message: 'application not found' });
+    }
+    res.status(200).json(application);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+  
+
+    }
+//inorder to get all students apply for all internships posted by company
+    exports.getStudentbyId=async(req,res)=>{
+        const {id}=req.params
+        try{
+            const student=await User.findById(id);
+            if(!student){
+                return res.status(404).json({ message: 'user not found' });
+
+            }
+            res.status(200).json(student);
+
+
+        }catch(error){
+            res.status(500).json({ message: 'Server error' });
+
+        }
+
+    }
+
+
+
 
 
 exports.featuredInternships = async (req, res) => {

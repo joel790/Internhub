@@ -98,7 +98,7 @@ const Companies = () => {
                 <td className="py-2 border-b">{company.companyDetails?.name || 'N/A'}</td>
                 <td className="py-2 border-b">{company.phone}</td>
                 <td className="py-2 border-b">
-                  {company.companyDetails?.internships.length > 0 ? (
+                  {company.companyDetails?.internships?.length > 0 ? (
                     company.companyDetails.internships.map(internship => (
                       <div key={internship._id}>{internship.title}</div>
                     ))
