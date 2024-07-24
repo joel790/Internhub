@@ -55,13 +55,16 @@ const Companies = () => {
   };
 
   const getStatus = (status) => {
-    if (status === "approved") return "inactive"; // All companies are marked inactive by default
-    if (status === "rejected" || status === "pending") return "inactive";
+    if (status === "approved")
+       return "active"; 
+    if (status === "rejected" || status === "pending")
+       return "inactive";
     return "unknown";
   };
 
   const filteredCompanies = companies.filter((company) => {
-    if (statusFilter === "all") return true;
+    if (statusFilter === "all")
+       return true;
     const status = getStatus(company.companyDetails?.status);
     return status === statusFilter;
   });
