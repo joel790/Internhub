@@ -1,8 +1,15 @@
-// Header.jsx
-import React from "react";
+/* eslint-disable react/prop-types */
+// eslint-disable-next-line no-unused-vars
 import { FaBars, FaBell, FaSearch } from "react-icons/fa";
 
-const Header = ({ showMenu, setShowMenu, adminName, userRole, userEmail, userAvatar }) => {
+const Header = ({
+  showMenu,
+  setShowMenu,
+  adminName,
+  userRole,
+  userEmail,
+  userAvatar,
+}) => {
   const toggleMenu = () => setShowMenu(!showMenu);
 
   return (
@@ -23,7 +30,6 @@ const Header = ({ showMenu, setShowMenu, adminName, userRole, userEmail, userAva
       </div>
       <div className="hidden sm:flex gap-4 items-center">
         <div className="flex items-center space-x-4">
-          
           <img
             src={userAvatar}
             alt="User Avatar"
