@@ -1,13 +1,14 @@
 const Internship = require('../models/internshipModel');
 const Application = require("../models/internApplicationModel");
 const User = require('../models/userModel');
-const  mongoose  = require('mongoose');
+const mongoose = require('mongoose');
 // Controller to create an internship
 exports.createInternship = async (req, res) => {
     const { title, location, type, payment, duration, industry, description, requirements, skills, deadline, benefit, responsibilities } = req.body;
     const companyId = req.user._id; // Assuming req.user contains company info
 
     try {
+        // Create the internship
         const internship = new Internship({
             company: companyId, // Associate the internship with the company using companyId
             title,
@@ -24,7 +25,13 @@ exports.createInternship = async (req, res) => {
             responsibilities
         });
 
+        // Save the internship
         const savedInternship = await internship.save();
+
+        // Update the company's document to include this internship
+        await User.findByIdAndUpdate(companyId, { $push: { 'companyDetails.internships': savedInternship._id } });
+
+        // Return the saved internship
         res.status(201).json(savedInternship);
     } catch (error) {
         console.error(error);
@@ -128,7 +135,7 @@ exports.getAllInternshipsByCompany = async (req, res) => {
 //     }
 // };
 
-    exports.updateApplicationStatus = async (req, res) => {
+exports.updateApplicationStatus = async (req, res) => {
     const { applicationId } = req.params;
     const { status } = req.body;
     const companyId = req.user._id; // Assuming req.user contains company info

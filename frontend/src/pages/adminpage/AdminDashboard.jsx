@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Sidebar from "./AdminDashboard/Sidebar";
 import Header from "./AdminDashboard/Header";
 import Card from "./AdminDashboard/Card";
@@ -25,6 +26,27 @@ const AdminDashboard = () => {
   const [openSideBar, setOpenSideBar] = useState(true);
   const [showMenu, setShowMenu] = useState(false);
   const [activeTab, setActiveTab] = useState("Dashboard");
+  const [userName, setUserName] = useState("");
+  const [userRole, setUserRole] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userAvatar, setUserAvatar] = useState("");
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/users/profile");
+      const userData = response.data;
+      setUserName(userData.name);
+      setUserRole(userData.role);
+      setUserEmail(userData.email);
+      setUserAvatar(userData.avatar); // Assuming the API provides an avatar URL
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
 
   const navigationList = [
     { title: "Dashboard", icon: FaHome },
@@ -140,7 +162,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-50">
       <Sidebar
         openSideBar={openSideBar}
         showMenu={showMenu}
@@ -155,7 +177,10 @@ const AdminDashboard = () => {
         <Header
           showMenu={showMenu}
           setShowMenu={setShowMenu}
-          adminName="Admin"
+          adminName={userName}
+          userRole={userRole}
+          userEmail={userEmail}
+          userAvatar={userAvatar}
         />
         <div className="p-6 space-y-6 overflow-auto">
           {renderContent()}

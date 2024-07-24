@@ -15,7 +15,7 @@ const Companies = () => {
 
   const fetchCompanies = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/admin/companies`);
+      const response = await axios.get("http://localhost:5000/api/admin/companies");
       if (response.data.companies && Array.isArray(response.data.companies)) {
         setCompanies(response.data.companies);
       } else {
@@ -55,7 +55,7 @@ const Companies = () => {
   };
 
   const getStatus = (status) => {
-    if (status === "approved") return "active";
+    if (status === "approved") return "inactive"; // All companies are marked inactive by default
     if (status === "rejected" || status === "pending") return "inactive";
     return "unknown";
   };
@@ -67,11 +67,11 @@ const Companies = () => {
   });
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Companies</h1>
+        <h1 className="text-3xl font-extrabold text-gray-800">Companies</h1>
         <select
-          className="p-2 border rounded"
+          className="p-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={statusFilter}
           onChange={handleFilterChange}
         >
@@ -80,15 +80,15 @@ const Companies = () => {
           <option value="inactive">Inactive</option>
         </select>
       </div>
-      <table className="min-w-full bg-white border border-gray-300">
+      <table className="min-w-full bg-white border border-gray-300 shadow-sm rounded-lg">
         <thead>
-          <tr>
-            <th className="py-2 border-b">Company Name</th>
-            <th className="py-2 border-b">Contact</th>
-            <th className="py-2 border-b">Internships Posted</th>
-            <th className="py-2 border-b">Subscription Plan</th>
-            <th className="py-2 border-b">Status</th>
-            <th className="py-2 border-b">Actions</th>
+          <tr className="bg-blue-500">
+            <th className="py-3 px-4 border-b font-medium text-white font-serif">Company Name</th>
+            <th className="py-3 px-4 border-b font-medium text-white font-serif">Contact</th>
+            <th className="py-3 px-4 border-b font-medium text-white font-serif">Internships Posted</th>
+            <th className="py-3 px-4 border-b font-medium text-white font-serif">Subscription Plan</th>
+            <th className="py-3 px-4 border-b font-medium text-white font-serif">Status</th>
+            <th className="py-3 px-4 border-b font-medium text-white font-serif">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -106,21 +106,21 @@ const Companies = () => {
                     'No internships'
                   )}
                 </td>
-                <td className="py-2 border-b">
+                <td className="py-3 px-4 border-b text-gray-700">
                   {company.companyDetails?.subscriptionPlan ? company.companyDetails.subscriptionPlan.type : 'N/A'}
                 </td>
-                <td className="py-2 border-b">
+                <td className="py-3 px-4 border-b text-gray-700">
                   {getStatus(company.companyDetails?.status)}
                 </td>
-                <td className="py-2 border-b flex space-x-2">
+                <td className="py-3 px-4 border-b flex space-x-2">
                   <button
-                    className="p-2 bg-blue-500 text-white rounded"
+                    className="p-2 bg-blue-500 text-white rounded shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     onClick={() => handleView(company._id)}
                   >
                     View
                   </button>
                   <button
-                    className="p-2 bg-red-500 text-white rounded"
+                    className="p-2 bg-red-500 text-white rounded shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
                     onClick={() => handleDelete(company._id)}
                   >
                     <FaTrash />
@@ -130,7 +130,7 @@ const Companies = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="6" className="py-2 text-center border-b">
+              <td colSpan="6" className="py-3 px-4 text-center border-b text-gray-500">
                 No companies available
               </td>
             </tr>
@@ -143,6 +143,6 @@ const Companies = () => {
       )}
     </div>
   );
-}
+};
 
 export default Companies;

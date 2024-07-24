@@ -12,9 +12,9 @@ const ViewCompany = ({ companyDetail, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 overflow-y-auto">
       <div className="bg-white rounded-lg overflow-hidden w-full max-w-4xl mx-auto p-6 relative">
-        <button className="absolute top-2 right-2 text-gray-600 hover:text-gray-900" onClick={onClose}>
+        <button className="absolute text-4xl p-2 top-10 right-10 text-red-600 hover:text-red-900" onClick={onClose}>
           &times;
         </button>
         <div className="flex flex-col md:flex-row">
@@ -33,7 +33,7 @@ const ViewCompany = ({ companyDetail, onClose }) => {
                   {companyDetail.description}
                 </p>
                 <button
-                  className="absolute bottom-0 right-0 bg-gradient-to-t from-white to-transparent pt-4 text-sky-600 flex items-center"
+                  className="absolute bottom-0 right-0 bg-gradient-to-t from-white to-transparent pt-6 text-sky-600 flex items-center"
                   onClick={() => setShowFullDescription(!showFullDescription)}
                 >
                   {showFullDescription ? 'Show Less' : 'Show More'} {showFullDescription ? <FaChevronUp /> : <FaChevronDown />}
