@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaTrash } from "react-icons/fa";
 import ViewCompany from "./ViewCompany";
@@ -15,7 +15,9 @@ const Companies = () => {
 
   const fetchCompanies = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/admin/companies");
+      const response = await axios.get(
+        "http://localhost:5000/api/admin/companies"
+      );
       if (response.data.companies && Array.isArray(response.data.companies)) {
         setCompanies(response.data.companies);
       } else {
@@ -41,7 +43,9 @@ const Companies = () => {
 
   const handleView = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/admin/companies/${id}`);
+      const response = await axios.get(
+        `http://localhost:5000/api/admin/companies/${id}`
+      );
       setSelectedCompany(response.data);
       setModalIsOpen(true);
     } catch (error) {
@@ -83,31 +87,45 @@ const Companies = () => {
       <table className="min-w-full bg-white border border-gray-300 shadow-sm rounded-lg">
         <thead>
           <tr className="bg-blue-500">
-            <th className="py-3 px-4 border-b font-medium text-white font-serif">Company Name</th>
-            <th className="py-3 px-4 border-b font-medium text-white font-serif">Contact</th>
-            <th className="py-3 px-4 border-b font-medium text-white font-serif">Internships Posted</th>
-            <th className="py-3 px-4 border-b font-medium text-white font-serif">Subscription Plan</th>
-            <th className="py-3 px-4 border-b font-medium text-white font-serif">Status</th>
-            <th className="py-3 px-4 border-b font-medium text-white font-serif">Actions</th>
+            <th className="py-3 px-4 border-b font-medium text-white font-serif">
+              Company Name
+            </th>
+            <th className="py-3 px-4 border-b font-medium text-white font-serif">
+              Contact
+            </th>
+            <th className="py-3 px-4 border-b font-medium text-white font-serif">
+              Internships Posted
+            </th>
+            <th className="py-3 px-4 border-b font-medium text-white font-serif">
+              Subscription Plan
+            </th>
+            <th className="py-3 px-4 border-b font-medium text-white font-serif">
+              Status
+            </th>
+            <th className="py-3 px-4 border-b font-medium text-white font-serif">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
           {filteredCompanies.length > 0 ? (
             filteredCompanies.map((company) => (
               <tr key={company._id}>
-                <td className="py-2 border-b">{company.companyDetails?.name || 'N/A'}</td>
+                <td className="py-2 border-b">
+                  {company.companyDetails?.name || "N/A"}
+                </td>
                 <td className="py-2 border-b">{company.phone}</td>
                 <td className="py-2 border-b">
-                  {company.companyDetails?.internships?.length > 0 ? (
-                    company.companyDetails.internships.map(internship => (
-                      <div key={internship._id}>{internship.title}</div>
-                    ))
-                  ) : (
-                    'No internships'
-                  )}
+                  {company.companyDetails?.internships?.length > 0
+                    ? company.companyDetails.internships.map((internship) => (
+                        <div key={internship._id}>{internship.title}</div>
+                      ))
+                    : "No internships"}
                 </td>
                 <td className="py-3 px-4 border-b text-gray-700">
-                  {company.companyDetails?.subscriptionPlan ? company.companyDetails.subscriptionPlan.type : 'N/A'}
+                  {company.companyDetails?.subscriptionPlan
+                    ? company.companyDetails.subscriptionPlan.type
+                    : "N/A"}
                 </td>
                 <td className="py-3 px-4 border-b text-gray-700">
                   {getStatus(company.companyDetails?.status)}
@@ -130,7 +148,10 @@ const Companies = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="6" className="py-3 px-4 text-center border-b text-gray-500">
+              <td
+                colSpan="6"
+                className="py-3 px-4 text-center border-b text-gray-500"
+              >
                 No companies available
               </td>
             </tr>
@@ -139,7 +160,10 @@ const Companies = () => {
       </table>
 
       {modalIsOpen && selectedCompany && (
-        <ViewCompany companyDetail={selectedCompany.companyDetails} onClose={closeModal} />
+        <ViewCompany
+          companyDetail={selectedCompany.companyDetails}
+          onClose={closeModal}
+        />
       )}
     </div>
   );
