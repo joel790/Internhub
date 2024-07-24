@@ -108,32 +108,34 @@ const ApplicationForm = ({ internship, closeModal }) => {
           Application Form For {internship.title}
         </h1>
         {isSubmitted && showSuccessMessage ? (
-          <div className="flex flex-col items-center justify-center h-full ">
-            <div className="text-5xl text-blue-600 mb-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-10 h-10"
+          <div className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center">
+              <div className="text-5xl text-blue-600 mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-10 h-10"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+              </div>
+              <p className="text-xl text-blue-600">
+                Application submitted successfully!
+              </p>
+              <button
+                onClick={closeSuccessMessage}
+                className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
-              </svg>
+                Close
+              </button>
             </div>
-            <p className="text-xl text-blue-600">
-              Application submitted successfully!
-            </p>
-            <button
-              onClick={closeSuccessMessage}
-              className="mt-4 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200"
-            >
-              Close
-            </button>
           </div>
         ) : (
           <form className="space-y-4" onSubmit={handleSubmit}>

@@ -12,7 +12,7 @@ const studentRoute = require("./routes/studentRoutes")
 const app = express();
 //environmental variables
 const url = process.env.MONGO_URI;
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 
 //middlewares
 app.use(express.json());
@@ -29,7 +29,6 @@ app.use(
     credentials: true,
   })
 );
-
 //main route middlewares
 app.use("/api/users", userRoute);
 app.use("/api/company", companyRoute);

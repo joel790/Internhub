@@ -21,6 +21,7 @@ import {
   FaMoneyCheckAlt,
 } from "react-icons/fa";
 import 'tailwindcss/tailwind.css';
+import Payment from "../studentpage/Payment";
 
 const AdminDashboard = () => {
   const [openSideBar, setOpenSideBar] = useState(true);

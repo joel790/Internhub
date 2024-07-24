@@ -62,8 +62,17 @@ const logoImage=location.state||{}
       )
     },
     { 
-      title: 'Responsibilities', 
+      title: 'Skills', 
       content: internship.skills.join(', '), 
+      icon: (
+        <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+        </svg>
+      )
+    },
+    { 
+      title: 'Responsibilities', 
+      content: internship.responsibilities.join(', '), 
       icon: (
         <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
@@ -90,7 +99,7 @@ const logoImage=location.state||{}
     },
     { 
       title: 'Application Deadline', 
-      content: internship.deadline, 
+      content:  new Date(internship.deadline).toLocaleDateString(), 
       icon: (
         <svg className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3h8v4h-8zM8 21v-8h8v8H8zM5 3H3v18h2V3zm14 0h2v18h-2V3z" />

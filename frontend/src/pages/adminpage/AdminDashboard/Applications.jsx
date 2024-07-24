@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Pagination from "../../internships/Pagination"; // Adjust the import path as needed
-
+import Loader from "../../../components/loader/Loader"
 const Applications = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -106,7 +106,9 @@ const Applications = () => {
         />
       </div>
       {loading ? (
-        <p>Loading...</p>
+        <p>
+          <Loader/>
+        </p>
       ) : (
         <div className="overflow-x-auto bg-white rounded-lg shadow-md">
           <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-sm">
