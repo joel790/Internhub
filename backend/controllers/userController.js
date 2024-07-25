@@ -216,3 +216,42 @@ exports.getUserProfile = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+exports.updateUserProfile = () => async (req, res) => {
+    const userId= req.user._id; // Get user id from the authenticated user
+    try {
+      // Construct an object to hold updates
+    //   const updates = {
+    //     name: req.body.name,
+    //     email: req.body.email,
+    //   };
+    const user = await User.findById(req.user._id);
+if(user){
+    user.name=req.body.name||user.name
+    user.email=req.body.email||user.email
+}
+  
+      if (req.file) {
+        user.photo = req.file.path; // Handle file upload
+      }
+  
+      if (req.body.password) {
+        // Hash password if provided
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(req.body.password, salt);
+      }
+  
+      // Update the user document
+      const updatedUser=await user.save()
+  
+   
+        console.log(updatedUser)
+        res.status(200).json(updatedUser);
+      
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      res.status(500).json({ message: error.message });
+    }
+  };
+  
+  

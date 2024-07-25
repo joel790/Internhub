@@ -96,7 +96,7 @@ const navigate = useNavigate();
                   <td className="py-2 px-4 border-b border-gray-200">{application.coverLetter}</td>
                   <td className="py-2 px-4 border-b border-gray-200">{application.status}</td>
                   <td className="py-2 px-4 border-b border-gray-200">
-                    <a href={`/${application.resume}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                    <a href={`http://localhost:5000/${application.resume}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
                       View Resume
                     </a>
                   </td>
