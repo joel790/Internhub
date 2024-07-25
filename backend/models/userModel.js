@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
+const { string } = require('joi');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
   },
+ 
   email: {
     type: String,
     required: true,
@@ -12,6 +14,10 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: Number,
+  },
+  photo:{
+    type:String,
+    default:"https://pngtree.com/freepng/avatar-bussinesman-man-profile-icon-vector-illustration_7268049.html"
   },
   password: {
     type: String,
@@ -27,9 +33,10 @@ const userSchema = new mongoose.Schema({
     name: {
       type: String
     },
-    photo: [{
-      type: String
-    }],
+    photo: {
+      type: String,
+      default:"https://pngtree.com/freepng/user-vector-avatar_4830521.html"
+    },
     slogan: {
       type: String
     },

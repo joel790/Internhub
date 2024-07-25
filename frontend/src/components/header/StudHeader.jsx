@@ -9,7 +9,7 @@ const TopNav = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isScrollingUp, setIsScrollingUp] = useState(false);
   const [userName, setUserName] = useState(''); // Add state for user name
-  const navigate = useNavigate();
+  const navigate = useNavigate("");
   let lastScrollTop = 0;
 
   useEffect(() => {
@@ -78,6 +78,7 @@ const handleLogout = async () => {
           onClick={() => setDropdownOpen(!dropdownOpen)}
         >
           <FaUserCircle size={24} />
+
           <HiChevronDown size={24} />
         </button>
         {dropdownOpen && (

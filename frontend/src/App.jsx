@@ -42,6 +42,8 @@ const App = () => {
           <Route path="applications" element={<Applications />} />
           <Route path="companies" element={<CompanyHome />} />
           <Route path="internships" element={<InternHome />} />
+          <Route path="profile" element={<Profile />} />
+
         </Route>
 
         <Route path="/dashboard" element={<Dashboard />} />
@@ -52,7 +54,6 @@ const App = () => {
         {/* <Route path="auth/verify/:token" element={<VerifyEmail />} /> */}
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
-        <Route path="profile" element={<Profile />} />
         <Route path="/auth/forgotpassword" element={<ForgotPassword />} />
         <Route path="company/:id" element={<CompanyDetail />} />
         <Route

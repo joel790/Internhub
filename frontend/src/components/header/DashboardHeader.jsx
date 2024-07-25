@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import { FaUserCircle } from 'react-icons/fa';
 
-const DashboardHeader = ({ image, name, dropdown }) => {
+
+const DashboardHeader = ({ name, dropdown }) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleToggleDropdown = () => {
@@ -12,12 +14,14 @@ const DashboardHeader = ({ image, name, dropdown }) => {
   return (
     <div className="flex flex-row justify-between items-center">
       <div className="flex items-center gap-2 cursor-pointer">
-        <img
+        {/* <img
           src={image}
           alt="User Profile"
           className="object-cover rounded-full h-10 w-10"
-        />
-        <h1 className="text-lg font-semibold">{name}</h1>
+        /> */}
+         <h1 className="text-lg font-semibold">{name}</h1>
+        <FaUserCircle/>
+       
       </div>
       <div className="relative">
         <IoIosArrowDown

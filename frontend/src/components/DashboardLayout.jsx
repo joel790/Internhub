@@ -51,7 +51,8 @@ export const DashboardLayout = ({ children, usertype }) => {
   }, []);
 
   const handleProfileClick = () => {
-    console.log("Profile is clicked");
+    navigate("/managerhome/companyprofile")
+    
   };
 
   const handleLogoutClick = () => {
