@@ -12,6 +12,7 @@ const Sidebar = ({
   footerNavigation,
   setActiveTab,
   activeTab,
+  handleLogout,
 }) => {
   const toggleSidebar = () => setOpenSideBar(!openSideBar);
   const toggleMenu = () => setShowMenu(!showMenu);
@@ -85,16 +86,17 @@ const Sidebar = ({
         </ul>
         <ul
           className={`flex flex-col gap-2.5 px-4 sm:px-0 ${
-            openSideBar ? "w-full" : "sm:items-center "
+            openSideBar ? "w-full" : "sm:items-center"
           }`}
         >
           {footerNavigation.map(({ path, title, icon }, index) => (
             <li
               key={index}
               className="group cursor-pointer flex items-center gap-3.5 py-3.5 px-4 w-full rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-200"
+              onClick={title === "Logout" ? handleLogout : undefined}
             >
               <Link
-                to={path}
+                to={title === "Logout" ? "#" : path}
                 className={`flex items-center gap-4 bg-blue-500 w-full p-3 justify-center rounded-md text-white font-bold`}
               >
                 {React.createElement(icon, { size: 18 })}

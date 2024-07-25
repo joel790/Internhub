@@ -8,6 +8,8 @@ import Companies from "./AdminDashboard/Companies";
 import TableCard from "./AdminDashboard/TableCard";
 import RecentApplications from "./AdminDashboard/RecentApplications";
 import ActiveInternships from "./AdminDashboard/ActiveInternships";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   FaHome,
   FaEnvelope,
@@ -27,6 +29,7 @@ const AdminDashboard = () => {
   const [userRole, setUserRole] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userAvatar, setUserAvatar] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUserData();
@@ -47,18 +50,27 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/users/logout"
+      );
+      toast.success(response.data.message);
+      navigate("/auth/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   const navigationList = [
     { title: "Dashboard", icon: FaHome },
     { title: "Applications", icon: FaThumbsUp },
     { title: "Companies", icon: FaIndustry },
     { title: "PricingPlan", icon: FaMoneyCheckAlt },
     { title: "Profiles", icon: FaEnvelope },
- 
   ];
 
-  const footerNavigation = [
-    { path: "/logout", title: "Logout", icon: FaSignOutAlt },
-  ];
+  const footerNavigation = [{ path: "#", title: "Logout", icon: FaSignOutAlt }];
 
   const renderContent = () => {
     switch (activeTab) {
@@ -93,6 +105,7 @@ const AdminDashboard = () => {
         footerNavigation={footerNavigation}
         setActiveTab={setActiveTab}
         activeTab={activeTab}
+        handleLogout={handleLogout} // Pass handleLogout to Sidebar
       />
       <div className="flex flex-col flex-1">
         <Header
