@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Pagination from "../../internships/Pagination"; // Adjust the import path as needed
+import Loader from "../../../components/loader/Loader";
 
 const Applications = () => {
   const [applications, setApplications] = useState([]);
@@ -106,7 +107,9 @@ const Applications = () => {
         />
       </div>
       {loading ? (
-        <p>Loading...</p>
+        <p>
+          <Loader />
+        </p>
       ) : (
         <div className="overflow-x-auto bg-white rounded-lg shadow-md">
           <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-sm">
@@ -222,6 +225,25 @@ const Applications = () => {
                     </svg>
                   )}
                 </th>
+                <th className="py-3 px-4 text-left text-sm font-semibold cursor-pointer" onClick={() => handleSort("license")}>
+                  License
+                  {sortConfig.key === "license" && (
+                    <svg
+                      className={`w-4 h-4 inline-block ml-1 ${
+                        sortConfig.direction === "ascending" ? "transform rotate-180" : ""
+                      }`}
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.292 7.707a1 1 0 011.414 0L10 11.001l3.293-3.294a1 1 0 011.414 1.415l-4 4a 1 0 01-1.414 0l-4-4a1 0 010-1.415z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  )}
+                </th>
                 <th className="py-3 px-4 text-left text-sm font-semibold">Actions</th>
               </tr>
             </thead>
@@ -245,6 +267,10 @@ const Applications = () => {
                       {application.status}
                     </span>
                   </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+               
+                  <a href={`http://localhost:5000/${application.license}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">view License</a>
+                </td>
                   <td className="py-3 px-4">
                     <div className="relative inline-block text-left">
                       <div>
@@ -303,7 +329,7 @@ const Applications = () => {
               ))}
               {filteredApplications.length === 0 && (
                 <tr>
-                  <td colSpan="6" className="py-4 text-center text-gray-500">
+                  <td colSpan="7" className="py-4 text-center text-gray-500"> {/* Adjusted colspan */}
                     No applications available
                   </td>
                 </tr>

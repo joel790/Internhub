@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { FaBars, FaTimes, FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -92,7 +93,10 @@ const Sidebar = ({
               key={index}
               className="group cursor-pointer flex items-center gap-3.5 py-3.5 px-4 w-full rounded-lg transition-all duration-300 ease-in-out hover:bg-gray-200"
             >
-              <Link to={path} className={`flex items-center gap-4 bg-blue-500 w-full p-3 justify-center rounded-md text-white font-bold`}>
+              <Link
+                to={path}
+                className={`flex items-center gap-4 bg-blue-500 w-full p-3 justify-center rounded-md text-white font-bold`}
+              >
                 {React.createElement(icon, { size: 18 })}
                 <span
                   className={`${

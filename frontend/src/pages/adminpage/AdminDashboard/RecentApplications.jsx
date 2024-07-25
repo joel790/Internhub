@@ -1,22 +1,44 @@
-// RecentOrders.jsx
-import React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-const RecentOrders = ({ approvals }) => {
+const RecentApplications = () => {
+  const [applications, setApplications] = useState([]);
+
+  useEffect(() => {
+    fetchRecentApplications();
+  }, []);
+
+  const fetchRecentApplications = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/admin/recent-applications"
+      );
+      setApplications(response.data);
+    } catch (error) {
+      console.error("Error fetching recent applications:", error);
+    }
+  };
+
   return (
     <div className="bg-white border border-[#E7E7E7] rounded-lg p-5 h-auto">
       <div className="flex flex-col gap-1 mb-5">
         <span className="text-base font-medium text-[#212B36]">
-          Recent Application Status
+          Recent Applications
         </span>
         <span className="text-xs text-[#637381]">
-          List of recent applications with their status
+          List of recent internship applications
         </span>
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-[#F4F6F8]">
             <tr>
-              {["Application ID", "Company", "Date", "Status"].map((header) => (
+              {[
+                "Student Name",
+                "Internship Title",
+                "Application Date",
+                "Status",
+              ].map((header) => (
                 <th
                   key={header}
                   className="px-6 py-3 text-left text-xs font-medium text-[#637381] uppercase tracking-wider"
@@ -27,17 +49,19 @@ const RecentOrders = ({ approvals }) => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {approvals.map((approval, index) => (
+            {applications.map((application, index) => (
               <tr key={index}>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {approval.applicationId}
+                  {application.student?.name}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {approval.company}
+                  {application.internship?.title}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">{approval.date}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {approval.status}
+                {new Date(application.date).toLocaleDateString()} 
+                          </td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  {application.status}
                 </td>
               </tr>
             ))}
@@ -48,4 +72,4 @@ const RecentOrders = ({ approvals }) => {
   );
 };
 
-export default RecentOrders;
+export default RecentApplications;

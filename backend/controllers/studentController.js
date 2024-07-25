@@ -48,7 +48,13 @@ exports.getApplications = async (req, res) => {
     try {
         // Find applications where the student is the applicant
         const applications = await Application.find({ student: studentId })
-            .populate('internship')
+            .populate({
+                path: 'internship',
+                populate: {
+                    path: 'company',
+                    select: 'companyDetails' // Select only the companyDetails field
+                }
+            })
             .populate('student');
 
         res.status(200).json(applications);
@@ -58,21 +64,17 @@ exports.getApplications = async (req, res) => {
     }
 };
 exports.applyToCompany = async (req, res) => {
+    const {
+        name,
+        slogan,
+        description,
+        industry,
+        location,
+        managerName,
+        jobTitle,
+        contactNumber,
+        website,
 
-    // const license=req.file
-    // const logo=req.file
-   
-    const { 
-        name, 
-        slogan, 
-        description, 
-        industry, 
-        location, 
-        managerName, 
-        jobTitle, 
-        contactNumber, 
-        website, 
-       
     } = req.body;
     const license = req.files?.license ? req.files.license[0] : null;
     const logo = req.files?.logo ? req.files.logo[0] : null;
@@ -85,10 +87,6 @@ exports.applyToCompany = async (req, res) => {
             return res.status(400).json({ message: 'Invalid subscription plan ID' });
         }
 
-        // if (!license || !logo) {
-        //     return res.status(400).json({ message: 'Both license and logo files are required' });
-        // }
-
         const application = new CompanyApplication({
             user: userId,
             name,
@@ -100,9 +98,9 @@ exports.applyToCompany = async (req, res) => {
             jobTitle,
             contactNumber,
             website,
-            license:"uploads/" + license.filename,
-            logo:"uploads/" + logo.filename,
-            subscriptionPlan: planId // Use planId as ObjectId reference
+            license: "uploads/" + license.filename,
+            logo: "uploads/" + logo.filename,
+            subscriptionPlan: planId
         });
 
         const savedApplication = await application.save();
@@ -122,7 +120,6 @@ exports.selectPlan = async (req, res) => {
         if (!plan) {
             return res.status(404).json({ message: 'Plan not found' });
         }
-
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
@@ -172,6 +169,31 @@ exports.selectPlan = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+// exports.TransactionPay = async (req, res) => {
+//     try {
+//         const response = await axios.get('https://api.chapa.co/v1/transactions', {
+//             headers: {
+//                 'Authorization': `Bearer ${process.env.CHAPA_SECRET_KEY}`
+//             }
+//         });
+
+//         // Log the entire response to understand its structure
+//         console.log('Full Chapa response:', response.data);
+
+//         // Check if the response contains the expected data structure
+//         const payments = response.data.data;
+
+//         if (!payments || !Array.isArray(payments)) {
+//             return res.status(500).json({ message: 'Failed to fetch transactions data from Chapa' });
+//         }
+
+//         res.status(200).json(payments);
+//     } catch (error) {
+//         console.error('Error fetching payments:', error);
+//         res.status(500).json({ message: 'Failed to fetch payments' });
+//     }
+// };
 // exports.paymentCallback = async (req, res) => {
 //     const { tx_ref, status } = req.query;
 
@@ -203,62 +225,45 @@ exports.selectPlan = async (req, res) => {
 //     }
 // }
 
-exports.TransactionPay = async (req, res) => {
-    try {
-        const response = await axios.get('https://api.chapa.co/v1/transactions', {
-            headers: {
-                'Authorization': `Bearer ${process.env.CHAPA_SECRET_KEY}`
-            }
-        });
-        const payments = await response.data.data.transactions
-        console.log(payments);
-        res.json(payments); // Adjust based on Chapa's API response structure
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Failed to fetch payments' });
-    }
-};
-
-
 exports.getAllInternships = async (req, res) => {
     try {
-      const filters = {};
-      
-      if (req.query.location) {
-        filters.location = req.query.location;
-      }
-  
-      if (req.query.company) {
-        filters.company = req.query.company;
-      }
-  
-      if (req.query.industry) {
-        filters.industry = req.query.industry;
-      }
-  
-      if (req.query.type) {
-        filters.type = req.query.type;
-      }
-  
-      if (req.query.payment) {
-        filters.payment = req.query.payment;
-      }
-  
-      const internships = await Internship.find(filters).populate({
-        path: 'company',
-        select: 'companyDetails', // Select only companyDetails from User
-      });
-  
-      if (!internships.length) {
-        return res.status(404).json({ message: 'No internships found' });
-      }
-  
-      res.status(200).json(internships);
+        const filters = {};
+
+        if (req.query.location) {
+            filters.location = req.query.location;
+        }
+
+        if (req.query.company) {
+            filters.company = req.query.company;
+        }
+
+        if (req.query.industry) {
+            filters.industry = req.query.industry;
+        }
+
+        if (req.query.type) {
+            filters.type = req.query.type;
+        }
+
+        if (req.query.payment) {
+            filters.payment = req.query.payment;
+        }
+
+        const internships = await Internship.find(filters).populate({
+            path: 'company',
+            select: 'companyDetails',
+        });
+
+        if (!internships.length) {
+            return res.status(404).json({ message: 'No internships found' });
+        }
+
+        res.status(200).json(internships);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error' });
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
     }
-  };
+};
 exports.paymentCallback = async (req, res) => {
     const { tx_ref, status } = req.query;
 

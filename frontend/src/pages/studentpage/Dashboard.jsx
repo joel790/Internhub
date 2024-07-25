@@ -164,7 +164,8 @@ const Dashboard = () => {
           </ResponsiveContainer>
         </div>
       </div>
-      <div className="bg-white p-6 rounded-lg shadow-lg mx-8">
+      <div className="bg-white p-6 rounded-lg shadow-lg mx-8 my-4">
+        <h1 className='text-5xl text-blue-600 '>My applications</h1>
         <table className="min-w-full divide-y divide-gray-300">
           <thead>
             <tr>
@@ -179,7 +180,7 @@ const Dashboard = () => {
             {filteredApplications.map(application => (
               <tr key={application._id}>
                 <td className="px-6 py-4 whitespace-nowrap text-gray-800">{application.internship.title}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{application.student.name}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-gray-800">{application.internship?.company?.companyDetails?.name || 'N/A'}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-gray-800">{application.status}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-gray-800">{new Date(application.date).toLocaleDateString()}</td>
                 <td className="px-6 py-4 whitespace-nowrap">

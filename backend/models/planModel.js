@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const PlanSchema = new mongoose.Schema({
     type: {
         type: String,
-        enum: ['Basic', 'Silver', 'Gold'],
+        // enum: ['Basic', 'Silver', 'Gold'],
         required: true,
         unique: true
     },
