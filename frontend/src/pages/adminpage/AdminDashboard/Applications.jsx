@@ -19,7 +19,9 @@ const Applications = () => {
   const fetchApplications = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/api/admin/applications");
+      const response = await axios.get(
+        "http://localhost:5000/api/admin/applications"
+      );
       if (Array.isArray(response.data)) {
         setApplications(response.data);
       } else {
@@ -36,7 +38,9 @@ const Applications = () => {
 
   const handleApprove = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/company/application/${id}/approve`);
+      await axios.put(
+        `http://localhost:5000/api/admin/application/${id}/approve`
+      );
       fetchApplications(); // Refresh the list
     } catch (error) {
       console.error("Error approving application", error);
@@ -47,7 +51,9 @@ const Applications = () => {
 
   const handleReject = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/company/application/${id}/reject`);
+      await axios.put(
+        `http://localhost:5000/api/admin/application/${id}/reject`
+      );
       fetchApplications(); // Refresh the list
     } catch (error) {
       console.error("Error rejecting application", error);
@@ -92,7 +98,10 @@ const Applications = () => {
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = filteredApplications.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPosts = filteredApplications.slice(
+    indexOfFirstPost,
+    indexOfLastPost
+  );
 
   return (
     <div className="p-6 space-y-6 max-w-screen">
@@ -123,7 +132,9 @@ const Applications = () => {
                   {sortConfig.key === "name" && (
                     <svg
                       className={`w-4 h-4 inline-block ml-1 ${
-                        sortConfig.direction === "ascending" ? "transform rotate-180" : ""
+                        sortConfig.direction === "ascending"
+                          ? "transform rotate-180"
+                          : ""
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
@@ -145,7 +156,9 @@ const Applications = () => {
                   {sortConfig.key === "industry" && (
                     <svg
                       className={`w-4 h-4 inline-block ml-1 ${
-                        sortConfig.direction === "ascending" ? "transform rotate-180" : ""
+                        sortConfig.direction === "ascending"
+                          ? "transform rotate-180"
+                          : ""
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
@@ -167,7 +180,9 @@ const Applications = () => {
                   {sortConfig.key === "location" && (
                     <svg
                       className={`w-4 h-4 inline-block ml-1 ${
-                        sortConfig.direction === "ascending" ? "transform rotate-180" : ""
+                        sortConfig.direction === "ascending"
+                          ? "transform rotate-180"
+                          : ""
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
@@ -189,7 +204,9 @@ const Applications = () => {
                   {sortConfig.key === "applicationDate" && (
                     <svg
                       className={`w-4 h-4 inline-block ml-1 ${
-                        sortConfig.direction === "ascending" ? "transform rotate-180" : ""
+                        sortConfig.direction === "ascending"
+                          ? "transform rotate-180"
+                          : ""
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
@@ -211,7 +228,9 @@ const Applications = () => {
                   {sortConfig.key === "status" && (
                     <svg
                       className={`w-4 h-4 inline-block ml-1 ${
-                        sortConfig.direction === "ascending" ? "transform rotate-180" : ""
+                        sortConfig.direction === "ascending"
+                          ? "transform rotate-180"
+                          : ""
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
@@ -225,12 +244,17 @@ const Applications = () => {
                     </svg>
                   )}
                 </th>
-                <th className="py-3 px-4 text-left text-sm font-semibold cursor-pointer" onClick={() => handleSort("license")}>
+                <th
+                  className="py-3 px-4 text-left text-sm font-semibold cursor-pointer"
+                  onClick={() => handleSort("license")}
+                >
                   License
                   {sortConfig.key === "license" && (
                     <svg
                       className={`w-4 h-4 inline-block ml-1 ${
-                        sortConfig.direction === "ascending" ? "transform rotate-180" : ""
+                        sortConfig.direction === "ascending"
+                          ? "transform rotate-180"
+                          : ""
                       }`}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
@@ -244,7 +268,9 @@ const Applications = () => {
                     </svg>
                   )}
                 </th>
-                <th className="py-3 px-4 text-left text-sm font-semibold">Actions</th>
+                <th className="py-3 px-4 text-left text-sm font-semibold">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -253,7 +279,9 @@ const Applications = () => {
                   <td className="py-3 px-4 text-sm">{application.name}</td>
                   <td className="py-3 px-4 text-sm">{application.industry}</td>
                   <td className="py-3 px-4 text-sm">{application.location}</td>
-                  <td className="py-3 px-4 text-sm">{new Date(application.createdAt).toLocaleDateString()}</td>
+                  <td className="py-3 px-4 text-sm">
+                    {new Date(application.createdAt).toLocaleDateString()}
+                  </td>
                   <td className="py-3 px-4">
                     <span
                       className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
@@ -268,9 +296,15 @@ const Applications = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-               
-                  <a href={`http://localhost:5000/${application.license}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">view License</a>
-                </td>
+                    <a
+                      href={`http://localhost:5000/${application.license}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 underline"
+                    >
+                      view License
+                    </a>
+                  </td>
                   <td className="py-3 px-4">
                     <div className="relative inline-block text-left">
                       <div>
@@ -329,7 +363,9 @@ const Applications = () => {
               ))}
               {filteredApplications.length === 0 && (
                 <tr>
-                  <td colSpan="7" className="py-4 text-center text-gray-500"> {/* Adjusted colspan */}
+                  <td colSpan="7" className="py-4 text-center text-gray-500">
+                    {" "}
+                    {/* Adjusted colspan */}
                     No applications available
                   </td>
                 </tr>
